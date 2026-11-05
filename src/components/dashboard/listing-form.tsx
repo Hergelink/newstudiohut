@@ -1,0 +1,381 @@
+"use client";
+
+import { useActionState } from "react";
+
+import { FormSubmit } from "@/components/dashboard/form-submit";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import type { MarketplaceListingFormFeature } from "@/modules/features/form-service";
+import type { DashboardActionState } from "@/modules/businesses/actions";
+import { listingFeatureFormValue } from "@/modules/listings/management-features";
+import type {
+  ListingFeatureValueWrite,
+  ManagedListing,
+} from "@/modules/listings/management-repository";
+
+function featureName(key: string) {
+  return `feature.${key}`;
+}
+
+function optionLabel(value: string) {
+  return value.replaceAll("_", " ");
+}
+
+export function ListingForm({
+  action,
+  listing,
+  categoryId,
+  categoryName,
+  features,
+  featureValues,
+  labels,
+}: {
+  action: (
+    state: DashboardActionState,
+    formData: FormData,
+  ) => Promise<DashboardActionState>;
+  listing?: ManagedListing;
+  categoryId: string;
+  categoryName: string;
+  features: MarketplaceListingFormFeature[];
+  featureValues: ListingFeatureValueWrite[];
+  labels: {
+    basics: string;
+    location: string;
+    details: string;
+    features: string;
+    category: string;
+    name: string;
+    slug: string;
+    slugHint: string;
+    description: string;
+    addressLine: string;
+    district: string;
+    city: string;
+    latitude: string;
+    longitude: string;
+    area: string;
+    capacity: string;
+    price: string;
+    currency: string;
+    any: string;
+    yes: string;
+    no: string;
+    requiredForReview: string;
+    save: string;
+    saving: string;
+    validationError: string;
+    slugTaken: string;
+    forbidden: string;
+    notEditable: string;
+    categoryUnavailable: string;
+    unexpectedError: string;
+  };
+}) {
+  const [state, formAction] = useActionState(action, { ok: false });
+  const messages: Record<string, string> = {
+    validation_error: labels.validationError,
+    slug_taken: labels.slugTaken,
+    forbidden: labels.forbidden,
+    listing_not_editable: labels.notEditable,
+    category_not_available: labels.categoryUnavailable,
+    unexpected_error: labels.unexpectedError,
+  };
+  const error = state.message
+    ? (messages[state.message] ?? labels.unexpectedError)
+    : null;
+
+  return (
+    <form action={formAction} className="space-y-6">
+      <input type="hidden" name="categoryId" value={categoryId} />
+      <input type="hidden" name="currency" value="TRY" />
+
+      <section className="rounded-3xl border bg-card p-6 shadow-sm sm:p-8">
+        <h2 className="text-xl font-semibold">{labels.basics}</h2>
+        <div className="mt-5 grid gap-5 md:grid-cols-2">
+          <div className="grid gap-2 text-sm font-medium">
+            {labels.category}
+            <div className="flex h-11 items-center rounded-xl border bg-secondary/50 px-4 text-sm">
+              {categoryName}
+            </div>
+          </div>
+          <label className="grid gap-2 text-sm font-medium">
+            {labels.name}
+            <Input
+              name="name"
+              required
+              minLength={2}
+              maxLength={140}
+              defaultValue={listing?.name}
+            />
+          </label>
+          <label className="grid gap-2 text-sm font-medium md:col-span-2">
+            {labels.slug}
+            <Input
+              name="slug"
+              required
+              pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+              maxLength={140}
+              defaultValue={listing?.slug}
+              placeholder="moda-fotograf-studyosu"
+            />
+            <span className="text-xs font-normal text-muted-foreground">
+              {labels.slugHint}
+            </span>
+          </label>
+          <label className="grid gap-2 text-sm font-medium md:col-span-2">
+            {labels.description}
+            <Textarea
+              name="description"
+              maxLength={10_000}
+              defaultValue={listing?.description ?? ""}
+            />
+          </label>
+        </div>
+      </section>
+
+      <section className="rounded-3xl border bg-card p-6 shadow-sm sm:p-8">
+        <h2 className="text-xl font-semibold">{labels.location}</h2>
+        <div className="mt-5 grid gap-5 md:grid-cols-2">
+          <label className="grid gap-2 text-sm font-medium md:col-span-2">
+            {labels.addressLine}
+            <Input
+              name="addressLine"
+              required
+              minLength={3}
+              maxLength={250}
+              defaultValue={listing?.addressLine}
+            />
+          </label>
+          <label className="grid gap-2 text-sm font-medium">
+            {labels.district}
+            <Input
+              name="district"
+              required
+              minLength={2}
+              maxLength={100}
+              defaultValue={listing?.district}
+            />
+          </label>
+          <label className="grid gap-2 text-sm font-medium">
+            {labels.city}
+            <Input
+              name="city"
+              required
+              minLength={2}
+              maxLength={100}
+              defaultValue={listing?.city ?? "İstanbul"}
+            />
+          </label>
+          <label className="grid gap-2 text-sm font-medium">
+            {labels.latitude}
+            <Input
+              name="latitude"
+              type="number"
+              step="any"
+              min="-90"
+              max="90"
+              defaultValue={listing?.latitude}
+            />
+          </label>
+          <label className="grid gap-2 text-sm font-medium">
+            {labels.longitude}
+            <Input
+              name="longitude"
+              type="number"
+              step="any"
+              min="-180"
+              max="180"
+              defaultValue={listing?.longitude}
+            />
+          </label>
+        </div>
+      </section>
+
+      <section className="rounded-3xl border bg-card p-6 shadow-sm sm:p-8">
+        <h2 className="text-xl font-semibold">{labels.details}</h2>
+        <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <label className="grid gap-2 text-sm font-medium">
+            {labels.area}
+            <Input
+              name="areaSqm"
+              type="number"
+              step="any"
+              min="0"
+              defaultValue={listing?.areaSqm}
+            />
+          </label>
+          <label className="grid gap-2 text-sm font-medium">
+            {labels.capacity}
+            <Input
+              name="capacity"
+              type="number"
+              step="1"
+              min="1"
+              defaultValue={listing?.capacity}
+            />
+          </label>
+          <label className="grid gap-2 text-sm font-medium">
+            {labels.price}
+            <Input
+              name="priceAmount"
+              type="number"
+              step="0.01"
+              min="0"
+              defaultValue={listing?.priceAmount}
+            />
+          </label>
+          <div className="grid gap-2 text-sm font-medium">
+            {labels.currency}
+            <div className="flex h-11 items-center rounded-xl border bg-secondary/50 px-4 text-sm">
+              TRY
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {features.length ? (
+        <section className="rounded-3xl border bg-card p-6 shadow-sm sm:p-8">
+          <h2 className="text-xl font-semibold">{labels.features}</h2>
+          <div className="mt-5 grid gap-5 md:grid-cols-2">
+            {features.map((feature) => {
+              const initial = listingFeatureFormValue(
+                feature.id,
+                featureValues,
+              );
+              const label = (
+                <>
+                  {feature.name}
+                  {feature.unit ? ` (${feature.unit})` : ""}
+                  {feature.isRequired ? (
+                    <span className="ml-1 text-xs text-muted-foreground">
+                      {labels.requiredForReview}
+                    </span>
+                  ) : null}
+                </>
+              );
+
+              if (feature.featureType === "boolean") {
+                return (
+                  <label
+                    key={feature.id}
+                    className="grid gap-2 text-sm font-medium"
+                  >
+                    {label}
+                    <select
+                      name={featureName(feature.key)}
+                      defaultValue={
+                        typeof initial === "boolean" ? String(initial) : ""
+                      }
+                      className="h-11 rounded-xl border border-input bg-background px-4 text-sm shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                      <option value="">{labels.any}</option>
+                      <option value="true">{labels.yes}</option>
+                      <option value="false">{labels.no}</option>
+                    </select>
+                  </label>
+                );
+              }
+              if (feature.featureType === "number") {
+                return (
+                  <label
+                    key={feature.id}
+                    className="grid gap-2 text-sm font-medium"
+                  >
+                    {label}
+                    <Input
+                      name={featureName(feature.key)}
+                      type="number"
+                      step="any"
+                      min={feature.minimum ?? undefined}
+                      max={feature.maximum ?? undefined}
+                      defaultValue={
+                        typeof initial === "number" ? initial : undefined
+                      }
+                    />
+                  </label>
+                );
+              }
+              if (feature.featureType === "select") {
+                return (
+                  <label
+                    key={feature.id}
+                    className="grid gap-2 text-sm font-medium"
+                  >
+                    {label}
+                    <select
+                      name={featureName(feature.key)}
+                      defaultValue={typeof initial === "string" ? initial : ""}
+                      className="h-11 rounded-xl border border-input bg-background px-4 text-sm capitalize shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                      <option value="">{labels.any}</option>
+                      {feature.options.map((option) => (
+                        <option key={option} value={option}>
+                          {optionLabel(option)}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                );
+              }
+              if (feature.featureType === "multi_select") {
+                const selected = Array.isArray(initial) ? initial : [];
+                return (
+                  <fieldset key={feature.id} className="rounded-2xl border p-4">
+                    <legend className="px-1 text-sm font-medium">
+                      {label}
+                    </legend>
+                    <div className="flex flex-wrap gap-3">
+                      {feature.options.map((option) => (
+                        <label
+                          key={option}
+                          className="inline-flex items-center gap-2 text-sm capitalize"
+                        >
+                          <input
+                            type="checkbox"
+                            name={featureName(feature.key)}
+                            value={option}
+                            defaultChecked={selected.includes(option)}
+                            className="size-4 accent-primary"
+                          />
+                          {optionLabel(option)}
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
+                );
+              }
+              return (
+                <label
+                  key={feature.id}
+                  className="grid gap-2 text-sm font-medium"
+                >
+                  {label}
+                  <Input
+                    name={featureName(feature.key)}
+                    maxLength={feature.maxLength ?? undefined}
+                    defaultValue={
+                      typeof initial === "string" ? initial : undefined
+                    }
+                  />
+                </label>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
+
+      {error ? (
+        <p
+          role="alert"
+          className="rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive"
+        >
+          {error}
+        </p>
+      ) : null}
+      <div className="flex justify-end">
+        <FormSubmit idle={labels.save} pending={labels.saving} />
+      </div>
+    </form>
+  );
+}
