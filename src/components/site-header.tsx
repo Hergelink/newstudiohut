@@ -43,17 +43,17 @@ export async function SiteHeader({ locale }: { locale: string }) {
   return (
     <>
       <SkipLink label={common("skip")} />
-      <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur-xl">
-        <div className="container flex h-18 items-center justify-between py-3">
+      <header className="sticky top-0 z-40 border-b border-black/10 bg-white/95 backdrop-blur-xl">
+        <div className="container flex h-20 items-center justify-between">
           <BrandLogo />
           <nav
             className="hidden items-center gap-1 md:flex"
             aria-label="Primary navigation"
           >
-            <Button asChild variant="ghost">
+            <Button asChild variant="ghost" className="font-medium">
               <Link href="/studios">{t("explore")}</Link>
             </Button>
-            <Button asChild variant="ghost">
+            <Button asChild variant="ghost" className="font-medium">
               <Link href="/dashboard">{t("forBusiness")}</Link>
             </Button>
             <LocaleSwitcher />

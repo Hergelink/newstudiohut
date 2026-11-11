@@ -1,4 +1,4 @@
-import { Aperture } from "lucide-react";
+import Image from "next/image";
 
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -7,13 +7,20 @@ export function BrandLogo({ className }: { className?: string }) {
   return (
     <Link
       href="/"
-      className={cn("inline-flex items-center gap-2.5 font-semibold tracking-tight", className)}
-      aria-label="Studiohut"
+      className={cn(
+        "inline-flex shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4",
+        className,
+      )}
+      aria-label="StudioHut"
     >
-      <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground">
-        <Aperture className="size-5" aria-hidden="true" />
-      </span>
-      <span className="text-xl">studiohut</span>
+      <Image
+        src="/studiohut-logo.png"
+        alt="StudioHut"
+        width={300}
+        height={70}
+        priority
+        className="h-auto w-[138px] sm:w-[164px]"
+      />
     </Link>
   );
 }
