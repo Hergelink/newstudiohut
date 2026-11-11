@@ -34,21 +34,34 @@ export default async function HomePage({
     <div className="min-h-screen bg-white text-black">
       <SiteHeader locale={locale} />
       <main id="main" tabIndex={-1}>
-        <section className="border-b border-black/10 px-4 pb-24 pt-24 sm:pb-36 sm:pt-36">
-          <div className="container flex flex-col items-center text-center">
-            <p className="mb-8 text-xs font-semibold uppercase tracking-[0.24em] text-black/55">
+        <section className="relative isolate overflow-hidden bg-neutral-950 text-white">
+          <Image
+            src="/images/studiohut-hero.webp"
+            alt={t("heroImageAlt")}
+            fill
+            priority
+            sizes="100vw"
+            quality={90}
+            className="-z-20 object-cover object-[45%_center] sm:object-center"
+          />
+          <div
+            className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-black/50 to-black/65"
+            aria-hidden="true"
+          />
+          <div className="container flex min-h-[680px] flex-col items-center justify-center py-14 text-center sm:min-h-[740px] sm:py-20">
+            <p className="mb-7 text-xs font-semibold uppercase tracking-[0.24em] text-white/80">
               {t("eyebrow")}
             </p>
-            <h1 className="max-w-5xl text-balance text-[3.6rem] font-semibold leading-[0.94] tracking-[-0.065em] sm:text-7xl lg:text-[6.5rem]">
+            <h1 className="max-w-5xl text-balance text-5xl font-semibold leading-[1.02] tracking-[-0.055em] sm:text-7xl lg:text-[6rem]">
               {t("title")}
             </h1>
-            <p className="mt-8 max-w-2xl text-balance text-base leading-7 text-black/60 sm:text-xl sm:leading-8">
+            <p className="mt-7 max-w-2xl text-balance text-base leading-7 text-white/90 sm:text-xl sm:leading-8">
               {t("subtitle")}
             </p>
             <form
               action={locale === "en" ? "/en/studios" : "/studios"}
               method="get"
-              className="mt-12 grid w-full max-w-4xl gap-1 rounded-[1.75rem] border border-black/20 bg-white p-2 md:grid-cols-[1fr_1fr_auto] md:rounded-full"
+              className="mt-12 grid w-full max-w-4xl items-center gap-1 rounded-[1.75rem] border border-white/60 bg-white p-2 text-black shadow-xl md:mt-16 md:grid-cols-[1fr_1fr_auto] md:rounded-full"
             >
               <label className="flex min-w-0 items-center gap-3 rounded-full px-5 py-3 text-left focus-within:bg-black/[0.03]">
                 <Search
@@ -90,17 +103,6 @@ export default async function HomePage({
                 {t("search")}
               </Button>
             </form>
-            <div className="relative mt-16 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-neutral-100 sm:mt-20 sm:aspect-[5/2] sm:rounded-3xl">
-              <Image
-                src="/images/studiohut-hero.webp"
-                alt={t("heroImageAlt")}
-                fill
-                priority
-                sizes="(max-width: 1280px) 100vw, 1248px"
-                quality={90}
-                className="object-cover"
-              />
-            </div>
           </div>
         </section>
 
