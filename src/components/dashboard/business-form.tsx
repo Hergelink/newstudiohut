@@ -19,6 +19,8 @@ export function BusinessForm({
     namePlaceholder: string;
     slug: string;
     slugHint: string;
+    slugPlaceholder: string;
+    slugInvalid: string;
     save: string;
     saving: string;
     validationError: string;
@@ -58,17 +60,51 @@ export function BusinessForm({
       </label>
       <label className="grid gap-2 text-sm font-medium">
         {labels.slug}
-        <Input
-          name="slug"
-          required
-          minLength={2}
-          maxLength={100}
-          pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
-          placeholder="ornek-studyo"
-        />
-        <span className="text-xs font-normal text-muted-foreground">
+        <div className="flex min-w-0 items-center rounded-xl border border-input bg-background focus-within:ring-2 focus-within:ring-ring">
+          <span
+            className="shrink-0 pl-4 text-sm font-normal text-muted-foreground"
+            aria-hidden="true"
+          >
+            /studios/
+          </span>
+          <Input
+            name="slug"
+            required
+            minLength={2}
+            maxLength={100}
+            pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+            placeholder={labels.slugPlaceholder}
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            aria-describedby={
+              state.fieldErrors?.slug?.length
+                ? "business-slug-hint business-slug-error"
+                : "business-slug-hint"
+            }
+            aria-invalid={Boolean(state.fieldErrors?.slug?.length)}
+            className="min-w-0 border-0 bg-transparent pl-1 shadow-none focus-visible:ring-0"
+            onInvalid={(event) =>
+              event.currentTarget.setCustomValidity(labels.slugInvalid)
+            }
+            onChange={(event) => event.currentTarget.setCustomValidity("")}
+          />
+        </div>
+        <span
+          id="business-slug-hint"
+          className="text-xs font-normal leading-5 text-muted-foreground"
+        >
           {labels.slugHint}
         </span>
+        {state.fieldErrors?.slug?.length ? (
+          <span
+            id="business-slug-error"
+            className="text-xs text-destructive"
+            role="alert"
+          >
+            {labels.slugInvalid}
+          </span>
+        ) : null}
       </label>
       {error ? (
         <p

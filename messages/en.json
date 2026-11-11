@@ -184,12 +184,14 @@
     "subtitle": "Create a business profile to manage your studios under one account.",
     "name": "Business name",
     "namePlaceholder": "e.g. Moda Creative Studios",
-    "slug": "Business URL",
-    "slugHint": "Use lowercase letters, numbers, and hyphens. This will be used in studio URLs.",
+    "slug": "StudioHut link name",
+    "slugHint": "Choose a short name for your studio links on StudioHut, such as deneme-studio. This is not your business website; do not include www, dots, or a domain ending.",
+    "slugPlaceholder": "deneme-studio",
+    "slugInvalid": "Enter a link name such as deneme-studio (2–100 characters, lowercase letters, numbers, and single hyphens). Do not enter a website address.",
     "save": "Create business",
     "saving": "Creating…",
     "validationError": "Check the business details and try again.",
-    "slugTaken": "This business URL is already in use. Try another one.",
+    "slugTaken": "This StudioHut link name is already in use. Try another one.",
     "unexpectedError": "The business could not be created. Please try again."
   },
   "BusinessDashboard": {

@@ -184,12 +184,14 @@
     "subtitle": "Stüdyolarınızı tek hesap altında yönetmek için işletme profilinizi oluşturun.",
     "name": "İşletme adı",
     "namePlaceholder": "Örn. Moda Creative Studios",
-    "slug": "İşletme bağlantısı",
-    "slugHint": "Küçük harf, sayı ve kısa çizgi kullanın. Daha sonra stüdyo bağlantılarında kullanılacak.",
+    "slug": "StudioHut bağlantı adı",
+    "slugHint": "StudioHut üzerindeki stüdyo bağlantılarınız için deneme-studyo gibi kısa bir ad seçin. Bu alan işletmenizin web sitesi değildir; www, nokta veya alan adı uzantısı eklemeyin.",
+    "slugPlaceholder": "deneme-studyo",
+    "slugInvalid": "deneme-studyo gibi bir bağlantı adı girin (2–100 karakter; küçük harf, sayı ve tek kısa çizgi). Web sitesi adresi girmeyin.",
     "save": "İşletmeyi oluştur",
     "saving": "Oluşturuluyor…",
     "validationError": "İşletme bilgilerini kontrol edip tekrar deneyin.",
-    "slugTaken": "Bu işletme bağlantısı kullanılıyor. Başka bir bağlantı deneyin.",
+    "slugTaken": "Bu StudioHut bağlantı adı kullanılıyor. Başka bir ad deneyin.",
     "unexpectedError": "İşletme oluşturulamadı. Lütfen tekrar deneyin."
   },
   "BusinessDashboard": {

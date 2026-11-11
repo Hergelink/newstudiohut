@@ -37,6 +37,8 @@ export default async function NewBusinessPage({
             namePlaceholder: t("namePlaceholder"),
             slug: t("slug"),
             slugHint: t("slugHint"),
+            slugPlaceholder: t("slugPlaceholder"),
+            slugInvalid: t("slugInvalid"),
             save: t("save"),
             saving: t("saving"),
             validationError: t("validationError"),
