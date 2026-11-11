@@ -172,45 +172,41 @@ export default async function HomePage({
           </div>
         </section>
 
-        <section className="container py-24 sm:py-36">
-          <div className="grid overflow-hidden rounded-[2rem] bg-black text-white lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="p-8 sm:p-14 lg:p-16">
+        <section className="container py-16 sm:py-24">
+          <div className="grid items-center gap-8 overflow-hidden rounded-[2rem] bg-black p-7 text-white sm:gap-10 sm:p-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12 lg:p-16">
+            <div className="min-w-0">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/50">
                 {t("businessEyebrow")}
               </p>
-              <h2 className="mt-8 max-w-xl text-4xl font-semibold tracking-[-0.045em] sm:text-6xl">
+              <h2 className="mt-5 max-w-xl text-balance text-3xl font-semibold tracking-[-0.045em] sm:text-5xl xl:text-6xl">
                 {t("businessCta")}
               </h2>
-              <p className="mt-5 max-w-lg text-lg leading-8 text-white/60">
+              <p className="mt-4 max-w-lg text-base leading-7 text-white/65 sm:text-lg sm:leading-8">
                 {t("businessBody")}
               </p>
               <Button
                 asChild
                 size="lg"
-                className="mt-10 bg-white text-black hover:bg-white/85"
+                className="mt-7 h-auto min-h-12 w-full whitespace-normal bg-white px-5 py-3 text-center text-black hover:bg-white/85 sm:mt-8 sm:w-fit sm:px-7"
               >
                 <Link href="/sign-up">
                   {t("businessAction")}
-                  <ArrowRight className="size-5" />
+                  <ArrowRight className="size-5 shrink-0" />
                 </Link>
               </Button>
             </div>
-            <div className="flex min-h-72 items-end justify-end p-8 sm:p-14 lg:p-16">
-              <div className="w-full max-w-xs border-t border-white/25 pt-6">
-                <div className="flex items-center gap-3 text-sm text-white/60">
-                  <Check className="size-4" />
-                  {t("businessBenefitOne")}
-                </div>
-                <div className="mt-4 flex items-center gap-3 text-sm text-white/60">
-                  <Check className="size-4" />
-                  {t("businessBenefitTwo")}
-                </div>
-                <div className="mt-4 flex items-center gap-3 text-sm text-white/60">
-                  <Check className="size-4" />
-                  {t("businessBenefitThree")}
-                </div>
-              </div>
-            </div>
+            <ul className="grid min-w-0 gap-5 border-t border-white/25 pt-8 text-sm leading-6 text-white/70 sm:text-base lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+              {[
+                t("businessBenefitOne"),
+                t("businessBenefitTwo"),
+                t("businessBenefitThree"),
+              ].map((benefit) => (
+                <li key={benefit} className="flex items-start gap-3">
+                  <Check className="mt-1 size-4 shrink-0" aria-hidden="true" />
+                  <span>{benefit}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
       </main>
