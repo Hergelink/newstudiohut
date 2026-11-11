@@ -72,6 +72,13 @@ export default async function NewStudioPage({
         </section>
       ) : (
         <div className="mt-8">
+          <Link
+            href={`/dashboard/businesses/${businessId}/studios/new`}
+            className="mb-5 inline-flex items-center gap-2 text-sm font-medium underline underline-offset-4"
+          >
+            <ArrowLeft className="size-4" aria-hidden="true" />
+            {t("changeCategory")}
+          </Link>
           <ListingForm
             action={createListingDraftAction.bind(null, locale, businessId)}
             categoryId={category.id}

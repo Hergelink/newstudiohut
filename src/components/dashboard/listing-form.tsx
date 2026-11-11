@@ -4,22 +4,14 @@ import { useActionState } from "react";
 
 import { FormSubmit } from "@/components/dashboard/form-submit";
 import { Input } from "@/components/ui/input";
+import { ListingFeatureFields } from "@/components/dashboard/listing-feature-fields";
 import { Textarea } from "@/components/ui/textarea";
 import type { MarketplaceListingFormFeature } from "@/modules/features/form-service";
 import type { DashboardActionState } from "@/modules/businesses/actions";
-import { listingFeatureFormValue } from "@/modules/listings/management-features";
 import type {
   ListingFeatureValueWrite,
   ManagedListing,
 } from "@/modules/listings/management-repository";
-
-function featureName(key: string) {
-  return `feature.${key}`;
-}
-
-function optionLabel(value: string) {
-  return value.replaceAll("_", " ");
-}
 
 export function ListingForm({
   action,
@@ -44,6 +36,8 @@ export function ListingForm({
     location: string;
     details: string;
     features: string;
+    contact: string;
+    contactHint: string;
     category: string;
     name: string;
     slug: string;
@@ -234,137 +228,34 @@ export function ListingForm({
         </div>
       </section>
 
-      {features.length ? (
-        <section className="rounded-3xl border bg-card p-6 shadow-sm sm:p-8">
-          <h2 className="text-xl font-semibold">{labels.features}</h2>
-          <div className="mt-5 grid gap-5 md:grid-cols-2">
-            {features.map((feature) => {
-              const initial = listingFeatureFormValue(
-                feature.id,
-                featureValues,
-              );
-              const label = (
-                <>
-                  {feature.name}
-                  {feature.unit ? ` (${feature.unit})` : ""}
-                  {feature.isRequired ? (
-                    <span className="ml-1 text-xs text-muted-foreground">
-                      {labels.requiredForReview}
-                    </span>
-                  ) : null}
-                </>
-              );
-
-              if (feature.featureType === "boolean") {
-                return (
-                  <label
-                    key={feature.id}
-                    className="grid gap-2 text-sm font-medium"
-                  >
-                    {label}
-                    <select
-                      name={featureName(feature.key)}
-                      defaultValue={
-                        typeof initial === "boolean" ? String(initial) : ""
-                      }
-                      className="h-11 rounded-xl border border-input bg-background px-4 text-sm shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    >
-                      <option value="">{labels.any}</option>
-                      <option value="true">{labels.yes}</option>
-                      <option value="false">{labels.no}</option>
-                    </select>
-                  </label>
-                );
-              }
-              if (feature.featureType === "number") {
-                return (
-                  <label
-                    key={feature.id}
-                    className="grid gap-2 text-sm font-medium"
-                  >
-                    {label}
-                    <Input
-                      name={featureName(feature.key)}
-                      type="number"
-                      step="any"
-                      min={feature.minimum ?? undefined}
-                      max={feature.maximum ?? undefined}
-                      defaultValue={
-                        typeof initial === "number" ? initial : undefined
-                      }
-                    />
-                  </label>
-                );
-              }
-              if (feature.featureType === "select") {
-                return (
-                  <label
-                    key={feature.id}
-                    className="grid gap-2 text-sm font-medium"
-                  >
-                    {label}
-                    <select
-                      name={featureName(feature.key)}
-                      defaultValue={typeof initial === "string" ? initial : ""}
-                      className="h-11 rounded-xl border border-input bg-background px-4 text-sm capitalize shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    >
-                      <option value="">{labels.any}</option>
-                      {feature.options.map((option) => (
-                        <option key={option} value={option}>
-                          {optionLabel(option)}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                );
-              }
-              if (feature.featureType === "multi_select") {
-                const selected = Array.isArray(initial) ? initial : [];
-                return (
-                  <fieldset key={feature.id} className="rounded-2xl border p-4">
-                    <legend className="px-1 text-sm font-medium">
-                      {label}
-                    </legend>
-                    <div className="flex flex-wrap gap-3">
-                      {feature.options.map((option) => (
-                        <label
-                          key={option}
-                          className="inline-flex items-center gap-2 text-sm capitalize"
-                        >
-                          <input
-                            type="checkbox"
-                            name={featureName(feature.key)}
-                            value={option}
-                            defaultChecked={selected.includes(option)}
-                            className="size-4 accent-primary"
-                          />
-                          {optionLabel(option)}
-                        </label>
-                      ))}
-                    </div>
-                  </fieldset>
-                );
-              }
-              return (
-                <label
-                  key={feature.id}
-                  className="grid gap-2 text-sm font-medium"
-                >
-                  {label}
-                  <Input
-                    name={featureName(feature.key)}
-                    maxLength={feature.maxLength ?? undefined}
-                    defaultValue={
-                      typeof initial === "string" ? initial : undefined
-                    }
-                  />
-                </label>
-              );
-            })}
-          </div>
-        </section>
-      ) : null}
-
+      {(["contact", "category"] as const).map((section) => {
+        const assigned = features.filter((feature) =>
+          section === "contact"
+            ? feature.section === "contact"
+            : feature.section !== "contact",
+        );
+        return assigned.length ? (
+          <section
+            key={section}
+            className="rounded-3xl border bg-card p-6 shadow-sm sm:p-8"
+          >
+            <h2 className="text-xl font-semibold">
+              {section === "contact" ? labels.contact : labels.features}
+            </h2>
+            {section === "contact" ? (
+              <p className="mt-2 text-sm text-muted-foreground">
+                {labels.contactHint}
+              </p>
+            ) : null}
+            <ListingFeatureFields
+              features={assigned}
+              values={featureValues}
+              errors={state.fieldErrors}
+              labels={labels}
+            />
+          </section>
+        ) : null;
+      })}
       {error ? (
         <p
           role="alert"

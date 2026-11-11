@@ -9,6 +9,8 @@ export async function getListingFormLabels() {
     location: t("location"),
     details: t("details"),
     features: t("features"),
+    contact: t("contact"),
+    contactHint: t("contactHint"),
     category: t("category"),
     name: t("name"),
     slug: t("slug"),

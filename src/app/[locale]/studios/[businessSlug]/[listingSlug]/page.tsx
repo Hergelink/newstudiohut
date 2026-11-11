@@ -113,6 +113,30 @@ function displayFeatureValue(
   yes: string,
   no: string,
 ) {
+  if (
+    feature.type === "text" &&
+    typeof feature.value === "string" &&
+    /^https?:\/\//i.test(feature.value)
+  ) {
+    try {
+      const website = new URL(feature.value);
+      if (!website.username && !website.password) {
+        return (
+          <a
+            href={website.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="break-all underline underline-offset-4"
+          >
+            {website.hostname}
+            {website.pathname === "/" ? "" : website.pathname}
+          </a>
+        );
+      }
+    } catch {
+      // Legacy malformed values remain plain text, never executable links.
+    }
+  }
   if (typeof feature.value === "boolean") {
     return (
       <span className="inline-flex items-center gap-1.5">
@@ -129,7 +153,9 @@ function displayFeatureValue(
   const value = Array.isArray(feature.value)
     ? feature.value.map((item) => item.replaceAll("_", " ")).join(", ")
     : typeof feature.value === "string"
-      ? feature.value.replaceAll("_", " ")
+      ? feature.type === "select"
+        ? feature.value.replaceAll("_", " ")
+        : feature.value
       : new Intl.NumberFormat("tr-TR", { maximumFractionDigits: 2 }).format(
           feature.value,
         );
