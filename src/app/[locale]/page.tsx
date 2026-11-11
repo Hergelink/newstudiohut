@@ -7,6 +7,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import Image from "next/image";
 import { Suspense } from "react";
 
 import {
@@ -89,6 +90,17 @@ export default async function HomePage({
                 {t("search")}
               </Button>
             </form>
+            <div className="relative mt-16 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-neutral-100 sm:mt-20 sm:aspect-[5/2] sm:rounded-3xl">
+              <Image
+                src="/images/studiohut-hero.webp"
+                alt={t("heroImageAlt")}
+                fill
+                priority
+                sizes="(max-width: 1280px) 100vw, 1248px"
+                quality={90}
+                className="object-cover"
+              />
+            </div>
           </div>
         </section>
 
