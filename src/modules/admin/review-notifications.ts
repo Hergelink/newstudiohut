@@ -1,4 +1,5 @@
 import "server-only";
+import { processEmailQueue } from "@/lib/email/queue";
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createTranslator } from "next-intl";
@@ -131,17 +132,12 @@ export class ReviewNotificationService {
     private readonly email: TransactionalEmailSender,
     private readonly siteUrl: string,
   ) {}
-  async process(limit = 20, listingId?: string) {
-    const jobs = await this.repository.claim(limit, listingId);
-    const result = { sent: 0, failed: 0, cancelled: 0 };
-    for (const job of jobs) {
-      try {
-        const context = await this.repository.getContext(job);
-        if (!context) {
-          await this.repository.markCancelled(job);
-          result.cancelled++;
-          continue;
-        }
+  process(limit = 20, listingId?: string) {
+    return processEmailQueue(
+      this.repository,
+      this.email,
+      "studio-review",
+      (job, context) => {
         const t = createTranslator({
           locale: job.locale,
           messages: job.locale === "en" ? en : tr,
@@ -151,9 +147,7 @@ export class ReviewNotificationService {
           `${job.locale === "en" ? "/en" : ""}/admin/reviews/${encodeURIComponent(job.listingId)}`,
           this.siteUrl,
         ).toString();
-        await this.email.send({
-          idempotencyKey: `studio-review/${job.id}`,
-          to: job.recipientEmail,
+        return {
           subject: t("subject", {
             studio: context.listingName.replace(/[\r\n]/g, " "),
           }),
@@ -163,20 +157,11 @@ export class ReviewNotificationService {
             location: `${context.district}, ${context.city}`,
             url: reviewUrl,
           }),
-        });
-        await this.repository.markSent(job);
-        result.sent++;
-      } catch (error) {
-        // Persist only an error category, never provider response bodies or keys.
-        const reason =
-          error instanceof Error && /^resend_\d{3}$/.test(error.message)
-            ? error.message
-            : "notification_failed";
-        await this.repository.markFailed(job, reason);
-        result.failed++;
-      }
-    }
-    return result;
+        };
+      },
+      limit,
+      listingId,
+    );
   }
 }
 

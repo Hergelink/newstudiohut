@@ -1,0 +1,17 @@
+begin;
+create extension if not exists pgtap with schema extensions;
+set local search_path=public,extensions;
+select plan(11);
+select ok((select relrowsecurity from pg_class where oid='public.listing_approval_notification_jobs'::regclass),'approval queue has RLS');
+select ok(not pg_catalog.has_table_privilege('anon','public.listing_approval_notification_jobs','SELECT'),'anon cannot read owner notification jobs');
+select ok(not pg_catalog.has_table_privilege('authenticated','public.listing_approval_notification_jobs','SELECT'),'members cannot read delivery jobs');
+select ok(not pg_catalog.has_table_privilege('authenticated','public.listing_approval_notification_jobs','INSERT'),'members cannot choose notification recipients');
+select ok(not pg_catalog.has_table_privilege('service_role','public.listing_approval_notification_jobs','INSERT'),'worker cannot create approval events');
+select ok(not pg_catalog.has_table_privilege('service_role','public.listing_approval_notification_jobs','DELETE'),'worker cannot delete approval events');
+select ok(not pg_catalog.has_function_privilege('anon','public.claim_listing_approval_notification_jobs(integer,uuid)','EXECUTE'),'anon cannot claim approvals');
+select ok(not pg_catalog.has_function_privilege('authenticated','public.claim_listing_approval_notification_jobs(integer,uuid)','EXECUTE'),'members cannot claim approvals');
+select ok(pg_catalog.has_function_privilege('service_role','public.claim_listing_approval_notification_jobs(integer,uuid)','EXECUTE'),'worker may claim approvals');
+select ok(not pg_catalog.has_function_privilege('authenticated','public.enqueue_listing_approval_notifications()','EXECUTE'),'enqueue is trigger-only');
+select throws_ok($$ select public.claim_listing_approval_notification_jobs(null,null) $$,'22023','invalid_job_limit','claim bounds are validated');
+select * from finish();
+rollback;

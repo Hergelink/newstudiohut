@@ -420,14 +420,19 @@
     "unexpectedError": "The photo operation could not be completed."
   },
   "ReviewNotifications": {
-    "title": "Review notifications",
-    "ready": "Admins are notified by email about new submissions. You can also send queued notifications here.",
+    "title": "Listing email notifications",
+    "ready": "You can also process ready submission and listing approval emails here.",
+    "testSenderHint": "A test sender is in use: email can only be sent to the Resend account's address. Verify a sender domain to email other studio owners.",
     "notConfigured": "Email notifications have not been enabled yet. You can follow submissions in the review list below.",
     "send": "Send queued notifications",
     "sending": "Sending…",
     "sent": "Notifications were accepted by the email service.",
     "empty": "No notifications are ready to send right now.",
     "failed": "Some notifications could not be sent. Queued jobs will be retried."
+  },
+  "ListingApprovalEmail": {
+    "subject": "StudioHut — Your listing is approved: {studio}",
+    "body": "Your listing has been approved!\n\nYour studio, {studio}, is now published on StudioHut.\n\nView your listing:\n{url}\n\nThank you for joining StudioHut."
   },
   "ReviewNotificationEmail": {
     "subject": "StudioHut — New studio review: {studio}",

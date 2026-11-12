@@ -49,6 +49,7 @@ erDiagram
 | `lead_rate_limits`       | Durable public-inquiry abuse windows keyed by a server HMAC | private 64-character hash PK; positive counters                        |
 | `lead_notification_jobs` | Retryable business-email delivery outbox                    | unique lead/recipient; constrained state and sent timestamp            |
 | `review_notification_jobs` | Private platform-admin review email outbox | listing/submission/admin uniqueness; claim leases and bounded retries |
+| `listing_approval_notification_jobs` | Private owner approval email outbox | listing/approval/owner uniqueness; current-owner checks and claim leases |
 | `favorites`              | User-saved listings                                         | composite PK                                                           |
 | `listing_views`          | Minimal analytics event                                     | requires user or privacy-preserving session hash                       |
 | `audit_logs`             | Append-only privileged activity history                     | optional actor/business after deletion                                 |

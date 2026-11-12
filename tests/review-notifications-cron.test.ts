@@ -3,6 +3,8 @@ const state = vi.hoisted(() => ({
   secret: "a".repeat(40) as string | undefined,
   process: vi.fn(),
   configured: true,
+  approvalsConfigured: false,
+  approvalsProcess: vi.fn(),
 }));
 vi.mock("@/config/env", () => ({
   env: {
@@ -16,10 +18,18 @@ vi.mock("@/modules/admin/review-notifications", () => ({
     state.configured ? { process: state.process } : null,
 }));
 vi.mock("@/lib/observability/logger", () => ({ logError: vi.fn() }));
+vi.mock("@/modules/listings/approval-notifications", () => ({
+  createListingApprovalNotificationService: () =>
+    state.approvalsConfigured ? { process: state.approvalsProcess } : null,
+}));
 import { GET } from "@/app/api/cron/review-notifications/route";
 beforeEach(() => {
   state.secret = "a".repeat(40);
   state.configured = true;
+  state.approvalsConfigured = false;
+  state.approvalsProcess
+    .mockReset()
+    .mockResolvedValue({ sent: 1, failed: 0, cancelled: 0 });
   state.process
     .mockReset()
     .mockResolvedValue({ sent: 1, failed: 0, cancelled: 0 });
@@ -54,5 +64,18 @@ describe("review notification worker authorization", () => {
     const response = await GET(request(`Bearer ${state.secret}`));
     expect(response.status).toBe(500);
     expect(await response.json()).toEqual({ error: "processing_failed" });
+  });
+  it("can process owner approvals when the admin-review queue is disabled", async () => {
+    state.configured = false;
+    state.approvalsConfigured = true;
+    expect((await GET(request(`Bearer ${state.secret}`))).status).toBe(200);
+    expect(state.approvalsProcess).toHaveBeenCalledWith(20);
+    expect(state.process).not.toHaveBeenCalled();
+  });
+  it("still processes owner approvals if the independent admin queue fails", async () => {
+    state.approvalsConfigured = true;
+    state.process.mockRejectedValue(new Error("review queue unavailable"));
+    expect((await GET(request(`Bearer ${state.secret}`))).status).toBe(500);
+    expect(state.approvalsProcess).toHaveBeenCalledWith(20);
   });
 });

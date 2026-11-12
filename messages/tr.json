@@ -420,14 +420,19 @@
     "unexpectedError": "Fotoğraf işlemi tamamlanamadı."
   },
   "ReviewNotifications": {
-    "title": "İnceleme bildirimleri",
-    "ready": "Yeni başvurular yöneticilere e-posta ile bildirilir. Bekleyen bildirimleri buradan da gönderebilirsiniz.",
+    "title": "İlan e-posta bildirimleri",
+    "ready": "Başvuru ve ilan onay e-postaları için gönderime hazır bildirimleri buradan da işleyebilirsiniz.",
+    "testSenderHint": "Test göndericisi kullanılıyor: e-postalar yalnızca Resend hesabının adresine gönderilebilir. Diğer stüdyo sahiplerine göndermek için gönderici alan adını doğrulayın.",
     "notConfigured": "E-posta bildirimleri henüz etkinleştirilmedi. Başvuruları aşağıdaki inceleme listesinden takip edebilirsiniz.",
     "send": "Bekleyen bildirimleri gönder",
     "sending": "Gönderiliyor…",
     "sent": "Bildirimler e-posta servisine iletildi.",
     "empty": "Şu anda gönderime hazır bildirim yok.",
     "failed": "Bazı bildirimler gönderilemedi. Bekleyen kayıtlar yeniden denenecek."
+  },
+  "ListingApprovalEmail": {
+    "subject": "StudioHut — İlanınız onaylandı: {studio}",
+    "body": "İlanınız onaylanmıştır!\n\n{studio} adlı stüdyonuz artık StudioHut'ta yayında.\n\nİlanınızı görüntüleyin:\n{url}\n\nStudioHut'ta yer aldığınız için teşekkür ederiz."
   },
   "ReviewNotificationEmail": {
     "subject": "StudioHut — Yeni stüdyo incelemesi: {studio}",

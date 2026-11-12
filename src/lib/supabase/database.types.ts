@@ -194,6 +194,21 @@ export type Database = {
         created_at: string;
         updated_at: string;
       }>;
+      listing_approval_notification_jobs: Table<{
+        id: string;
+        listing_id: string;
+        approval_id: string;
+        approved_at: string;
+        owner_user_id: string;
+        status: "pending" | "processing" | "sent" | "failed" | "cancelled";
+        attempts: number;
+        next_attempt_at: string;
+        locked_at: string | null;
+        sent_at: string | null;
+        last_error: string | null;
+        created_at: string;
+        updated_at: string;
+      }>;
       favorites: Table<{
         user_id: string;
         listing_id: string;
@@ -383,6 +398,18 @@ export type Database = {
           listing_id: string;
           admin_user_id: string;
           submitted_at: string;
+          recipient_email: string;
+          recipient_locale: string;
+          attempts: number;
+        }>;
+      };
+      claim_listing_approval_notification_jobs: {
+        Args: { max_jobs?: number; target_listing_id?: string | null };
+        Returns: Array<{
+          id: string;
+          listing_id: string;
+          owner_user_id: string;
+          approved_at: string;
           recipient_email: string;
           recipient_locale: string;
           attempts: number;

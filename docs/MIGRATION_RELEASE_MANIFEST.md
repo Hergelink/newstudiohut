@@ -14,7 +14,9 @@ The first six migrations through `20261027000600_phase1_security_hardening.sql` 
 6. `20261104000100_phase2_business_invitations.sql` — adds email-bound, expiring, hashed-token business invitations plus owner-managed roles/removal and authenticated acceptance.
 7. `20261112000100_listing_photo_limit.sql` — serializes photo insertions and enforces 15 photos per studio.
 
-The subsequent `20261112000200_review_notifications.sql` release was separately approved, rehearsed with rollback, and applied on November 12. Its 9 live permission/input checks passed; the existing pending studio generated one pending email job. All exposed public tables retained RLS. See `REVIEW_NOTIFICATIONS.md` for provider configuration. There are currently no pending migrations. Never replay or rewrite applied migrations.
+The subsequent `20261112000200_review_notifications.sql` release was separately approved, rehearsed with rollback, and applied on November 12. Its 9 live permission/input checks passed; the existing pending studio generated one pending email job. All exposed public tables retained RLS. See `REVIEW_NOTIFICATIONS.md` for provider configuration.
+
+`20261112000300_listing_approval_notifications.sql` is prepared for owner approval emails and remains pending live authorization/rehearsal. Its application rollout flag defaults to false until the database is verified. Never replay or rewrite applied migrations.
 
 ## Pre-apply gate
 

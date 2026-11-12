@@ -86,6 +86,12 @@
       "name": "review_notifications",
       "sha256": "34145c25e506cb025b77c0b1e182b0d4bd8c1e951ca907de9aa748b6c05f599c",
       "status": "verified_applied"
+    },
+    {
+      "version": "20261112000300",
+      "name": "listing_approval_notifications",
+      "sha256": "67823281bd90ff45dadc41bd3637f9ee551eeb40a85298ea9c34a7b8f68f4f45",
+      "status": "pending_rehearsal"
     }
   ]
 }

@@ -8,8 +8,10 @@ export function ReviewNotificationControls({
   configured,
   action,
   labels,
+  testSender = false,
 }: {
   configured: boolean;
+  testSender?: boolean;
   action: (
     state: DashboardActionState,
     data: FormData,
@@ -24,6 +26,11 @@ export function ReviewNotificationControls({
         <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
           {configured ? labels.ready : labels.not_configured}
         </p>
+        {testSender ? (
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            {labels.testSenderHint}
+          </p>
+        ) : null}
         {state.message ? (
           <p
             role={state.ok ? "status" : "alert"}

@@ -16,6 +16,7 @@ Vercel → newstudiohut → Settings → Environment Variables → Production:
 | `SUPABASE_SERVICE_ROLE_KEY` | The server-only key for the existing Supabase project |
 | `CRON_SECRET` | An independent random secret of at least 32 characters |
 | `REVIEW_NOTIFICATIONS_ENABLED` | `true` only after the migration is verified |
+| `LISTING_APPROVAL_NOTIFICATIONS_ENABLED` | `true` after the approval-email migration is verified |
 
 Redeploy after editing environment variables. Keep keys out of chat and Git.
 The migration is prepared separately; a disabled flag prevents dispatch before
@@ -50,6 +51,29 @@ submissions and removed admins are skipped. A stable Resend idempotency key
 reduces duplicates; delivery is at least once, not an exactly-once guarantee.
 Email text is localized in `messages/tr.json` and `messages/en.json` and includes
 the studio/business names, location and secure review link.
+
+## Owner approval emails
+
+`20261112000300_listing_approval_notifications.sql` adds the separate private
+`listing_approval_notification_jobs` outbox. Only a transition from pending review
+to published queues a message, with one recipient per current business owner with
+a confirmed Auth email. Managers/editors are not owner recipients. Recipients are
+checked again when claiming and just before sending, and an unpublished listing
+or a former owner cancels the queued message. Rejection and no-op status updates
+do not create approval emails. No historical approvals are backfilled.
+
+After a successful publish action, `after()` attempts delivery. This occurs after
+the review transaction, including its audit record, commits. Failure to send does
+not reverse approval. The existing daily worker and admin **Send queued
+notifications** control process both queues using their own stable idempotency
+prefixes and claim RPCs. Email rendering uses the shared typed queue processor
+and Resend transport. Owner messages say the listing is approved and link to its
+public localized URL. No new API key is required.
+
+The current `onboarding@resend.dev` sender only works for the Resend account's
+email address. Other owners require a verified sender domain. A notice in the
+admin email panel explains this limit; configuring the code does not remove the
+provider restriction.
 
 ## Verification
 

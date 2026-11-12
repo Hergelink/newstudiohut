@@ -15,6 +15,9 @@ const serverEnvSchema = publicEnvSchema.extend({
   LEAD_NOTIFICATION_FROM_EMAIL: z.email().optional(),
   REVIEW_NOTIFICATION_FROM_EMAIL: z.email().optional(),
   REVIEW_NOTIFICATIONS_ENABLED: z.enum(["true", "false"]).default("false"),
+  LISTING_APPROVAL_NOTIFICATIONS_ENABLED: z
+    .enum(["true", "false"])
+    .default("false"),
   LEAD_ABUSE_SECRET: z.string().min(32).optional(),
   CRON_SECRET: z.string().min(32).optional(),
   ANALYTICS_HASH_SECRET: z.string().min(32).optional(),
@@ -30,6 +33,8 @@ export const env = serverEnvSchema.parse({
   LEAD_NOTIFICATION_FROM_EMAIL: process.env.LEAD_NOTIFICATION_FROM_EMAIL,
   REVIEW_NOTIFICATION_FROM_EMAIL: process.env.REVIEW_NOTIFICATION_FROM_EMAIL,
   REVIEW_NOTIFICATIONS_ENABLED: process.env.REVIEW_NOTIFICATIONS_ENABLED,
+  LISTING_APPROVAL_NOTIFICATIONS_ENABLED:
+    process.env.LISTING_APPROVAL_NOTIFICATIONS_ENABLED,
   LEAD_ABUSE_SECRET: process.env.LEAD_ABUSE_SECRET,
   CRON_SECRET: process.env.CRON_SECRET,
   ANALYTICS_HASH_SECRET: process.env.ANALYTICS_HASH_SECRET,

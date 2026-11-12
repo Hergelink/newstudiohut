@@ -2,6 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
+import { createListingApprovalNotificationService } from "@/modules/listings/approval-notifications";
+import { logError, logWarn } from "@/lib/observability/logger";
 
 import { requirePlatformAdmin } from "@/modules/admin/guards";
 import { SupabaseListingReviewRepository } from "@/modules/admin/review-repository";
@@ -57,6 +60,20 @@ export async function reviewListingAction(
     };
   }
 
+  if (parsed.data.decision === "publish") {
+    after(async () => {
+      const notifications = createListingApprovalNotificationService();
+      if (!notifications) {
+        logWarn("listing_approval_notifications.not_configured");
+        return;
+      }
+      try {
+        await notifications.process(20, listingId);
+      } catch {
+        logError("listing_approval_notifications.dispatch_failed");
+      }
+    });
+  }
   const queuePath = localePath(locale, "/admin/reviews");
   revalidatePath(queuePath);
   revalidatePath(localePath(locale, `/admin/reviews/${listingId}`));

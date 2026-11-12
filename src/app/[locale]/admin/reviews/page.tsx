@@ -7,6 +7,8 @@ import { listPendingReviews } from "@/modules/admin/server";
 import { ReviewNotificationControls } from "@/components/admin/review-notification-controls";
 import { sendPendingReviewNotificationsAction } from "@/modules/admin/review-notification-actions";
 import { isReviewEmailConfigured } from "@/modules/admin/review-notifications";
+import { isListingApprovalEmailConfigured } from "@/modules/listings/approval-notifications";
+import { env } from "@/config/env";
 
 export const dynamic = "force-dynamic";
 
@@ -58,7 +60,14 @@ export default async function AdminReviewsPage({
       ) : null}
 
       <ReviewNotificationControls
-        configured={isReviewEmailConfigured()}
+        configured={
+          isReviewEmailConfigured() || isListingApprovalEmailConfigured()
+        }
+        testSender={
+          env.REVIEW_NOTIFICATION_FROM_EMAIL?.toLowerCase().endsWith(
+            "@resend.dev",
+          ) ?? false
+        }
         action={sendPendingReviewNotificationsAction.bind(null, locale)}
         labels={{
           title: notificationT("title"),
@@ -69,6 +78,7 @@ export default async function AdminReviewsPage({
           sent: notificationT("sent"),
           empty: notificationT("empty"),
           send_failed: notificationT("failed"),
+          testSenderHint: notificationT("testSenderHint"),
         }}
       />
       <div className="mt-8 grid gap-4">
