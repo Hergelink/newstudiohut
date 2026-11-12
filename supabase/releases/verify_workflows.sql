@@ -17,6 +17,9 @@ declare
   updated_rows integer;
   photo_index integer;
 begin
+  if public.is_platform_admin() then
+    raise exception 'Use a non-admin business owner for this rollback-only verification';
+  end if;
   if (select count(*) from public.get_business_members(v_business_id)) < 1 then raise exception 'member_list_failed'; end if;
   perform * from public.get_business_invitations(v_business_id);
   metrics := public.get_business_analytics(v_business_id, 30);

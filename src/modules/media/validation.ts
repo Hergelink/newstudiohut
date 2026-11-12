@@ -16,7 +16,9 @@ export function validateListingImageMetadata(file: {
   type: string;
   size: number;
 }) {
-  const extension = extensions[file.type];
+  const extension = Object.hasOwn(extensions, file.type)
+    ? extensions[file.type]
+    : undefined;
   if (!extension) throw new Error("image_type_invalid");
   if (file.size < 12 || file.size > MAX_LISTING_IMAGE_BYTES) {
     throw new Error("image_size_invalid");

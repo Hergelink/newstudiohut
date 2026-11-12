@@ -161,32 +161,36 @@ export function MediaManager({
         };
       }
       setProgress({ completed: 0, total: files.length });
-      for (const [index, file] of files.entries()) {
-        const single = new FormData();
-        single.set("image", file);
-        single.set("altText", data.get("altText") ?? "");
-        let result: DashboardActionState;
-        if (directUpload) {
-          const ticket = await directUpload.prepare({
-            type: file.type,
-            size: file.size,
-          });
-          if (!ticket.ok || !ticket.path || !ticket.token) return ticket;
-          const { error } = await createSupabaseBrowserClient()
-            .storage.from("listing-images")
-            .uploadToSignedUrl(ticket.path, ticket.token, file, {
-              contentType: file.type,
+      try {
+        for (const [index, file] of files.entries()) {
+          const single = new FormData();
+          single.set("image", file);
+          single.set("altText", data.get("altText") ?? "");
+          let result: DashboardActionState;
+          if (directUpload) {
+            const ticket = await directUpload.prepare({
+              type: file.type,
+              size: file.size,
             });
-          if (error) return { ok: false, message: "unexpected_error" };
-          result = await directUpload.complete(
-            ticket.path,
-            String(data.get("altText") ?? ""),
-          );
-        } else if (upload) {
-          result = await upload(previous, single);
-        } else return { ok: false, message: "unexpected_error" };
-        if (!result.ok) return result;
-        setProgress({ completed: index + 1, total: files.length });
+            if (!ticket.ok || !ticket.path || !ticket.token) return ticket;
+            const { error } = await createSupabaseBrowserClient()
+              .storage.from("listing-images")
+              .uploadToSignedUrl(ticket.path, ticket.token, file, {
+                contentType: file.type,
+              });
+            if (error) return { ok: false, message: "unexpected_error" };
+            result = await directUpload.complete(
+              ticket.path,
+              String(data.get("altText") ?? ""),
+            );
+          } else if (upload) {
+            result = await upload(previous, single);
+          } else return { ok: false, message: "unexpected_error" };
+          if (!result.ok) return result;
+          setProgress({ completed: index + 1, total: files.length });
+        }
+      } catch {
+        return { ok: false, message: "unexpected_error" };
       }
       return { ok: true };
     },
@@ -211,7 +215,11 @@ export function MediaManager({
     startOrdering(async () => {
       const data = new FormData();
       ids.forEach((id) => data.append("imageId", id));
-      setOrderState(await reorder({ ok: false }, data));
+      try {
+        setOrderState(await reorder({ ok: false }, data));
+      } catch {
+        setOrderState({ ok: false, message: "unexpected_error" });
+      }
     });
   };
   const uploadError = errorText(uploadState, labels);
