@@ -2,6 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
+import { createReviewNotificationService } from "@/modules/admin/review-notifications";
+import { logError, logWarn } from "@/lib/observability/logger";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { requireUser } from "@/modules/auth/guards";
@@ -227,6 +230,18 @@ export async function submitListingForReviewAction(
     }
     return actionError(error);
   }
+  after(async () => {
+    const notifications = createReviewNotificationService();
+    if (!notifications) {
+      logWarn("review_notifications.not_configured");
+      return;
+    }
+    try {
+      await notifications.process(20, listingId);
+    } catch {
+      logError("review_notifications.dispatch_failed");
+    }
+  });
   const businessPath = `/dashboard/businesses/${businessId}`;
   revalidatePath(localePath(locale, businessPath));
   redirect(localePath(locale, `${businessPath}?submitted=1`));

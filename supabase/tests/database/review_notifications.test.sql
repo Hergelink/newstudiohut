@@ -1,0 +1,15 @@
+begin;
+create extension if not exists pgtap with schema extensions;
+set local search_path = public, extensions;
+select plan(9);
+select ok((select relrowsecurity from pg_class where oid = 'public.review_notification_jobs'::regclass), 'review outbox has RLS');
+select ok(not pg_catalog.has_table_privilege('anon', 'public.review_notification_jobs', 'SELECT'), 'anon cannot read review jobs');
+select ok(not pg_catalog.has_table_privilege('authenticated', 'public.review_notification_jobs', 'SELECT'), 'members cannot read review jobs');
+select ok(not pg_catalog.has_table_privilege('authenticated', 'public.review_notification_jobs', 'INSERT'), 'members cannot choose notification recipients');
+select ok(not pg_catalog.has_function_privilege('anon', 'public.claim_review_notification_jobs(integer,uuid)', 'EXECUTE'), 'anon cannot claim review jobs');
+select ok(not pg_catalog.has_function_privilege('authenticated', 'public.claim_review_notification_jobs(integer,uuid)', 'EXECUTE'), 'members cannot claim review jobs');
+select ok(pg_catalog.has_function_privilege('service_role', 'public.claim_review_notification_jobs(integer,uuid)', 'EXECUTE'), 'worker can claim review jobs');
+select ok(not pg_catalog.has_function_privilege('authenticated', 'public.enqueue_review_notifications()', 'EXECUTE'), 'enqueue is trigger-only');
+select throws_ok($$ select public.claim_review_notification_jobs(null,null) $$, '22023', 'invalid_job_limit', 'claim bounds are validated');
+select * from finish();
+rollback;

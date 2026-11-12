@@ -1,5 +1,14 @@
 import "server-only";
 
+import {
+  ResendEmailSender,
+  type TransactionalEmailSender,
+} from "@/lib/email/transactional";
+export {
+  ResendEmailSender,
+  type TransactionalEmailSender,
+} from "@/lib/email/transactional";
+
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 import { env } from "@/config/env";
@@ -28,15 +37,6 @@ export interface LeadNotificationRepository {
   getContext(leadId: string): Promise<LeadNotificationContext | null>;
   markSent(jobId: string): Promise<void>;
   markFailed(jobId: string, attempts: number, reason: string): Promise<void>;
-}
-
-export interface TransactionalEmailSender {
-  send(input: {
-    idempotencyKey: string;
-    to: string;
-    subject: string;
-    text: string;
-  }): Promise<void>;
 }
 
 export class SupabaseLeadNotificationRepository implements LeadNotificationRepository {
@@ -113,38 +113,6 @@ export class SupabaseLeadNotificationRepository implements LeadNotificationRepos
       .eq("id", jobId)
       .eq("status", "processing");
     if (error) throw error;
-  }
-}
-
-export class ResendEmailSender implements TransactionalEmailSender {
-  constructor(
-    private readonly apiKey: string,
-    private readonly from: string,
-  ) {}
-
-  async send(input: {
-    idempotencyKey: string;
-    to: string;
-    subject: string;
-    text: string;
-  }) {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${this.apiKey}`,
-        "Content-Type": "application/json",
-        "Idempotency-Key": input.idempotencyKey,
-      },
-      body: JSON.stringify({
-        from: this.from,
-        to: [input.to],
-        subject: input.subject,
-        text: input.text,
-      }),
-    });
-    if (!response.ok) {
-      throw new Error(`resend_${response.status}`);
-    }
   }
 }
 

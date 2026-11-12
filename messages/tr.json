@@ -419,6 +419,20 @@
     "forbidden": "Fotoğrafları yönetme yetkiniz yok.",
     "unexpectedError": "Fotoğraf işlemi tamamlanamadı."
   },
+  "ReviewNotifications": {
+    "title": "İnceleme bildirimleri",
+    "ready": "Yeni başvurular yöneticilere e-posta ile bildirilir. Bekleyen bildirimleri buradan da gönderebilirsiniz.",
+    "notConfigured": "E-posta bildirimleri henüz etkinleştirilmedi. Başvuruları aşağıdaki inceleme listesinden takip edebilirsiniz.",
+    "send": "Bekleyen bildirimleri gönder",
+    "sending": "Gönderiliyor…",
+    "sent": "Bildirimler e-posta servisine iletildi.",
+    "empty": "Şu anda gönderime hazır bildirim yok.",
+    "failed": "Bazı bildirimler gönderilemedi. Bekleyen kayıtlar yeniden denenecek."
+  },
+  "ReviewNotificationEmail": {
+    "subject": "StudioHut — Yeni stüdyo incelemesi: {studio}",
+    "body": "Bir stüdyo incelemenize gönderildi.\n\nStüdyo: {studio}\nİşletme: {business}\nKonum: {location}\n\nİlanı inceleyip yayınlamak veya reddetmek için:\n{url}\n\nBu bağlantı platform yöneticisi hesabıyla giriş gerektirir."
+  },
   "ReviewSubmit": {
     "title": "İncelemeye gönder",
     "subtitle": "Bilgiler tamamlandığında stüdyo platform yöneticisinin inceleme sırasına alınır ve bu süreçte düzenlenemez.",

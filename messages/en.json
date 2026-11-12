@@ -419,6 +419,20 @@
     "forbidden": "You do not have permission to manage these photos.",
     "unexpectedError": "The photo operation could not be completed."
   },
+  "ReviewNotifications": {
+    "title": "Review notifications",
+    "ready": "Admins are notified by email about new submissions. You can also send queued notifications here.",
+    "notConfigured": "Email notifications have not been enabled yet. You can follow submissions in the review list below.",
+    "send": "Send queued notifications",
+    "sending": "Sending…",
+    "sent": "Notifications were accepted by the email service.",
+    "empty": "No notifications are ready to send right now.",
+    "failed": "Some notifications could not be sent. Queued jobs will be retried."
+  },
+  "ReviewNotificationEmail": {
+    "subject": "StudioHut — New studio review: {studio}",
+    "body": "A studio has been submitted for your review.\n\nStudio: {studio}\nBusiness: {business}\nLocation: {location}\n\nReview and publish or reject the listing:\n{url}\n\nThis link requires signing in with a platform administrator account."
+  },
   "ReviewSubmit": {
     "title": "Submit for review",
     "subtitle": "When the details are complete, the studio enters the platform review queue and cannot be edited during review.",

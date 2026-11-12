@@ -15,15 +15,16 @@ const applied = manifest.migrations
   .filter((item) => item.status === "verified_applied")
   .map((item) => item.version);
 const quote = (value) => `'${value.replaceAll("'", "''")}'`;
-const folder = path.join(root, "tmp/database-release");
+const folder = path.join(
+  root,
+  "tmp/database-release",
+  pending.map((item) => item.version).join("-"),
+);
 await mkdir(folder, { recursive: true });
 const guard = `do $guard$ begin
   if (select array_agg(version order by version) from supabase_migrations.schema_migrations)
     is distinct from array[${applied.map(quote).join(",")}]::text[] then
     raise exception 'Migration history changed; recheck before applying';
-  end if;
-  if to_regclass('public.business_invitations') is not null or to_regclass('public.lead_rate_limits') is not null or to_regclass('public.lead_notification_jobs') is not null then
-    raise exception 'Pending objects already exist; inspect drift';
   end if;
 end; $guard$;`;
 const migrations = [];
@@ -47,10 +48,16 @@ await writeFile(
   path.join(folder, "apply.sql"),
   `${content}commit;\nselect 'Applied ${pending.length} migrations atomically' as result;\n`,
 );
-const verification = await readFile(
-  path.join(root, "supabase/releases/verify_workflows.sql"),
-  "utf8",
+const verificationPath = path.resolve(
+  root,
+  process.argv[2] ?? "supabase/releases/verify_workflows.sql",
 );
+if (
+  !verificationPath.startsWith(path.join(root, "supabase/releases/")) ||
+  !verificationPath.endsWith(".sql")
+)
+  throw new Error("Verification must be a SQL file in supabase/releases");
+const verification = await readFile(verificationPath, "utf8");
 await writeFile(
   path.join(folder, "rehearse.sql"),
   `${content}\n${verification}\nrollback;\nselect 'Migration and workflow rehearsal passed; all changes rolled back' as result;\n`,

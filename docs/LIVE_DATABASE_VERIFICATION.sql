@@ -3,7 +3,7 @@
 -- Run from the Supabase SQL editor as a privileged database operator after
 -- rehearsing and applying the pending migrations. Save the result as release evidence.
 
--- 1. Migration history. Expect all thirteen local versions exactly once and in order.
+-- 1. Migration history. Expect all fourteen local versions exactly once and in order.
 select version, name
 from supabase_migrations.schema_migrations
 order by version;

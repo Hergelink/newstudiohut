@@ -54,7 +54,7 @@ describe("production hardening", () => {
 
   it("provides a root-level accessible production error fallback", () => {
     expect(globalError).toContain('"use client"');
-    expect(globalError).toContain("<html lang=\"tr\">");
+    expect(globalError).toContain('<html lang="tr">');
     expect(globalError).toContain("<main");
     expect(globalError).toContain("<h1");
     expect(globalError).toContain("onClick={reset}");
@@ -62,6 +62,7 @@ describe("production hardening", () => {
 
   it("uses Vercel's standard protected cron contract", () => {
     expect(vercelConfig.crons).toEqual([
+      { path: "/api/cron/review-notifications", schedule: "0 4 * * *" },
       {
         path: "/api/cron/lead-notifications",
         schedule: "0 3 * * *",
