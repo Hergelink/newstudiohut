@@ -8,13 +8,15 @@ import { Button } from "@/components/ui/button";
 export function FormSubmit({
   idle,
   pending,
+  disabled = false,
 }: {
   idle: string;
   pending: string;
+  disabled?: boolean;
 }) {
   const status = useFormStatus();
   return (
-    <Button type="submit" disabled={status.pending}>
+    <Button type="submit" disabled={status.pending || disabled}>
       {status.pending ? (
         <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
       ) : (

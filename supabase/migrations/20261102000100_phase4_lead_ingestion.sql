@@ -107,7 +107,7 @@ begin
     submission_count
   )
   values (abuse_key_hash, now(), 1)
-  on conflict (abuse_key_hash) do update
+  on conflict on constraint lead_rate_limits_pkey do update
   set
     window_started_at = case
       when lead_rate_limits.window_started_at <= now() - interval '1 hour' then now()

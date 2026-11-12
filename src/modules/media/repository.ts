@@ -18,6 +18,8 @@ export type ManagedListingImage = {
 export interface ListingMediaRepository extends MediaUrlRepository {
   list(listingId: string): Promise<ManagedListingImage[]>;
   upload(path: string, file: File): Promise<void>;
+  createUploadToken(path: string): Promise<string>;
+  download(path: string): Promise<Blob>;
   remove(path: string): Promise<void>;
   insert(input: Omit<ManagedListingImage, "id">): Promise<ManagedListingImage>;
   delete(listingId: string, imageId: string): Promise<string>;
@@ -74,6 +76,22 @@ export class SupabaseMediaUrlRepository implements ListingMediaRepository {
       .from("listing-images")
       .remove([path]);
     if (error) throw error;
+  }
+
+  async createUploadToken(path: string) {
+    const { data, error } = await this.client.storage
+      .from("listing-images")
+      .createSignedUploadUrl(path, { upsert: false });
+    if (error) throw error;
+    return data.token;
+  }
+
+  async download(path: string) {
+    const { data, error } = await this.client.storage
+      .from("listing-images")
+      .download(path);
+    if (error) throw error;
+    return data;
   }
 
   async insert(input: Omit<ManagedListingImage, "id">) {

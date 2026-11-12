@@ -20,7 +20,9 @@ import {
   deleteListingImageAction,
   moveListingImageAction,
   setListingCoverAction,
-  uploadListingImageAction,
+  prepareListingImageUploadAction,
+  completeListingImageUploadAction,
+  reorderListingImagesAction,
 } from "@/modules/media/actions";
 import { SupabaseMediaUrlRepository } from "@/modules/media/repository";
 import { ListingMediaService } from "@/modules/media/service";
@@ -116,12 +118,26 @@ export default async function EditStudioPage({
             />
             <MediaManager
               images={images}
-              upload={uploadListingImageAction.bind(
+              reorder={reorderListingImagesAction.bind(
                 null,
                 locale,
                 businessId,
                 listingId,
               )}
+              directUpload={{
+                prepare: prepareListingImageUploadAction.bind(
+                  null,
+                  locale,
+                  businessId,
+                  listingId,
+                ),
+                complete: completeListingImageUploadAction.bind(
+                  null,
+                  locale,
+                  businessId,
+                  listingId,
+                ),
+              }}
               actions={images.map((image) => ({
                 up: moveListingImageAction.bind(
                   null,
@@ -162,6 +178,9 @@ export default async function EditStudioPage({
                 altPlaceholder: mediaT("altPlaceholder"),
                 upload: mediaT("upload"),
                 uploading: mediaT("uploading"),
+                count: mediaT("count"),
+                arrangeHint: mediaT("arrangeHint"),
+                savingOrder: mediaT("savingOrder"),
                 cover: mediaT("cover"),
                 makeCover: mediaT("makeCover"),
                 moveUp: mediaT("moveUp"),
@@ -175,6 +194,7 @@ export default async function EditStudioPage({
                 image_size_invalid: mediaT("sizeInvalid"),
                 image_signature_invalid: mediaT("signatureInvalid"),
                 image_limit: mediaT("limit"),
+                invalid_image_order: mediaT("orderInvalid"),
                 image_not_found: mediaT("notFound"),
                 listing_not_editable: mediaT("notEditable"),
                 forbidden: mediaT("forbidden"),

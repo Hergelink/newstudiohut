@@ -1,6 +1,12 @@
 // @vitest-environment jsdom
 
-import { cleanup, render, screen } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import React from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -46,7 +52,98 @@ describe("dashboard listing workflow components", () => {
       "accept",
       "image/jpeg,image/png,image/webp,image/avif",
     );
+    expect(screen.getByLabelText("Photo")).toHaveAttribute("multiple");
+    expect(screen.getByText("0 / 15")).toBeTruthy();
     expect(screen.getByText("No photos")).toBeTruthy();
+  });
+
+  it("saves drag ordering and keeps keyboard move controls", async () => {
+    const reorder = vi.fn(async (_state: { ok: boolean }, _data: FormData) => {
+      void _state;
+      void _data;
+      return { ok: true };
+    });
+    render(
+      <MediaManager
+        images={["one", "two", "three"].map((id, sortOrder) => ({
+          id,
+          listingId: "studio",
+          storagePath: id,
+          url: "",
+          altText: id,
+          sortOrder,
+          isCover: sortOrder === 0,
+        }))}
+        actions={Array.from({ length: 3 }, () => ({
+          up: action,
+          down: action,
+          cover: action,
+          remove: action,
+        }))}
+        upload={action}
+        reorder={reorder}
+        labels={{
+          title: "Photos",
+          image: "Photo",
+          upload: "Upload",
+          uploading: "Uploading",
+          moveUp: "Move earlier",
+          moveDown: "Move later",
+        }}
+      />,
+    );
+    const photos = screen.getAllByRole("article");
+    const dataTransfer = {
+      setData: vi.fn(),
+      effectAllowed: "",
+      dropEffect: "",
+    };
+    fireEvent.dragStart(photos[2], { dataTransfer });
+    fireEvent.dragOver(photos[0], { dataTransfer });
+    fireEvent.drop(photos[0], { dataTransfer });
+    await waitFor(() => expect(reorder).toHaveBeenCalledTimes(1));
+    expect(reorder.mock.calls[0]?.[1]?.getAll("imageId")).toEqual([
+      "three",
+      "one",
+      "two",
+    ]);
+    expect(
+      screen.getAllByRole("button", { name: "Move earlier" })[0],
+    ).toBeDisabled();
+    expect(
+      screen.getAllByRole("button", { name: "Move later" })[2],
+    ).toBeDisabled();
+  });
+
+  it("hides the uploader at fifteen photos", () => {
+    render(
+      <MediaManager
+        images={Array.from({ length: 15 }, (_, i) => ({
+          id: String(i),
+          listingId: "studio",
+          storagePath: String(i),
+          url: "",
+          altText: null,
+          sortOrder: i,
+          isCover: i === 0,
+        }))}
+        actions={Array.from({ length: 15 }, () => ({
+          up: action,
+          down: action,
+          cover: action,
+          remove: action,
+        }))}
+        upload={action}
+        labels={{
+          title: "Photos",
+          image: "Photo",
+          image_limit: "Maximum 15 photos",
+        }}
+      />,
+    );
+    expect(screen.queryByLabelText("Photo")).toBeNull();
+    expect(screen.getAllByText("15 / 15").length).toBeGreaterThan(0);
+    expect(screen.getByRole("status")).toHaveTextContent("Maximum 15 photos");
   });
 
   it("renders the review submission boundary", () => {

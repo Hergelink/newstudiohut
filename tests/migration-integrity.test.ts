@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -14,7 +14,13 @@ describe("migration release integrity", () => {
     );
 
     expect(output).toContain("Migration integrity check passed");
-    expect(output).toContain("6 pending rehearsal");
+    const manifest = JSON.parse(
+      readFileSync(path.join(root, "supabase/migration-release.json"), "utf8"),
+    );
+    const pending = manifest.migrations.filter(
+      (entry: { status: string }) => entry.status !== "verified_applied",
+    );
+    expect(output).toContain(`${pending.length} pending rehearsal`);
   });
 
   it("marks the live history as a dated documentary snapshot", () => {
@@ -28,7 +34,11 @@ describe("migration release integrity", () => {
 
     expect(manifest.liveHistoryVerifiedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     expect(manifest.note).toContain("Re-query the live project");
-    expect(manifest.migrations).toHaveLength(12);
+    expect(manifest.migrations).toHaveLength(
+      readdirSync(path.join(root, "supabase/migrations")).filter((name) =>
+        name.endsWith(".sql"),
+      ).length,
+    );
     expect(
       manifest.migrations.every((entry) => /^[a-f0-9]{64}$/.test(entry.sha256)),
     ).toBe(true);

@@ -88,7 +88,7 @@ Phase 5 local hardening is in progress. `/api/health` verifies configuration and
 
 The migration release manifest now records the last verified live baseline and the exact six-migration pending order. Its integrity check prevents local SQL files from drifting silently, but the current session has no Supabase MCP tools exposed, so the recorded live state has not been refreshed and no remote operation was attempted. The pending migrations include reviewed-listing/media write hardening and the email-bound business invitation/member-management workflow.
 
-Current local acceptance: strict TypeScript, zero-warning ESLint 9 flat-config lint, 160 tests on Vitest 5, production build, zero production dependency vulnerabilities, browser-based Turkish/English semantics, shared skip-link targets, accessible control names, console checks, and 390 px responsive smoke checks, plus `200` responses from the homepage and readiness endpoint. The Phase 5 retention migration remains unapplied pending rehearsal and approval.
+Current acceptance also includes the November 12 database release: all 13 migrations applied, 70 live RLS/grant assertions and 3 RPC input-validation assertions passing, plus transaction-based listing/media/review/lead workflow verification. Retention is installed but was not executed. See `docs/DATABASE_RELEASE_2026-11-12.md` for evidence and remaining notification-provider setup.
 
 ## Non-goals before their phase
 

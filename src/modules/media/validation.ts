@@ -1,5 +1,5 @@
 export const MAX_LISTING_IMAGE_BYTES = 10 * 1024 * 1024;
-export const MAX_LISTING_IMAGES = 20;
+export const MAX_LISTING_IMAGES = 15;
 
 const extensions: Record<string, string> = {
   "image/jpeg": "jpg",
@@ -12,12 +12,20 @@ function startsWith(bytes: Uint8Array, signature: number[], offset = 0) {
   return signature.every((byte, index) => bytes[offset + index] === byte);
 }
 
-export async function validateListingImage(file: File) {
+export function validateListingImageMetadata(file: {
+  type: string;
+  size: number;
+}) {
   const extension = extensions[file.type];
   if (!extension) throw new Error("image_type_invalid");
   if (file.size < 12 || file.size > MAX_LISTING_IMAGE_BYTES) {
     throw new Error("image_size_invalid");
   }
+  return extension;
+}
+
+export async function validateListingImage(file: File) {
+  const extension = validateListingImageMetadata(file);
 
   const bytes = new Uint8Array(await file.slice(0, 32).arrayBuffer());
   const valid =

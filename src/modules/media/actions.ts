@@ -25,8 +25,12 @@ function stateFromError(error: unknown): DashboardActionState {
     "image_limit",
     "image_not_found",
     "listing_not_editable",
+    "invalid_image_order",
   ]);
-  const message = error instanceof Error ? error.message : "";
+  const message =
+    error && typeof error === "object" && "message" in error
+      ? String(error.message)
+      : "";
   return {
     ok: false,
     message: known.has(message) ? message : "unexpected_error",
@@ -58,6 +62,59 @@ function refresh(locale: string, businessId: string, listingId: string) {
       `/dashboard/businesses/${businessId}/studios/${listingId}/edit`,
     ),
   );
+}
+
+export async function prepareListingImageUploadAction(
+  locale: string,
+  businessId: string,
+  listingId: string,
+  metadata: { type: string; size: number },
+): Promise<DashboardActionState & { path?: string; token?: string }> {
+  const authorized = await services(locale, businessId, listingId);
+  if (!authorized) return { ok: false, message: "forbidden" };
+  if (
+    !metadata ||
+    typeof metadata.type !== "string" ||
+    !Number.isSafeInteger(metadata.size)
+  )
+    return { ok: false, message: "validation_error" };
+  try {
+    return {
+      ok: true,
+      ...(await authorized.media.prepareUpload(authorized.listing, metadata)),
+    };
+  } catch (error) {
+    return stateFromError(error);
+  }
+}
+
+export async function completeListingImageUploadAction(
+  locale: string,
+  businessId: string,
+  listingId: string,
+  path: string,
+  altText: string,
+): Promise<DashboardActionState> {
+  const authorized = await services(locale, businessId, listingId);
+  if (!authorized) return { ok: false, message: "forbidden" };
+  if (
+    typeof path !== "string" ||
+    path.length > 300 ||
+    typeof altText !== "string" ||
+    altText.length > 180
+  )
+    return { ok: false, message: "validation_error" };
+  try {
+    await authorized.media.completeUpload(
+      authorized.listing,
+      path,
+      altText.trim() || null,
+    );
+    refresh(locale, businessId, listingId);
+    return { ok: true };
+  } catch (error) {
+    return stateFromError(error);
+  }
 }
 
 export async function uploadListingImageAction(
@@ -140,6 +197,27 @@ export async function setListingCoverAction(
   if (!authorized) return { ok: false, message: "forbidden" };
   try {
     await authorized.media.setCover(authorized.listing, imageId);
+    refresh(locale, businessId, listingId);
+    return { ok: true };
+  } catch (error) {
+    return stateFromError(error);
+  }
+}
+
+export async function reorderListingImagesAction(
+  locale: string,
+  businessId: string,
+  listingId: string,
+  _previous: DashboardActionState,
+  formData: FormData,
+): Promise<DashboardActionState> {
+  const authorized = await services(locale, businessId, listingId);
+  if (!authorized) return { ok: false, message: "forbidden" };
+  const ids = formData.getAll("imageId");
+  if (ids.some((id) => typeof id !== "string"))
+    return { ok: false, message: "invalid_image_order" };
+  try {
+    await authorized.media.reorder(authorized.listing, ids as string[]);
     refresh(locale, businessId, listingId);
     return { ok: true };
   } catch (error) {

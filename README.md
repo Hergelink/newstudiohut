@@ -112,7 +112,7 @@ View tracking and owner/manager reporting require `20261102000200_phase4_analyti
 
 Reviewed-listing write protection and atomic review submission require `20261103000100_phase5_listing_write_hardening.sql`. Until it is rehearsed and applied, the live Phase 1 database still has broader authenticated listing/media write policies than the current application intends, so Phase 2 listing mutations must not be treated as production-ready.
 
-Business team invitations and owner-managed roles require `20261104000100_phase2_business_invitations.sql`. Invitation links are email-bound, expire after seven days, and store only a token hash. The UI shows the raw link once for the owner to share; automatic invitation email delivery is intentionally not required for this local workflow. Until the migration is rehearsed and applied, the team route and invitation acceptance RPCs are unavailable in the live project.
+Business team invitations and owner-managed roles use `20261104000100_phase2_business_invitations.sql`, applied live on 2026-11-12. Invitation links are email-bound, expire after seven days, and store only a token hash. The UI shows the raw link once for the owner to share; automatic invitation email delivery is not configured. See `docs/DATABASE_RELEASE_2026-11-12.md` for verification evidence and remaining external-service setup.
 
 Platform administrators use `/admin/reviews`, `/admin/categories`, `/admin/features`, and `/admin/audit`. Every route and action rechecks `platform_admins` server-side; adding an ordinary authenticated user does not grant administration access.
 

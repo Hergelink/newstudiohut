@@ -47,7 +47,7 @@ describe("Phase 4 lead ingestion migration", () => {
     expect(migration).toContain("lead_utm_source is not null");
     expect(migration).toContain("char_length(trim(lead_utm_campaign)) > 120");
     expect(migration).toMatch(
-      /insert into public\.lead_rate_limits[\s\S]*on conflict \(abuse_key_hash\) do update/,
+      /insert into public\.lead_rate_limits[\s\S]*on conflict on constraint lead_rate_limits_pkey do update/,
     );
     expect(migration).toContain("rate_limit.submission_count > 5");
     expect(migration).toContain("interval '1 hour'");

@@ -1,6 +1,6 @@
 {
   "projectRef": "qglbhsbciafdpixlpewp",
-  "liveHistoryVerifiedAt": "2026-10-27",
+  "liveHistoryVerifiedAt": "2026-11-12",
   "note": "Documentary snapshot only. Re-query the live project before every release.",
   "migrations": [
     {
@@ -43,37 +43,43 @@
       "version": "20261028000100",
       "name": "phase3_listing_review",
       "sha256": "008e180aad473c157e4d689f754ca7d6641f7fba20a2e69143f0c83ccb0dc14f",
-      "status": "pending_rehearsal"
+      "status": "verified_applied"
     },
     {
       "version": "20261102000100",
       "name": "phase4_lead_ingestion",
-      "sha256": "c20bd40ec8f73a87187c29a58c7ba07da04ca429456a83dfe5e7bf313a0d2d79",
-      "status": "pending_rehearsal"
+      "sha256": "adf1caa16cb3599b3243d372c6021e7e09c25573d111cbaa64fa875b438fafdf",
+      "status": "verified_applied"
     },
     {
       "version": "20261102000200",
       "name": "phase4_analytics",
       "sha256": "779d6c081cbf9f64f9ad888311061f39ed1d98933b7faed775e893c1d73eaaf4",
-      "status": "pending_rehearsal"
+      "status": "verified_applied"
     },
     {
       "version": "20261102000300",
       "name": "phase5_retention",
       "sha256": "ba616940b34a66637eeb84aafddcc14e115263f33232714ecdcf1d90fe11b069",
-      "status": "pending_rehearsal"
+      "status": "verified_applied"
     },
     {
       "version": "20261103000100",
       "name": "phase5_listing_write_hardening",
       "sha256": "50a77cf202f833f80d2ed2667307820c4778f8579c9a52c59e00a6931a90a143",
-      "status": "pending_rehearsal"
+      "status": "verified_applied"
     },
     {
       "version": "20261104000100",
       "name": "phase2_business_invitations",
       "sha256": "1c50954bed8a75a93a116bcf512c035ec4b6c57bf2704bf3d9ae87b96668298f",
-      "status": "pending_rehearsal"
+      "status": "verified_applied"
+    },
+    {
+      "version": "20261112000100",
+      "name": "listing_photo_limit",
+      "sha256": "39e4913542761675f6139e2e443e7dd9c7957f7d8a7e545c383e5546a3bd8f34",
+      "status": "verified_applied"
     }
   ]
 }

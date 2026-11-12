@@ -46,6 +46,12 @@ function repository(
     list: vi.fn().mockResolvedValue(images),
     createSignedListingImageUrls: vi.fn().mockResolvedValue(new Map()),
     upload: vi.fn().mockResolvedValue(undefined),
+    createUploadToken: vi.fn().mockResolvedValue("upload-token"),
+    download: vi
+      .fn()
+      .mockResolvedValue(
+        blob([0xff, 0xd8, 0xff, ...Array(20).fill(0)], "image/jpeg"),
+      ),
     remove: vi.fn().mockResolvedValue(undefined),
     insert: vi
       .fn()
@@ -78,6 +84,70 @@ describe("listing image validation", () => {
 });
 
 describe("ListingMediaService", () => {
+  it("allows the fifteenth photo but rejects the sixteenth before upload", async () => {
+    const photos = Array.from({ length: 14 }, (_, i) => image(String(i), i));
+    const media = repository(photos);
+    const service = new ListingMediaService(media);
+    await expect(
+      service.prepareUpload(listing, { type: "image/jpeg", size: 24 }),
+    ).resolves.toEqual({
+      path: expect.stringMatching(/^business-1\/listing-1\/.+\.jpg$/),
+      token: "upload-token",
+    });
+    photos.push(image("last", 14));
+    await expect(
+      service.prepareUpload(listing, { type: "image/jpeg", size: 24 }),
+    ).rejects.toThrow("image_limit");
+    expect(media.createUploadToken).toHaveBeenCalledTimes(1);
+  });
+
+  it("persists a complete new order and rejects duplicate, omitted or foreign images", async () => {
+    const media = repository([image("one", 0, true), image("two", 1)]);
+    const service = new ListingMediaService(media);
+    await service.reorder(listing, ["two", "one"]);
+    expect(media.reorder).toHaveBeenCalledWith(listing.id, ["two", "one"]);
+    for (const order of [["one", "one"], ["one"], ["two", "foreign"]]) {
+      await expect(service.reorder(listing, order)).rejects.toThrow(
+        "invalid_image_order",
+      );
+    }
+    expect(media.reorder).toHaveBeenCalledTimes(1);
+  });
+
+  it("validates directly uploaded bytes and cleans up when attachment fails", async () => {
+    const media = repository();
+    const path =
+      "business-1/listing-1/11111111-1111-4111-8111-111111111111.jpg";
+    vi.mocked(media.insert).mockRejectedValueOnce(new Error("image_limit"));
+    await expect(
+      new ListingMediaService(media).completeUpload(listing, path, "Room"),
+    ).rejects.toThrow("image_limit");
+    expect(media.download).toHaveBeenCalledWith(path);
+    expect(media.remove).toHaveBeenCalledWith(path);
+    await expect(
+      new ListingMediaService(media).completeUpload(
+        listing,
+        "other-business/stolen.jpg",
+        null,
+      ),
+    ).rejects.toThrow("image_not_found");
+    expect(media.download).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not delete an attached image when finalization is retried", async () => {
+    const existing = image("11111111-1111-4111-8111-111111111111", 0, true);
+    const media = repository([existing]);
+    await expect(
+      new ListingMediaService(media).completeUpload(
+        listing,
+        existing.storagePath,
+        null,
+      ),
+    ).resolves.toEqual(existing);
+    expect(media.download).not.toHaveBeenCalled();
+    expect(media.remove).not.toHaveBeenCalled();
+  });
+
   it("uploads into an ownership-scoped path and makes the first image cover", async () => {
     const media = repository();
     const service = new ListingMediaService(media);
