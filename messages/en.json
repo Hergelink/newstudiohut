@@ -383,6 +383,13 @@
       "rejected": "Rejected"
     }
   },
+  "NewStudioPhotos": {
+    "beforeSave": "Choose photos now; they will upload when you save the draft.",
+    "queueOrderHint": "Drag photos or use the arrow buttons to arrange them. The first photo will be your cover.",
+    "draftSaved": "Your studio draft is saved. Retry to upload the remaining photos, or continue from the saved draft.",
+    "retry": "Retry remaining photos",
+    "openDraft": "Open saved draft"
+  },
   "MediaManager": {
     "title": "Studio photos",
     "subtitle": "Choose one or more photos, up to 15 per studio. JPEG, PNG, WebP and AVIF are accepted, up to 10 MiB each.",

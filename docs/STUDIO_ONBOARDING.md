@@ -45,8 +45,18 @@ subsequently applied and verified on 2026-11-12. See `DATABASE_RELEASE_2026-11-1
 
 ## Studio photos
 
-After saving a draft, hosts can select multiple JPEG, PNG, WebP or AVIF photos,
-up to 10 MiB each and 15 photos per studio. Files go directly to private Supabase
+The new studio form includes a photo picker immediately after basic information.
+Hosts can select and preview multiple JPEG, PNG, WebP or AVIF photos, rearrange
+them before saving, and remove selections. The first selected photo is the cover.
+Each file may be up to 10 MiB; the maximum is 15 photos per studio.
+
+Saving creates the draft, then uploads the selected photos in order. No image
+bytes are included in the Next.js form action. If an upload fails, the form keeps
+the saved draft ID and completed-photo set: retry only processes remaining files,
+and an interrupted finalization reuses its upload ticket. A link also opens the
+saved draft. Completed uploads remain available in its photo manager.
+
+After saving, hosts can also manage photos from the edit page. Files go directly to private Supabase
 Storage through ownership-checked signed upload URLs, avoiding Vercel's request
 body limit. Finalization rechecks membership, editable state, file size/type and
 file signature before attaching metadata. Failed attachments clean up the object.

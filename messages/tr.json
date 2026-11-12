@@ -383,6 +383,13 @@
       "rejected": "Reddedildi"
     }
   },
+  "NewStudioPhotos": {
+    "beforeSave": "Fotoğrafları şimdi seçebilirsiniz. Taslağı kaydettiğinizde yüklenecekler.",
+    "queueOrderHint": "Fotoğrafları sürükleyerek veya ok düğmeleriyle sıralayın. İlk fotoğraf kapak görseliniz olacak.",
+    "draftSaved": "Stüdyo taslağınız kaydedildi. Kalan fotoğrafları yüklemek için tekrar deneyebilir veya kaydedilen taslaktan devam edebilirsiniz.",
+    "retry": "Kalan fotoğrafları yeniden yükle",
+    "openDraft": "Kaydedilen taslağı aç"
+  },
   "MediaManager": {
     "title": "Stüdyo fotoğrafları",
     "subtitle": "Stüdyo başına en fazla 15 fotoğraf ekleyin. Birden fazla dosya seçebilirsiniz. JPEG, PNG, WebP ve AVIF desteklenir; her dosya en fazla 10 MiB olabilir.",

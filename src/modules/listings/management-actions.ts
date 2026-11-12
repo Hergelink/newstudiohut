@@ -64,12 +64,12 @@ async function authorizedServices(
   };
 }
 
-export async function createListingDraftAction(
+export async function createListingDraftForUploadAction(
   locale: string,
   businessId: string,
   _previous: DashboardActionState,
   formData: FormData,
-): Promise<DashboardActionState> {
+): Promise<DashboardActionState & { listingId?: string }> {
   const authorized = await authorizedServices(
     locale,
     businessId,
@@ -114,8 +114,28 @@ export async function createListingDraftAction(
 
   const businessPath = `/dashboard/businesses/${businessId}`;
   revalidatePath(localePath(locale, businessPath));
+  return { ok: true, listingId };
+}
+
+export async function createListingDraftAction(
+  locale: string,
+  businessId: string,
+  previous: DashboardActionState,
+  formData: FormData,
+): Promise<DashboardActionState> {
+  const result = await createListingDraftForUploadAction(
+    locale,
+    businessId,
+    previous,
+    formData,
+  );
+  if (!result.ok || !result.listingId) return result;
+  const businessPath = `/dashboard/businesses/${businessId}`;
   redirect(
-    localePath(locale, `${businessPath}/studios/${listingId}/edit?saved=1`),
+    localePath(
+      locale,
+      `${businessPath}/studios/${result.listingId}/edit?saved=1`,
+    ),
   );
 }
 

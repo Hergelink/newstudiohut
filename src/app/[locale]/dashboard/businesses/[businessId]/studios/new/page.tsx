@@ -1,13 +1,17 @@
 import { ArrowLeft, Shapes } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { ListingForm } from "@/components/dashboard/listing-form";
+import { NewStudioForm } from "@/components/dashboard/new-studio-form";
 import { getListingFormLabels } from "@/components/dashboard/listing-form-labels";
 import { Link } from "@/i18n/navigation";
 import { requireBusinessPermission } from "@/modules/businesses/guards";
 import { listPublicCategories } from "@/modules/categories/server";
 import { listCategoryFormFeatures } from "@/modules/features/server";
-import { createListingDraftAction } from "@/modules/listings/management-actions";
+import { createListingDraftForUploadAction } from "@/modules/listings/management-actions";
+import {
+  prepareListingImageUploadAction,
+  completeListingImageUploadAction,
+} from "@/modules/media/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +26,8 @@ export default async function NewStudioPage({
   setRequestLocale(locale);
   await requireBusinessPermission(locale, businessId, "listings.create");
   const t = await getTranslations("ListingForm");
+  const mediaT = await getTranslations("MediaManager");
+  const photoT = await getTranslations("NewStudioPhotos");
   const categories = await listPublicCategories(locale);
   const requested = await searchParams;
   const slug = Array.isArray(requested.category)
@@ -79,8 +85,50 @@ export default async function NewStudioPage({
             <ArrowLeft className="size-4" aria-hidden="true" />
             {t("changeCategory")}
           </Link>
-          <ListingForm
-            action={createListingDraftAction.bind(null, locale, businessId)}
+          <NewStudioForm
+            actions={{
+              create: createListingDraftForUploadAction.bind(
+                null,
+                locale,
+                businessId,
+              ),
+              prepare: prepareListingImageUploadAction.bind(
+                null,
+                locale,
+                businessId,
+              ),
+              complete: completeListingImageUploadAction.bind(
+                null,
+                locale,
+                businessId,
+              ),
+            }}
+            studiosPath={`/dashboard/businesses/${businessId}/studios`}
+            photoLabels={{
+              title: mediaT("title"),
+              subtitle: mediaT("subtitle"),
+              image: mediaT("image"),
+              count: mediaT("count"),
+              empty: mediaT("empty"),
+              cover: mediaT("cover"),
+              moveUp: mediaT("moveUp"),
+              moveDown: mediaT("moveDown"),
+              delete: mediaT("delete"),
+              uploading: mediaT("uploading"),
+              beforeSave: photoT("beforeSave"),
+              queueOrderHint: photoT("queueOrderHint"),
+              draftSaved: photoT("draftSaved"),
+              retry: photoT("retry"),
+              openDraft: photoT("openDraft"),
+              image_type_invalid: mediaT("typeInvalid"),
+              image_size_invalid: mediaT("sizeInvalid"),
+              image_signature_invalid: mediaT("signatureInvalid"),
+              image_limit: mediaT("limit"),
+              unexpected_error: mediaT("unexpectedError"),
+              forbidden: mediaT("forbidden"),
+              listing_not_editable: mediaT("notEditable"),
+              image_not_found: mediaT("notFound"),
+            }}
             categoryId={category.id}
             categoryName={category.name}
             features={await listCategoryFormFeatures(category.id, locale)}
