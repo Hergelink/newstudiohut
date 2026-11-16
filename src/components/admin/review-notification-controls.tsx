@@ -9,9 +9,11 @@ export function ReviewNotificationControls({
   action,
   labels,
   testSender = false,
+  approvalConfigured = false,
 }: {
   configured: boolean;
   testSender?: boolean;
+  approvalConfigured?: boolean;
   action: (
     state: DashboardActionState,
     data: FormData,
@@ -25,6 +27,9 @@ export function ReviewNotificationControls({
         <h2 className="font-semibold">{labels.title}</h2>
         <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
           {configured ? labels.ready : labels.not_configured}
+        </p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          {approvalConfigured ? labels.approvalReady : labels.approvalDisabled}
         </p>
         {testSender ? (
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">

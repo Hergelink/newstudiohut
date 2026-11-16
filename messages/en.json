@@ -420,6 +420,8 @@
     "unexpectedError": "The photo operation could not be completed."
   },
   "ReviewNotifications": {
+    "approvalReady": "Automatic listing approval emails to business owners are enabled.",
+    "approvalDisabled": "Listing approval emails to business owners have not been enabled yet.",
     "title": "Listing email notifications",
     "ready": "You can also process ready submission and listing approval emails here.",
     "testSenderHint": "A test sender is in use: email can only be sent to the Resend account's address. Verify a sender domain to email other studio owners.",

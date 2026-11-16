@@ -89,3 +89,13 @@ Run the rollback-only database test file
 migration. Unit tests cover recipients, localized links, revoked/stale context,
 provider failures and stable idempotency keys. Verify a real received message
 after configuring the provider; a passing unit test does not establish delivery.
+
+The owner approval migration was separately approved, rehearsed with rollback,
+and applied on 2026-11-12. The rehearsal verified the real review RPC, exactly
+one queued job per verified owner, no duplicates on a no-op update, exclusive
+claims, no approval job on rejection and cancellation after withdrawal. All 11
+live pgTAP assertions passed. Read-only verification on 2026-11-16 confirmed
+15 migration versions and RLS on all public tables. The existing published
+studio had no historical approval-email job. No real listing was reapproved
+or owner email sent by these rollback tests; a new live approval is still needed
+to verify receipt of the owner-specific email end to end.

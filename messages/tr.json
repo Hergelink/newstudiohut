@@ -420,6 +420,8 @@
     "unexpectedError": "Fotoğraf işlemi tamamlanamadı."
   },
   "ReviewNotifications": {
+    "approvalReady": "İşletme sahiplerine otomatik ilan onay e-postaları açık.",
+    "approvalDisabled": "İşletme sahiplerine ilan onay e-postaları henüz etkinleştirilmedi.",
     "title": "İlan e-posta bildirimleri",
     "ready": "Başvuru ve ilan onay e-postaları için gönderime hazır bildirimleri buradan da işleyebilirsiniz.",
     "testSenderHint": "Test göndericisi kullanılıyor: e-postalar yalnızca Resend hesabının adresine gönderilebilir. Diğer stüdyo sahiplerine göndermek için gönderici alan adını doğrulayın.",

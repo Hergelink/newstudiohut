@@ -60,6 +60,7 @@ export default async function AdminReviewsPage({
       ) : null}
 
       <ReviewNotificationControls
+        approvalConfigured={isListingApprovalEmailConfigured()}
         configured={
           isReviewEmailConfigured() || isListingApprovalEmailConfigured()
         }
@@ -79,6 +80,8 @@ export default async function AdminReviewsPage({
           empty: notificationT("empty"),
           send_failed: notificationT("failed"),
           testSenderHint: notificationT("testSenderHint"),
+          approvalReady: notificationT("approvalReady"),
+          approvalDisabled: notificationT("approvalDisabled"),
         }}
       />
       <div className="mt-8 grid gap-4">

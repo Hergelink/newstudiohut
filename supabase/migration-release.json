@@ -1,6 +1,6 @@
 {
   "projectRef": "qglbhsbciafdpixlpewp",
-  "liveHistoryVerifiedAt": "2026-11-12",
+  "liveHistoryVerifiedAt": "2026-11-16",
   "note": "Documentary snapshot only. Re-query the live project before every release.",
   "migrations": [
     {
@@ -91,7 +91,7 @@
       "version": "20261112000300",
       "name": "listing_approval_notifications",
       "sha256": "67823281bd90ff45dadc41bd3637f9ee551eeb40a85298ea9c34a7b8f68f4f45",
-      "status": "pending_rehearsal"
+      "status": "verified_applied"
     }
   ]
 }

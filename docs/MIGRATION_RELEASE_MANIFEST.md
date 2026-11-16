@@ -1,6 +1,6 @@
 # Migration Release Manifest
 
-This document is a release aid, not proof of current live state. The machine-readable snapshot is `supabase/migration-release.json`; `npm run check:migrations` verifies every local SQL migration in strict filename order and SHA-256 content. Live history was re-read on November 12, 2026: all 14 versions are applied. Query the project again before any future release.
+This document is a release aid, not proof of current live state. The machine-readable snapshot is `supabase/migration-release.json`; `npm run check:migrations` verifies every local SQL migration in strict filename order and SHA-256 content. Live history was re-read on November 16, 2026: all 15 versions are applied. Query the project again before any future release.
 
 ## Applied November 12 release
 
@@ -16,7 +16,7 @@ The first six migrations through `20261027000600_phase1_security_hardening.sql` 
 
 The subsequent `20261112000200_review_notifications.sql` release was separately approved, rehearsed with rollback, and applied on November 12. Its 9 live permission/input checks passed; the existing pending studio generated one pending email job. All exposed public tables retained RLS. See `REVIEW_NOTIFICATIONS.md` for provider configuration.
 
-`20261112000300_listing_approval_notifications.sql` is prepared for owner approval emails and remains pending live authorization/rehearsal. Its application rollout flag defaults to false until the database is verified. Never replay or rewrite applied migrations.
+`20261112000300_listing_approval_notifications.sql` was separately approved, rehearsed with rollback, and applied on November 12. All 11 live permission/input checks passed. The November 16 read-only verification confirmed all 15 versions, RLS on all public tables, and zero historical approval-email jobs. There are no pending migrations. Never replay or rewrite applied migrations.
 
 ## Pre-apply gate
 
