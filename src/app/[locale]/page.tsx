@@ -15,6 +15,8 @@ import {
   CategorySection,
   CategorySectionSkeleton,
 } from "@/components/marketplace/category-section";
+import { BrandRing } from "@/components/brand-ring";
+import { StudioPlatformSection } from "@/components/marketplace/studio-platform-section";
 import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,7 +65,8 @@ export default async function HomePage({
             className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-black/50 to-black/65"
             aria-hidden="true"
           />
-          <div className="container flex min-h-[680px] flex-col items-center justify-center py-14 text-center sm:min-h-[740px] sm:py-20">
+          <BrandRing className="left-1/2 top-1/2 z-0 size-[50rem] -translate-x-1/2 -translate-y-1/2 sm:size-[90rem]" />
+          <div className="container relative z-10 flex min-h-[680px] flex-col items-center justify-center py-14 text-center sm:min-h-[740px] sm:py-20">
             <p className="mb-7 text-xs font-semibold uppercase tracking-[0.24em] text-white/80">
               {t("eyebrow")}
             </p>
@@ -124,6 +127,16 @@ export default async function HomePage({
         <Suspense fallback={<CategorySectionSkeleton />}>
           <CategorySection locale={locale === "en" ? "en" : "tr"} />
         </Suspense>
+
+        <StudioPlatformSection
+          labels={{
+            eyebrow: t("platformEyebrow"),
+            title: t("platformTitle"),
+            body: t("platformBody"),
+            action: t("platformAction"),
+            statement: t("platformStatement"),
+          }}
+        />
 
         <section className="border-y border-black/10 bg-[#f7f7f5] py-24 sm:py-36">
           <div className="container">
@@ -188,9 +201,10 @@ export default async function HomePage({
         </section>
 
         <section className="container py-16 sm:py-24">
-          <div className="grid items-center gap-8 overflow-hidden rounded-[2rem] bg-black p-7 text-white sm:gap-10 sm:p-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12 lg:p-16">
-            <div className="min-w-0">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/50">
+          <div className="relative isolate grid items-center gap-8 overflow-hidden rounded-[2rem] bg-black p-7 text-white sm:gap-10 sm:p-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12 lg:p-16">
+            <BrandRing className="-bottom-[18.5rem] -right-40 -z-10 size-80 sm:-bottom-[34rem] sm:-right-48 sm:size-[42rem]" />
+            <div className="relative min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">
                 {t("businessEyebrow")}
               </p>
               <h2 className="mt-5 max-w-xl text-balance text-3xl font-semibold tracking-[-0.045em] sm:text-5xl xl:text-6xl">
@@ -210,7 +224,7 @@ export default async function HomePage({
                 </Link>
               </Button>
             </div>
-            <ul className="grid min-w-0 gap-5 border-t border-white/25 pt-8 text-sm leading-6 text-white/70 sm:text-base lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+            <ul className="relative grid min-w-0 gap-5 border-t border-white/25 pt-8 text-sm leading-6 text-white/80 sm:text-base lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
               {[
                 t("businessBenefitOne"),
                 t("businessBenefitTwo"),

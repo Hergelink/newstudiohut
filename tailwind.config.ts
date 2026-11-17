@@ -14,6 +14,8 @@ const config: Config = {
         sans: ['"Noto Sans"', "ui-sans-serif", "system-ui", "sans-serif"],
       },
       colors: {
+        "studio-blue": "#2945ff",
+        "studio-red": "#e34545",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
