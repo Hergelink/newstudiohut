@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ListingDiscovery } from "@/components/marketplace/listing-discovery";
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import type { AppLocale } from "@/i18n/routing";
 import type { ListingSearchParams } from "@/modules/listings/search-schema";
 
@@ -65,6 +66,7 @@ export default async function StudiosPage({
           />
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

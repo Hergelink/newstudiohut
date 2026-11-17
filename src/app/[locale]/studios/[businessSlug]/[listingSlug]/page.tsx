@@ -17,6 +17,7 @@ import { todayDate } from "@/i18n/format";
 import { InquiryForm } from "@/components/leads/inquiry-form";
 import { ListingViewTracker } from "@/components/analytics/listing-view-tracker";
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { env } from "@/config/env";
 import type { AppLocale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
@@ -447,6 +448,7 @@ export default async function ListingDetailPage({
           }}
         />
       </main>
+      <SiteFooter />
     </div>
   );
 }

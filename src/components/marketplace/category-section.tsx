@@ -9,7 +9,7 @@ export function CategorySectionSkeleton() {
   return (
     <section
       id="categories"
-      className="container py-24 sm:py-36"
+      className="container scroll-mt-24 py-24 sm:py-36"
       aria-busy="true"
     >
       <div className="h-10 w-72 animate-pulse rounded-xl bg-secondary" />
@@ -30,7 +30,10 @@ export async function CategorySection({ locale }: { locale: AppLocale }) {
     const categories = await listPublicCategories(locale);
 
     return (
-      <section id="categories" className="container py-24 sm:py-36">
+      <section
+        id="categories"
+        className="container scroll-mt-24 py-24 sm:py-36"
+      >
         <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-black/50">
@@ -103,7 +106,10 @@ export async function CategorySection({ locale }: { locale: AppLocale }) {
     });
 
     return (
-      <section id="categories" className="container py-24 sm:py-36">
+      <section
+        id="categories"
+        className="container scroll-mt-24 py-24 sm:py-36"
+      >
         <div className="border border-black/15 bg-white px-6 py-12 text-center">
           <h2 className="text-2xl font-semibold">
             {t("categoriesErrorTitle")}

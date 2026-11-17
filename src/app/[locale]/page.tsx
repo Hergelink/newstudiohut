@@ -18,6 +18,7 @@ import {
 import { BrandRing } from "@/components/brand-ring";
 import { StudioPlatformSection } from "@/components/marketplace/studio-platform-section";
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "@/i18n/navigation";
@@ -137,7 +138,10 @@ export default async function HomePage({
           }}
         />
 
-        <section className="border-y border-black/10 bg-[#f7f7f5] py-24 sm:py-36">
+        <section
+          id="how-it-works"
+          className="scroll-mt-24 border-y border-black/10 bg-[#f7f7f5] py-24 sm:py-36"
+        >
           <div className="container">
             <div className="max-w-2xl">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-black/50">
@@ -238,6 +242,7 @@ export default async function HomePage({
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

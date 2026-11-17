@@ -19,6 +19,20 @@
     "dashboard": "Dashboard",
     "signOut": "Sign out"
   },
+  "Footer": {
+    "label": "Site footer",
+    "description": "Discover creative studios, compare the details and connect directly with the people behind each space.",
+    "exploreTitle": "Discover",
+    "allStudios": "All studios",
+    "categories": "Categories",
+    "howItWorks": "How it works",
+    "businessTitle": "For studio owners",
+    "listStudio": "List your studio",
+    "dashboard": "Business dashboard",
+    "createAccount": "Create an account",
+    "copyright": "© {year} StudioHut. All rights reserved.",
+    "instagramLabel": "StudioHut on Instagram (opens in a new tab)"
+  },
   "Home": {
     "heroImageAlt": "A spacious daylight photography studio with tall windows and professional lighting equipment",
     "eyebrow": "Creative spaces in Istanbul",

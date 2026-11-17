@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 
 import { ListingDiscovery } from "@/components/marketplace/listing-discovery";
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import type { AppLocale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { getPublicCategory } from "@/modules/categories/server";
@@ -90,6 +91,7 @@ export default async function CategoryPage({
           />
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

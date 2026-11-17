@@ -19,6 +19,20 @@
     "dashboard": "Panelim",
     "signOut": "Çıkış yap"
   },
+  "Footer": {
+    "label": "Site alt bilgisi",
+    "description": "Yaratıcı projeleriniz için doğru stüdyoyu keşfedin. Mekânları karşılaştırın, stüdyo sahipleriyle doğrudan iletişime geçin.",
+    "exploreTitle": "Keşfedin",
+    "allStudios": "Tüm stüdyolar",
+    "categories": "Kategoriler",
+    "howItWorks": "Nasıl çalışır?",
+    "businessTitle": "Stüdyo sahipleri için",
+    "listStudio": "Stüdyonuzu ekleyin",
+    "dashboard": "İşletme paneli",
+    "createAccount": "Hesap oluşturun",
+    "copyright": "© {year} StudioHut. Tüm hakları saklıdır.",
+    "instagramLabel": "Instagram'da StudioHut (yeni sekmede açılır)"
+  },
   "Home": {
     "heroImageAlt": "Yüksek pencereli, doğal ışık alan ve profesyonel ışık ekipmanları bulunan geniş bir fotoğraf stüdyosu",
     "eyebrow": "İstanbul'daki yaratıcı mekânlar",
