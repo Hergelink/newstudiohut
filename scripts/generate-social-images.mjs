@@ -9,7 +9,6 @@ const root = new URL("../", import.meta.url);
 const font = await readFile(
   new URL("scripts/assets/NotoSans-SemiBold.ttf", root),
 );
-const logo = await readFile(new URL("public/studiohut-logo.png", root));
 const output = new URL("public/images/social/", root);
 await mkdir(output, { recursive: true });
 
@@ -52,25 +51,6 @@ for (const locale of ["tr", "en"]) {
         {
           style: {
             position: "absolute",
-            top: 30,
-            left: 72,
-            padding: "10px 14px",
-            display: "flex",
-            backgroundColor: "white",
-          },
-        },
-        h("img", {
-          src: `data:image/png;base64,${logo.toString("base64")}`,
-          width: 200,
-          height: 47,
-          alt: "StudioHut",
-        }),
-      ),
-      h(
-        "div",
-        {
-          style: {
-            position: "absolute",
             left: 110,
             top: 300,
             width: 980,
@@ -89,20 +69,6 @@ for (const locale of ["tr", "en"]) {
           h("div", { key: line, style: { display: "flex" } }, line),
         ),
       ),
-      h(
-        "div",
-        {
-          style: {
-            position: "absolute",
-            bottom: 22,
-            left: 72,
-            display: "flex",
-            fontSize: 22,
-            letterSpacing: "-0.5px",
-          },
-        },
-        "studiohut.co",
-      ),
     ),
     {
       width: 1200,
@@ -110,7 +76,7 @@ for (const locale of ["tr", "en"]) {
       fonts: [{ name: "Noto Sans", data: font, weight: 600, style: "normal" }],
     },
   );
-  const path = new URL(`studiohut-${locale}-v1.png`, output);
+  const path = new URL(`studiohut-${locale}-v2.png`, output);
   await writeFile(path, Buffer.from(await image.arrayBuffer()));
   console.log(fileURLToPath(path));
 }

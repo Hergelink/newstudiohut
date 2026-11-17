@@ -1,6 +1,6 @@
 # Brand assets
 
-- `public/studiohut-logo.png`: wordmark supplied by the project owner.
+- `public/studiohut-logo-transparent.png`: transparent wordmark supplied by the project owner, used by the shared logo component across header, footer and account screens. `public/studiohut-logo.png` is retained as a transparent compatibility copy.
 - `src/app/icon.svg`: scalable white S monogram on a black rounded square.
 - `src/app/apple-icon.png`: 180 × 180 PNG rendered from the SVG monogram.
 - `public/images/studiohut-hero.webp`: generated brand photograph, 2172 × 724 pixels. Encoded as WebP at quality 92. This is illustrative imagery, not a photograph of a listed property.
@@ -18,9 +18,11 @@ ring decoration.
 
 ## Link sharing artwork
 
-`public/images/social/studiohut-{tr,en}-v1.png` are public 1200 × 630 PNG cards
+`public/images/social/studiohut-{tr,en}-v2.png` are public 1200 × 630 PNG cards
 using the same red roof and blue backdrop as the homepage. Each contains the
-existing wordmark and the matching language's `Home.platformStatement` copy.
+matching language's `Home.platformStatement` copy, without a logo badge or
+website address. Version 1 compatibility files also contain the clean artwork
+for older cards that still reference those URLs.
 Regenerate them with `node scripts/generate-social-images.mjs`. The font source
 and license are documented in `scripts/assets/README.md`.
 

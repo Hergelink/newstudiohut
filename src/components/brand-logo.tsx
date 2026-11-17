@@ -14,7 +14,7 @@ export function BrandLogo({ className }: { className?: string }) {
       aria-label="StudioHut"
     >
       <Image
-        src="/studiohut-logo.png"
+        src="/studiohut-logo-transparent.png"
         alt="StudioHut"
         width={300}
         height={70}

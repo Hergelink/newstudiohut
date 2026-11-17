@@ -15,7 +15,7 @@ export function buildSocialMetadata({
   imageAlt: string;
 }): Pick<Metadata, "openGraph" | "twitter"> {
   const image = {
-    url: `/images/social/studiohut-${locale}-v1.png`,
+    url: `/images/social/studiohut-${locale}-v2.png`,
     width: 1200,
     height: 630,
     type: "image/png",

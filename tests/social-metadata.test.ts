@@ -27,7 +27,7 @@ describe("localized social preview", () => {
         alternateLocale: [locale === "en" ? "tr_TR" : "en_GB"],
         images: [
           {
-            url: `/images/social/studiohut-${locale}-v1.png`,
+            url: `/images/social/studiohut-${locale}-v2.png`,
             type: "image/png",
             alt: labels.socialImageAlt,
             width: 1200,
@@ -41,13 +41,13 @@ describe("localized social preview", () => {
         description: labels.description,
         images: [
           {
-            url: `/images/social/studiohut-${locale}-v1.png`,
+            url: `/images/social/studiohut-${locale}-v2.png`,
             alt: labels.socialImageAlt,
           },
         ],
       });
       const png = readFileSync(
-        join(process.cwd(), `public/images/social/studiohut-${locale}-v1.png`),
+        join(process.cwd(), `public/images/social/studiohut-${locale}-v2.png`),
       );
       expect(png.subarray(0, 8).toString("hex")).toBe("89504e470d0a1a0a");
       expect(png.readUInt32BE(16)).toBe(1200);

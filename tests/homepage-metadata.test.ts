@@ -36,7 +36,7 @@ describe("homepage canonical metadata", () => {
         locale: locale === "en" ? "en_GB" : "tr_TR",
         images: [
           {
-            url: `/images/social/studiohut-${locale}-v1.png`,
+            url: `/images/social/studiohut-${locale}-v2.png`,
             width: 1200,
             height: 630,
           },
