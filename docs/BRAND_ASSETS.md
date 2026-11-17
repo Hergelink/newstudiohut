@@ -12,6 +12,9 @@ The owner's earlier StudioHut Instagram artwork informs the cobalt blue
 code-native decorations: `BrandRing` and `StudioPlatformSection`, with shared
 Tailwind color tokens. The roof SVG is decorative; all copy remains translated
 HTML text. Existing logo, hero photo and the black-and-white UI remain in use.
+The ring is confined to the lower-right corner of the studio-owner panel, with
+its center on the panel corner so only one quarter is visible. The hero has no
+ring decoration.
 
 ## Hero generation
 

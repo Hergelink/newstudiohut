@@ -65,7 +65,6 @@ export default async function HomePage({
             className="absolute inset-0 -z-10 bg-gradient-to-b from-black/60 via-black/50 to-black/65"
             aria-hidden="true"
           />
-          <BrandRing className="left-1/2 top-1/2 z-0 size-[50rem] -translate-x-1/2 -translate-y-1/2 sm:size-[90rem]" />
           <div className="container relative z-10 flex min-h-[680px] flex-col items-center justify-center py-14 text-center sm:min-h-[740px] sm:py-20">
             <p className="mb-7 text-xs font-semibold uppercase tracking-[0.24em] text-white/80">
               {t("eyebrow")}
@@ -201,8 +200,8 @@ export default async function HomePage({
         </section>
 
         <section className="container py-16 sm:py-24">
-          <div className="relative isolate grid items-center gap-8 overflow-hidden rounded-[2rem] bg-black p-7 text-white sm:gap-10 sm:p-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12 lg:p-16">
-            <BrandRing className="-bottom-[18.5rem] -right-40 -z-10 size-80 sm:-bottom-[34rem] sm:-right-48 sm:size-[42rem]" />
+          <div className="relative isolate grid items-center gap-8 overflow-hidden rounded-[2rem] bg-black p-7 pb-24 text-white sm:gap-10 sm:p-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12 lg:p-16">
+            <BrandRing className="bottom-0 right-0 -z-10 size-40 translate-x-1/2 translate-y-1/2 border-[12px] sm:size-64 sm:border-[16px]" />
             <div className="relative min-w-0">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">
                 {t("businessEyebrow")}
