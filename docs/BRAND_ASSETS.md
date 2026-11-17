@@ -16,6 +16,21 @@ The ring is confined to the lower-right corner of the studio-owner panel, with
 its center on the panel corner so only one quarter is visible. The hero has no
 ring decoration.
 
+## Link sharing artwork
+
+`public/images/social/studiohut-{tr,en}-v1.png` are public 1200 × 630 PNG cards
+using the same red roof and blue backdrop as the homepage. Each contains the
+existing wordmark and the matching language's `Home.platformStatement` copy.
+Regenerate them with `node scripts/generate-social-images.mjs`. The font source
+and license are documented in `scripts/assets/README.md`.
+
+Homepage, discovery and category metadata declare Open Graph and large-image
+Twitter cards through `modules/seo/social-metadata.ts`; Next.js metadataBase
+resolves image and page URLs to the configured production domain. Keep the
+filename version in the renderer and metadata in sync when replacing artwork
+so cached previews can request a new asset. Studio detail pages retain their
+listing-specific photo previews.
+
 ## Hero generation
 
 Created with the built-in image-generation tool on 2026-11-11. Final prompt:

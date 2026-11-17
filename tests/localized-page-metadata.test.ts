@@ -1,4 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import en from "../messages/en.json";
+import tr from "../messages/tr.json";
 
 const { getPublicCategory } = vi.hoisted(() => ({
   getPublicCategory: vi.fn(),
@@ -12,8 +14,12 @@ vi.mock("@/components/site-header", () => ({ SiteHeader: () => null }));
 vi.mock("@/i18n/navigation", () => ({ Link: () => null }));
 vi.mock("next-intl/server", () => ({
   getTranslations:
-    async ({ locale }: { locale: string }) =>
+    async ({ locale, namespace }: { locale: string; namespace: string }) =>
     (key: string) => {
+      if (namespace === "Metadata")
+        return (locale === "en" ? en : tr).Metadata[
+          key as keyof typeof en.Metadata
+        ];
       const messages: Record<string, Record<string, string>> = {
         tr: { title: "Stüdyolar", subtitle: "Stüdyoları keşfedin." },
         en: { title: "Studios", subtitle: "Discover studios." },
@@ -47,6 +53,9 @@ describe("localized marketplace metadata", () => {
       });
 
       expect(metadata.title).toBe(locale === "en" ? "Studios" : "Stüdyolar");
+      expect(metadata.openGraph).toMatchObject({
+        url: locale === "en" ? "/en/studios" : "/studios",
+      });
       expect(metadata.alternates).toEqual({
         canonical: locale === "en" ? "/en/studios" : "/studios",
         languages: {
@@ -70,6 +79,12 @@ describe("localized marketplace metadata", () => {
       expect(metadata.title).toBe(
         locale === "en" ? "Photography" : "Fotoğrafçılık",
       );
+      expect(metadata.openGraph).toMatchObject({
+        url:
+          locale === "en"
+            ? "/en/categories/photography"
+            : "/categories/photography",
+      });
       expect(metadata.alternates).toEqual({
         canonical:
           locale === "en"

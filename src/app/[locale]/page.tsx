@@ -22,6 +22,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "@/i18n/navigation";
+import { buildSocialMetadata } from "@/modules/seo/social-metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -31,7 +32,15 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
   return {
+    ...buildSocialMetadata({
+      locale: locale === "en" ? "en" : "tr",
+      title: t("shareTitle"),
+      description: t("description"),
+      path: locale === "en" ? "/en" : "/",
+      imageAlt: t("socialImageAlt"),
+    }),
     alternates: {
       canonical: locale === "en" ? "/en" : "/",
       languages: { tr: "/", en: "/en", "x-default": "/" },

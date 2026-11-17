@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import type { AppLocale } from "@/i18n/routing";
 import type { ListingSearchParams } from "@/modules/listings/search-schema";
+import { buildSocialMetadata } from "@/modules/seo/social-metadata";
 
 type StudiosPageProps = {
   params: Promise<{ locale: AppLocale }>;
@@ -19,7 +20,15 @@ export async function generateMetadata({
 }: StudiosPageProps): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Listings" });
+  const metadataT = await getTranslations({ locale, namespace: "Metadata" });
   return {
+    ...buildSocialMetadata({
+      locale,
+      title: `${t("title")} | StudioHut`,
+      description: t("subtitle"),
+      path: locale === "en" ? "/en/studios" : "/studios",
+      imageAlt: metadataT("socialImageAlt"),
+    }),
     title: t("title"),
     description: t("subtitle"),
     alternates: {

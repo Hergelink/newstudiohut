@@ -10,6 +10,7 @@ import type { AppLocale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { getPublicCategory } from "@/modules/categories/server";
 import type { ListingSearchParams } from "@/modules/listings/search-schema";
+import { buildSocialMetadata } from "@/modules/seo/social-metadata";
 
 type CategoryPageProps = {
   params: Promise<{ locale: AppLocale; slug: string }>;
@@ -24,8 +25,16 @@ export async function generateMetadata({
   const { locale, slug } = await params;
   const category = await getPublicCategory(slug, locale);
   if (!category) return {};
+  const metadataT = await getTranslations({ locale, namespace: "Metadata" });
 
   return {
+    ...buildSocialMetadata({
+      locale,
+      title: `${category.name} | StudioHut`,
+      description: category.description ?? metadataT("description"),
+      path: locale === "en" ? `/en/categories/${slug}` : `/categories/${slug}`,
+      imageAlt: metadataT("socialImageAlt"),
+    }),
     title: category.name,
     description: category.description ?? undefined,
     alternates: {
