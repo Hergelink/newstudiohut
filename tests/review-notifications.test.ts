@@ -35,7 +35,7 @@ function setup(overrides: Partial<ReviewNotificationRepository> = {}) {
     service: new ReviewNotificationService(
       repository,
       email,
-      "https://newstudiohut.vercel.app",
+      "https://www.studiohut.co",
     ),
   };
 }
@@ -51,7 +51,7 @@ describe("admin studio-review notifications", () => {
       to: "admin@example.com",
       subject: "StudioHut — İncelemeye gönderilen stüdyo: Moda Studio",
       text: expect.stringContaining(
-        "https://newstudiohut.vercel.app/admin/reviews/studio-1",
+        "https://www.studiohut.co/admin/reviews/studio-1",
       ),
     });
     expect(repository.markSent).toHaveBeenCalledWith(job);

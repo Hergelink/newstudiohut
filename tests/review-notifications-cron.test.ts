@@ -35,7 +35,7 @@ beforeEach(() => {
     .mockResolvedValue({ sent: 1, failed: 0, cancelled: 0 });
 });
 const request = (authorization?: string) =>
-  new Request("https://newstudiohut.vercel.app/api/cron/review-notifications", {
+  new Request("https://www.studiohut.co/api/cron/review-notifications", {
     headers: authorization ? { authorization } : undefined,
   });
 describe("review notification worker authorization", () => {

@@ -33,7 +33,7 @@ function setup(overrides: Partial<ApprovalNotificationRepository> = {}) {
     service: new ListingApprovalNotificationService(
       repository,
       email,
-      "https://newstudiohut.vercel.app",
+      "https://www.studiohut.co",
     ),
   };
 }
@@ -47,7 +47,7 @@ describe("listing approval emails to owners", () => {
       idempotencyKey: "listing-approved/approval-1",
       subject: "StudioHut — İlanınız onaylandı: Moda Studio",
       text: expect.stringContaining(
-        "https://newstudiohut.vercel.app/studios/moda/moda-studio",
+        "https://www.studiohut.co/studios/moda/moda-studio",
       ),
     });
     expect(email.send.mock.calls[0][0].text).toContain(

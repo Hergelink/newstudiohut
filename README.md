@@ -61,6 +61,11 @@ Enter the resulting Client ID and Client Secret in Supabase Dashboard → Authen
 
 For Vercel preview/production, set `NEXT_PUBLIC_SITE_URL` to the canonical deployment origin and add `${NEXT_PUBLIC_SITE_URL}/auth/callback`, `${NEXT_PUBLIC_SITE_URL}/reset-password`, and `${NEXT_PUBLIC_SITE_URL}/en/reset-password` to Supabase's redirect allowlist.
 
+The production origin is **https://www.studiohut.co**. `studiohut.co` redirects
+to the www address. Local `.env.local` and `supabase/config.toml` retain
+localhost for development. See [the domain rollout record](docs/DOMAIN_MIGRATION.md)
+for production settings and verification scope.
+
 The application publishes `/robots.txt` and `/sitemap.xml`. The sitemap includes
 Turkish-default and English URLs for public pages, active categories, and
 published studios. Dashboard, administration, authentication, invitation, and

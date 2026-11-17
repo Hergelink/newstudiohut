@@ -1,5 +1,10 @@
 # Deployment Runbook
 
+Current production origin: **https://www.studiohut.co**. The root domain
+`studiohut.co` redirects to www. See [DOMAIN_MIGRATION.md](DOMAIN_MIGRATION.md)
+for the production Auth configuration and rollout record. The initial setup
+instructions below also apply when creating another isolated environment.
+
 This repository is prepared for GitHub-connected Vercel deployments. The steps
 below are intentionally manual: preparing the repository does not upload code,
 create a Vercel project, or mutate Supabase.
@@ -36,18 +41,18 @@ cron secrets, or any value copied from `.env.local`.
 Create the values below in **Project Settings → Environment Variables**. Use
 separate Preview values where possible. Never add them to the repository.
 
-| Variable | Vercel environments | Notes |
-| --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Production; Preview when Auth is tested | Exact canonical HTTPS origin, without a trailing path |
-| `NEXT_PUBLIC_SUPABASE_URL` | Production + Preview | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Production + Preview | Browser-safe key; RLS remains mandatory |
-| `SUPABASE_SERVICE_ROLE_KEY` | Production; isolated Preview only | Server-only notification/maintenance access |
-| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Production + approved Preview | Browser key restricted to hosted origins |
-| `RESEND_API_KEY` | Production; isolated Preview only | Server-only lead email delivery |
-| `LEAD_NOTIFICATION_FROM_EMAIL` | Production; isolated Preview only | Verified Resend sender |
-| `LEAD_ABUSE_SECRET` | Production + Preview | Independent random value, at least 32 characters |
-| `CRON_SECRET` | Production | Independent random value used by Vercel Cron |
-| `ANALYTICS_HASH_SECRET` | Production + Preview | Independent random value, at least 32 characters |
+| Variable                          | Vercel environments                     | Notes                                                 |
+| --------------------------------- | --------------------------------------- | ----------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`            | Production; Preview when Auth is tested | Exact canonical HTTPS origin, without a trailing path |
+| `NEXT_PUBLIC_SUPABASE_URL`        | Production + Preview                    | Supabase project URL                                  |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`   | Production + Preview                    | Browser-safe key; RLS remains mandatory               |
+| `SUPABASE_SERVICE_ROLE_KEY`       | Production; isolated Preview only       | Server-only notification/maintenance access           |
+| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Production + approved Preview           | Browser key restricted to hosted origins              |
+| `RESEND_API_KEY`                  | Production; isolated Preview only       | Server-only lead email delivery                       |
+| `LEAD_NOTIFICATION_FROM_EMAIL`    | Production; isolated Preview only       | Verified Resend sender                                |
+| `LEAD_ABUSE_SECRET`               | Production + Preview                    | Independent random value, at least 32 characters      |
+| `CRON_SECRET`                     | Production                              | Independent random value used by Vercel Cron          |
+| `ANALYTICS_HASH_SECRET`           | Production + Preview                    | Independent random value, at least 32 characters      |
 
 For the first deployment, Vercel shows the project production domain. Set
 `NEXT_PUBLIC_SITE_URL` to that exact `https://…vercel.app` origin (or the custom

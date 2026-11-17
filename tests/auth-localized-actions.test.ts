@@ -1,15 +1,17 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { signInWithOAuth, signUpWithPassword, redirect } = vi.hoisted(() => ({
-  signInWithOAuth: vi.fn(),
-  signUpWithPassword: vi.fn(),
-  redirect: vi.fn((location: string): never => {
-    throw new Error(`redirect:${location}`);
-  }),
-}));
+const { signInWithOAuth, signUpWithPassword, sendPasswordReset, redirect } =
+  vi.hoisted(() => ({
+    signInWithOAuth: vi.fn(),
+    signUpWithPassword: vi.fn(),
+    sendPasswordReset: vi.fn(),
+    redirect: vi.fn((location: string): never => {
+      throw new Error(`redirect:${location}`);
+    }),
+  }));
 
 vi.mock("@/config/env", () => ({
-  env: { NEXT_PUBLIC_SITE_URL: "https://studiohut.example" },
+  env: { NEXT_PUBLIC_SITE_URL: "https://www.studiohut.co" },
 }));
 vi.mock("next/navigation", () => ({ redirect }));
 vi.mock("@/lib/supabase/server", () => ({
@@ -21,11 +23,15 @@ vi.mock("@/lib/supabase/recovery", () => ({
 vi.mock("@/modules/auth/service", () => ({
   signUpWithPassword,
   signInWithPassword: vi.fn(),
-  sendPasswordReset: vi.fn(),
+  sendPasswordReset,
   updatePassword: vi.fn(),
 }));
 
-import { googleSignInAction, signUpAction } from "@/modules/auth/actions";
+import {
+  forgotPasswordAction,
+  googleSignInAction,
+  signUpAction,
+} from "@/modules/auth/actions";
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -45,7 +51,7 @@ describe("auth action locale destinations", () => {
     const callback = new URL(
       signInWithOAuth.mock.calls[0][0].options.redirectTo,
     );
-    expect(callback.origin).toBe("https://studiohut.example");
+    expect(callback.origin).toBe("https://www.studiohut.co");
     expect(callback.pathname).toBe("/auth/callback");
     expect(callback.searchParams.get("next")).toBe(
       "/en/invitations/test?source=email#accept",
@@ -70,8 +76,26 @@ describe("auth action locale destinations", () => {
       expect.any(String),
     );
     const callback = new URL(signUpWithPassword.mock.calls[0][2]);
+    expect(callback.origin).toBe("https://www.studiohut.co");
     expect(callback.searchParams.get("next")).toBe("/invitations/test");
   });
+
+  it.each(["tr", "en"])(
+    "uses the custom domain for %s password recovery",
+    async (locale) => {
+      sendPasswordReset.mockResolvedValue({ ok: true, message: "check_email" });
+      const input = { email: "owner@example.com", locale };
+      await expect(forgotPasswordAction(input)).resolves.toEqual({
+        ok: true,
+        message: "check_email",
+      });
+      expect(sendPasswordReset).toHaveBeenCalledWith(
+        undefined,
+        input,
+        `https://www.studiohut.co${locale === "en" ? "/en" : ""}/reset-password`,
+      );
+    },
+  );
 
   it("does not send an external next URL to the provider", async () => {
     await expect(

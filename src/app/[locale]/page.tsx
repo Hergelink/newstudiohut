@@ -7,6 +7,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
 import Image from "next/image";
 import { Suspense } from "react";
 
@@ -20,6 +21,20 @@ import { Input } from "@/components/ui/input";
 import { Link } from "@/i18n/navigation";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    alternates: {
+      canonical: locale === "en" ? "/en" : "/",
+      languages: { tr: "/", en: "/en", "x-default": "/" },
+    },
+  };
+}
 
 export default async function HomePage({
   params,
