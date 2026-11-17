@@ -18,6 +18,7 @@ export default async function DashboardPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Dashboard");
+  const team = await getTranslations("Team");
   const user = await requireUser(locale);
   const service = new BusinessAccessService(
     new SupabaseBusinessMembershipRepository(
@@ -60,7 +61,7 @@ export default async function DashboardPage({
                     {membership.businessName}
                   </span>
                   <span className="text-sm capitalize text-muted-foreground">
-                    {membership.role}
+                    {team(`roles.${membership.role}`)}
                   </span>
                 </span>
               </span>

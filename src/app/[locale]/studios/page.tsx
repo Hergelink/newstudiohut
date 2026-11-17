@@ -19,9 +19,16 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Listings" });
   return {
-    title: `${t("title")} | Studiohut`,
+    title: t("title"),
     description: t("subtitle"),
-    alternates: { canonical: locale === "en" ? "/en/studios" : "/studios" },
+    alternates: {
+      canonical: locale === "en" ? "/en/studios" : "/studios",
+      languages: {
+        tr: "/studios",
+        en: "/en/studios",
+        "x-default": "/studios",
+      },
+    },
   };
 }
 

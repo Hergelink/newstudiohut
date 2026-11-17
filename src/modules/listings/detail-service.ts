@@ -1,4 +1,5 @@
 import type { AppLocale } from "@/i18n/routing";
+import { localizedFeatureValue } from "@/modules/features/localization";
 import type {
   ListingDetailFeatureRecord,
   ListingDetailRepository,
@@ -125,7 +126,12 @@ export class ListingDetailService {
           : [];
       }),
       features: listing.features.flatMap((feature) => {
-        const value = featureValue(feature);
+        const value = localizedFeatureValue(
+          featureValue(feature),
+          feature.featureType,
+          feature.validation,
+          locale,
+        );
         return value === null || value === undefined
           ? []
           : [

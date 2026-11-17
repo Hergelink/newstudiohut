@@ -13,7 +13,10 @@ export interface MapAdapter {
 export class GoogleMapsAdapter implements MapAdapter {
   private readonly apiKey?: string;
 
-  constructor(apiKey?: string) {
+  constructor(
+    apiKey?: string,
+    private readonly locale: "tr" | "en" = "tr",
+  ) {
     this.apiKey = apiKey?.trim() || undefined;
   }
 
@@ -30,6 +33,7 @@ export class GoogleMapsAdapter implements MapAdapter {
     url.searchParams.set("q", `${destination.lat},${destination.lng}`);
     url.searchParams.set("zoom", "15");
     url.searchParams.set("maptype", "roadmap");
+    url.searchParams.set("language", this.locale);
     return url.toString();
   }
 

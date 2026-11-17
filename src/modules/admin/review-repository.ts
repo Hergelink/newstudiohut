@@ -40,6 +40,7 @@ export type ReviewFeatureRecord = {
   nameEn: string;
   featureType: FeatureType;
   unit: string | null;
+  validation?: Json;
   valueBoolean: boolean | null;
   valueNumber: number | null;
   valueText: string | null;
@@ -82,7 +83,10 @@ export class SupabaseListingReviewRepository implements ListingReviewRepository 
     const categoryIds = [...new Set(rows.map((row) => row.category_id))];
     const [businesses, categories] = await Promise.all([
       businessIds.length
-        ? this.client.from("businesses").select("id, name").in("id", businessIds)
+        ? this.client
+            .from("businesses")
+            .select("id, name")
+            .in("id", businessIds)
         : Promise.resolve({ data: [], error: null }),
       categoryIds.length
         ? this.client
@@ -94,7 +98,9 @@ export class SupabaseListingReviewRepository implements ListingReviewRepository 
     if (businesses.error) throw businesses.error;
     if (categories.error) throw categories.error;
     return {
-      businesses: new Map((businesses.data ?? []).map((item) => [item.id, item.name])),
+      businesses: new Map(
+        (businesses.data ?? []).map((item) => [item.id, item.name]),
+      ),
       categories: new Map(
         (categories.data ?? []).map((item) => [
           item.id,
@@ -128,7 +134,9 @@ export class SupabaseListingReviewRepository implements ListingReviewRepository 
     }));
   }
 
-  async findPending(listingId: string): Promise<PendingReviewDetailRecord | null> {
+  async findPending(
+    listingId: string,
+  ): Promise<PendingReviewDetailRecord | null> {
     const listingResult = await this.client
       .from("listings")
       .select(pendingColumns)
@@ -143,7 +151,9 @@ export class SupabaseListingReviewRepository implements ListingReviewRepository 
       this.relatedNames([listing]),
       this.client
         .from("listing_images")
-        .select("id, storage_path, alt_text, width, height, sort_order, is_cover")
+        .select(
+          "id, storage_path, alt_text, width, height, sort_order, is_cover",
+        )
         .eq("listing_id", listing.id)
         .order("is_cover", { ascending: false })
         .order("sort_order", { ascending: true }),
@@ -168,7 +178,7 @@ export class SupabaseListingReviewRepository implements ListingReviewRepository 
     const definitions = definitionIds.length
       ? await this.client
           .from("feature_definitions")
-          .select("id, name_tr, name_en, feature_type, unit")
+          .select("id, name_tr, name_en, feature_type, unit, validation")
           .in("id", definitionIds)
       : { data: [], error: null };
     if (definitions.error) throw definitions.error;
@@ -202,8 +212,10 @@ export class SupabaseListingReviewRepository implements ListingReviewRepository 
       created_at: listing.created_at,
       updated_at: listing.updated_at,
       businessName: related.businesses.get(listing.business_id) ?? "—",
-      categoryNameTr: related.categories.get(listing.category_id)?.nameTr ?? "—",
-      categoryNameEn: related.categories.get(listing.category_id)?.nameEn ?? "—",
+      categoryNameTr:
+        related.categories.get(listing.category_id)?.nameTr ?? "—",
+      categoryNameEn:
+        related.categories.get(listing.category_id)?.nameEn ?? "—",
       images: (images.data ?? []).map((image) => ({
         id: image.id,
         storagePath: image.storage_path,
@@ -216,18 +228,22 @@ export class SupabaseListingReviewRepository implements ListingReviewRepository 
         .flatMap((value) => {
           const definition = definitionsById.get(value.feature_definition_id);
           return definition
-            ? [{
-                id: definition.id,
-                nameTr: definition.name_tr,
-                nameEn: definition.name_en,
-                featureType: definition.feature_type,
-                unit: definition.unit,
-                valueBoolean: value.value_boolean,
-                valueNumber: value.value_number,
-                valueText: value.value_text,
-                valueJson: value.value_json,
-                sortOrder: orderById.get(definition.id) ?? Number.MAX_SAFE_INTEGER,
-              }]
+            ? [
+                {
+                  id: definition.id,
+                  nameTr: definition.name_tr,
+                  nameEn: definition.name_en,
+                  featureType: definition.feature_type,
+                  unit: definition.unit,
+                  validation: definition.validation,
+                  valueBoolean: value.value_boolean,
+                  valueNumber: value.value_number,
+                  valueText: value.value_text,
+                  valueJson: value.value_json,
+                  sortOrder:
+                    orderById.get(definition.id) ?? Number.MAX_SAFE_INTEGER,
+                },
+              ]
             : [];
         })
         .sort((a, b) => a.sortOrder - b.sortOrder),

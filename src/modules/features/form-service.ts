@@ -1,4 +1,5 @@
 import type { AppLocale } from "@/i18n/routing";
+import { featureOptionLabels } from "@/modules/features/localization";
 import type {
   ListingFormFeatureRecord,
   ListingFormFeatureRepository,
@@ -36,8 +37,6 @@ export class ListingFormFeatureService {
     return (await this.features.findAssignedByCategory(categoryId)).map(
       (feature): MarketplaceListingFormFeature => {
         const validation = rules(feature);
-        const rawLabels =
-          validation[locale === "en" ? "optionsEn" : "optionsTr"];
         return {
           id: feature.id,
           key: feature.key,
@@ -67,17 +66,7 @@ export class ListingFormFeatureService {
               ? validation.placeholder
               : undefined,
           section: validation.section === "contact" ? "contact" : "category",
-          optionLabels:
-            rawLabels &&
-            typeof rawLabels === "object" &&
-            !Array.isArray(rawLabels)
-              ? Object.fromEntries(
-                  Object.entries(rawLabels).filter(
-                    (entry): entry is [string, string] =>
-                      typeof entry[1] === "string",
-                  ),
-                )
-              : {},
+          optionLabels: featureOptionLabels(feature.validation, locale),
         };
       },
     );

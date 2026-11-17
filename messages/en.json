@@ -1,9 +1,17 @@
 {
   "Metadata": {
-    "title": "Studiohut — Find your space",
-    "description": "Discover photography, podcast, dance and event studios in one place."
+    "title": "StudioHut — Find your space",
+    "description": "Discover photography, music, podcast, dance and event studios in one place."
+  },
+  "Gallery": {
+    "open": "Enlarge photo {index}",
+    "close": "Close gallery",
+    "previous": "Previous photo",
+    "next": "Next photo",
+    "position": "Photo {index} of {count}"
   },
   "Navigation": {
+    "primaryNavigation": "Primary navigation",
     "explore": "Explore",
     "forBusiness": "For businesses",
     "login": "Log in",
@@ -24,13 +32,13 @@
     "categoriesEyebrow": "Categories",
     "categoriesTitle": "A space for every creation",
     "categoriesSubtitle": "Explore categories based on what you need.",
-    "categoryCount": "{count} categories",
+    "categoryCount": "{count, plural, one {# category} other {# categories}}",
     "categoriesEmptyTitle": "Categories are being prepared",
     "categoriesEmptyBody": "Active categories will appear here as they are added. You can keep exploring in the meantime.",
     "categoriesErrorTitle": "Categories could not be loaded",
     "categoriesErrorBody": "This section is temporarily unavailable. Please try again shortly.",
     "trustTitle": "The right space. Clear details. Easy contact.",
-    "trustBody": "Studiohut brings professional studios together with verifiable information and clear details.",
+    "trustBody": "StudioHut brings professional studios together with verifiable information and clear details.",
     "howEyebrow": "How it works",
     "howTitle": "Find the right space in three simple steps.",
     "howSubtitle": "Discover, compare and connect directly with studios without a complicated booking process.",
@@ -50,7 +58,7 @@
   },
   "CategoryPage": {
     "back": "Back to categories",
-    "eyebrow": "Studiohut category"
+    "eyebrow": "StudioHut category"
   },
   "Listings": {
     "eyebrow": "Studio discovery",
@@ -79,7 +87,7 @@
     "minimum": "Minimum",
     "maximum": "Maximum",
     "resultsTitle": "Published studios",
-    "resultCount": "{count} results",
+    "resultCount": "{count, plural, one {# result} other {# results}}",
     "page": "Page {page} of {total}",
     "capacityShort": "Capacity",
     "area": "Area",
@@ -107,7 +115,7 @@
     "area": "Area",
     "address": "Address",
     "location": "Location",
-    "mapUnavailable": "The map is not configured yet. The address and directions link remain available.",
+    "mapUnavailable": "The map is currently unavailable. You can still view the address and get directions.",
     "mapMissingCoordinates": "Map coordinates have not been added for this studio yet.",
     "directions": "Get directions",
     "inquiry": {
@@ -133,7 +141,7 @@
       "duplicate": "A recent inquiry with this email already exists for this studio.",
       "listingUnavailable": "This studio is no longer accepting public inquiries.",
       "tryAgain": "Please wait a moment, then submit the form again.",
-      "configurationError": "Inquiries are temporarily unavailable while the secure server configuration is completed.",
+      "configurationError": "Inquiries are temporarily unavailable. Please try again later.",
       "unexpectedError": "Your inquiry could not be sent. Please try again."
     },
     "notFoundTitle": "This studio could not be found",
@@ -142,7 +150,7 @@
   "Auth": {
     "loginTitle": "Welcome back",
     "loginSubtitle": "Sign in to continue to your account.",
-    "signupTitle": "Join Studiohut",
+    "signupTitle": "Join StudioHut",
     "signupSubtitle": "Save spaces or manage your business.",
     "email": "Email",
     "password": "Password",
@@ -161,7 +169,7 @@
     "resetPasswordSubtitle": "Create a new password with at least 8 characters.",
     "sendResetLink": "Send reset link",
     "resetPasswordAction": "Update password",
-    "noAccount": "New to Studiohut?",
+    "noAccount": "New to StudioHut?",
     "hasAccount": "Already have an account?",
     "checkEmail": "Check your inbox to verify your email address.",
     "resetEmailSent": "A password reset link was sent to your email address.",
@@ -187,7 +195,7 @@
     "slug": "StudioHut link name",
     "slugHint": "Choose a short name for your studio links on StudioHut, such as deneme-studio. This is not your business website; do not include www, dots, or a domain ending.",
     "slugPlaceholder": "deneme-studio",
-    "slugInvalid": "Enter a link name such as deneme-studio (2–100 characters, lowercase letters, numbers, and single hyphens). Do not enter a website address.",
+    "slugInvalid": "Enter a link name such as deneme-studio (2–100 characters: a–z, numbers, and single hyphens between words). Do not enter a website address.",
     "save": "Create business",
     "saving": "Creating…",
     "validationError": "Check the business details and try again.",
@@ -235,8 +243,8 @@
     "inviteLinkHint": "For security, the link is not shown again. Revoke the old invitation and create a new one if needed.",
     "copy": "Copy",
     "copied": "Copied",
-    "validationError": "Select a valid email address and role.",
-    "memberExists": "This email address is already a member of the business.",
+    "validationError": "Enter a valid email address and select a role.",
+    "memberExists": "A user with this email address is already a member of the business.",
     "members": "Team members",
     "you": "(you)",
     "joined": "Joined {date}",
@@ -270,30 +278,30 @@
     "accept": "Accept invitation",
     "accepting": "Accepting…",
     "acceptError": "The invitation could not be accepted. Make sure you signed in with the invited email address.",
-    "invalid": "This invitation is invalid, expired, revoked, or belongs to another email address."
+    "invalid": "This invitation is invalid, has expired, has been revoked, or is linked to another email address."
   },
   "AnalyticsDashboard": {
     "back": "Back to business",
     "eyebrow": "Performance",
     "title": "Studio analytics",
-    "subtitle": "Privacy-conscious activity from the last {days} days.",
+    "subtitle": "Privacy-conscious activity from the last {days, plural, one {# day} other {# days}}.",
     "periodLabel": "Analytics period",
-    "days": "{days} days",
+    "days": "{days, plural, one {# day} other {# days}}",
     "summary": "Performance summary",
     "views": "Listing views",
     "uniqueViewers": "Unique viewers",
     "leads": "Inquiries",
     "dailyTitle": "Daily listing views",
-    "dailyValue": "{date}: {views} views, {leads} inquiries",
+    "dailyValue": "{date}: {views, plural, one {# view} other {# views}}, {leads, plural, one {# inquiry} other {# inquiries}}",
     "topTitle": "Top studios",
-    "listingMetrics": "{views} views · {leads} inquiries",
+    "listingMetrics": "{views, plural, one {# view} other {# views}} · {leads, plural, one {# inquiry} other {# inquiries}}",
     "empty": "No studio activity is available for this period."
   },
   "LeadDashboard": {
     "back": "Back to business",
     "title": "Inbound inquiries",
     "subtitle": "Review contact requests sent from your published studio pages.",
-    "count": "{count} inquiries",
+    "count": "{count, plural, one {# inquiry} other {# inquiries}}",
     "emptyTitle": "No inquiries yet",
     "emptyBody": "New requests from published studio pages will appear here.",
     "status": {
@@ -308,7 +316,7 @@
   "LeadDetail": {
     "back": "Back to inquiries",
     "received": "Received {date}",
-    "updated": "Lead status updated.",
+    "updated": "Inquiry status updated.",
     "contact": "Contact details",
     "name": "Name",
     "email": "Email",
@@ -317,8 +325,11 @@
     "notSpecified": "Not specified",
     "message": "Project details",
     "attribution": "Source and attribution",
-    "source": "Lead source",
-    "status": "Lead status",
+    "source": "Inquiry source",
+    "utmSource": "UTM source",
+    "utmMedium": "UTM medium",
+    "utmCampaign": "UTM campaign",
+    "status": "Inquiry status",
     "statuses": {
       "new": "New",
       "contacted": "Contacted",
@@ -329,9 +340,9 @@
     },
     "save": "Update status",
     "saving": "Updating…",
-    "validationError": "Choose a valid lead status.",
+    "validationError": "Choose a valid inquiry status.",
     "notFound": "This inquiry could not be found.",
-    "unexpectedError": "The lead status could not be updated."
+    "unexpectedError": "The inquiry status could not be updated."
   },
   "ListingForm": {
     "back": "Back to business",
@@ -343,7 +354,7 @@
     "editTitle": "Edit studio draft",
     "editSubtitle": "Update the space details and its category-specific features.",
     "saved": "Changes saved.",
-    "rejectionReason": "Review note: {reason}",
+    "rejectionReason": "Review note:",
     "basics": "Basic information",
     "location": "Location",
     "details": "Capacity and pricing",
@@ -423,26 +434,32 @@
     "approvalReady": "Automatic listing approval emails to business owners are enabled.",
     "approvalDisabled": "Listing approval emails to business owners have not been enabled yet.",
     "title": "Listing email notifications",
-    "ready": "You can also process ready submission and listing approval emails here.",
+    "ready": "You can also send queued submission and listing approval emails here.",
     "testSenderHint": "A test sender is in use: email can only be sent to the Resend account's address. Verify a sender domain to email other studio owners.",
     "notConfigured": "Email notifications have not been enabled yet. You can follow submissions in the review list below.",
     "send": "Send queued notifications",
     "sending": "Sending…",
     "sent": "Notifications were accepted by the email service.",
     "empty": "No notifications are ready to send right now.",
-    "failed": "Some notifications could not be sent. Queued jobs will be retried."
+    "failed": "Some notifications could not be sent. Check the email settings and try again."
   },
   "ListingApprovalEmail": {
-    "subject": "StudioHut — Your listing is approved: {studio}",
+    "subject": "StudioHut — Your listing has been approved: {studio}",
     "body": "Your listing has been approved!\n\nYour studio, {studio}, is now published on StudioHut.\n\nView your listing:\n{url}\n\nThank you for joining StudioHut."
   },
+  "LeadNotificationEmail": {
+    "subject": "StudioHut — New studio inquiry: {studio}",
+    "bilingualSubject": "StudioHut — Yeni talep / New inquiry: {studio}",
+    "body": "Your studio has received a new inquiry.\n\nStudio: {studio}\nName: {name}\nEmail: {email}\nPhone: {phone}\nPreferred date: {preferredDate}\n\nProject details:\n{message}",
+    "dateNotSpecified": "Not specified"
+  },
   "ReviewNotificationEmail": {
-    "subject": "StudioHut — New studio review: {studio}",
+    "subject": "StudioHut — Studio submitted for review: {studio}",
     "body": "A studio has been submitted for your review.\n\nStudio: {studio}\nBusiness: {business}\nLocation: {location}\n\nReview and publish or reject the listing:\n{url}\n\nThis link requires signing in with a platform administrator account."
   },
   "ReviewSubmit": {
     "title": "Submit for review",
-    "subtitle": "When the details are complete, the studio enters the platform review queue and cannot be edited during review.",
+    "subtitle": "Submit your completed studio listing for review. It cannot be edited while under review.",
     "submit": "Submit for review",
     "submitting": "Submitting…",
     "incomplete": "Complete the missing items before submitting for review:",
@@ -472,14 +489,14 @@
   "AdminAudit": {
     "eyebrow": "Accountability",
     "title": "Audit activity",
-    "subtitle": "Review recent privileged changes with the actor, business, entity, and before/after values.",
+    "subtitle": "Review recent changes, who made them, the affected business and record, and the before and after values.",
     "system": "System",
     "platform": "Platform",
     "details": "View recorded changes",
     "before": "Before",
     "after": "After",
     "emptyTitle": "No audit activity yet",
-    "emptyBody": "Privileged listing decisions will appear here after the review migration is applied.",
+    "emptyBody": "Listing publishing and rejection decisions will appear here.",
     "actions": {
       "listingPublished": "Listing published",
       "listingRejected": "Listing rejected"
@@ -500,12 +517,12 @@
   "AdminCategoryForm": {
     "back": "Back to categories",
     "createTitle": "Create category",
-    "createSubtitle": "Add Turkish and English category content without hardcoding it in the application.",
+    "createSubtitle": "Add the category name and description in Turkish and English.",
     "editTitle": "Edit {name}",
     "editSubtitle": "Changes affect public navigation and every form using this category.",
     "saved": "Category configuration saved.",
     "slug": "URL slug",
-    "slugHint": "Lowercase letters, numbers, and hyphens only.",
+    "slugHint": "Use a–z, numbers, and single hyphens between words.",
     "nameTr": "Turkish name",
     "nameEn": "English name",
     "descriptionTr": "Turkish description",
@@ -526,7 +543,7 @@
     "deleting": "Deleting…",
     "deleteConfirmation": "Permanently delete this category? This cannot be undone.",
     "assignmentsTitle": "Assigned features",
-    "assignmentsSubtitle": "These records dynamically control the listing form and searchable filters.",
+    "assignmentsSubtitle": "Choose the fields shown in this category's listing form and search filters.",
     "assignmentsEmpty": "No feature definitions are assigned to this category.",
     "feature": "Feature definition",
     "chooseFeature": "Choose a feature",
@@ -563,7 +580,7 @@
     "editSubtitle": "Changing this definition affects every category to which it is assigned.",
     "saved": "Feature definition saved.",
     "key": "Stable key",
-    "keyHint": "Lowercase letters, numbers, and underscores; start with a letter.",
+    "keyHint": "Use a–z, numbers, and underscores; start with a letter.",
     "nameTr": "Turkish name",
     "nameEn": "English name",
     "type": "Field type",
@@ -577,9 +594,9 @@
     "unit": "Unit",
     "options": "Selection options",
     "optionsPlaceholder": "daylight\nflash\ncontinuous_light",
-    "optionsHint": "Required only for select fields. Enter one option per line or separate with commas.",
-    "min": "Minimum number",
-    "max": "Maximum number",
+    "optionsHint": "Required for single-select and multi-select fields. Enter one option per line or separate them with commas.",
+    "min": "Minimum value",
+    "max": "Maximum value",
     "maxLength": "Maximum text length",
     "create": "Create feature",
     "creating": "Creating…",
@@ -634,6 +651,7 @@
     "unexpectedError": "The review decision could not be saved. Please try again."
   },
   "Common": {
+    "loading": "Loading…",
     "brandTagline": "Creative space marketplace",
     "skip": "Skip to content",
     "errorTitle": "Something went wrong",

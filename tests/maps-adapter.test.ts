@@ -31,6 +31,13 @@ describe("GoogleMapsAdapter", () => {
     );
     expect(embed.searchParams.get("q")).toBe("41.01,29.02");
     expect(embed.searchParams.get("key")).toBe("public-key");
+    expect(embed.searchParams.get("language")).toBe("tr");
     expect(directions.searchParams.get("destination")).toBe("41.01,29.02");
+  });
+
+  it("uses the selected site language for map labels", () => {
+    const adapter = new GoogleMapsAdapter("public-key", "en");
+    const embed = new URL(adapter.buildEmbedUrl({ lat: 41.01, lng: 29.02 }));
+    expect(embed.searchParams.get("language")).toBe("en");
   });
 });

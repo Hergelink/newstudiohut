@@ -7,12 +7,25 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { CategoryFeatureForm } from "@/components/admin/category-feature-form";
 import { FeatureDefinitionForm } from "@/components/admin/feature-definition-form";
+import { FieldError } from "@/components/admin/catalog-action-message";
 
 afterEach(cleanup);
 
 const action = vi.fn(async () => ({ ok: false }));
 
 describe("admin catalog components", () => {
+  it("shows translated field feedback instead of internal validation messages", () => {
+    render(
+      <FieldError
+        errors={["Too small: expected string to have >=1 characters"]}
+        message="Bu alanı kontrol edin."
+      />,
+    );
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Bu alanı kontrol edin.",
+    );
+    expect(screen.queryByText(/Too small/)).not.toBeInTheDocument();
+  });
   it("renders every supported dynamic feature type", () => {
     render(
       <FeatureDefinitionForm
@@ -49,9 +62,13 @@ describe("admin catalog components", () => {
     expect(type).toHaveTextContent("Text");
   });
 
-  it("renders database feature definitions as assignment choices", () => {
+  it.each([
+    { locale: "tr", name: "Ses yalıtımı" },
+    { locale: "en", name: "Soundproofing" },
+  ])("renders feature assignment choices in $locale", ({ locale, name }) => {
     render(
       <CategoryFeatureForm
+        locale={locale}
         action={action}
         features={[
           {
@@ -80,7 +97,7 @@ describe("admin catalog components", () => {
       />,
     );
     expect(screen.getByLabelText("Feature")).toHaveTextContent(
-      "soundproof — Ses yalıtımı",
+      `soundproof — ${name}`,
     );
     expect(screen.getByLabelText("Required")).toBeInTheDocument();
     expect(screen.getByLabelText("Filterable")).toBeInTheDocument();

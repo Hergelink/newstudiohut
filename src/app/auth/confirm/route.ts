@@ -2,7 +2,7 @@ import type { EmailOtpType } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { safeNextPath } from "@/modules/auth/safe-next";
+import { authFailurePath, safeNextPath } from "@/modules/auth/safe-next";
 
 const emailOtpTypes = new Set<EmailOtpType>([
   "email",
@@ -33,5 +33,7 @@ export async function GET(request: NextRequest) {
     if (!error) return NextResponse.redirect(`${origin}${next}`);
   }
 
-  return NextResponse.redirect(`${origin}/login?error=confirmation`);
+  return NextResponse.redirect(
+    `${origin}${authFailurePath(next, "confirmation")}`,
+  );
 }

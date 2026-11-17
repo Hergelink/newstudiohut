@@ -48,7 +48,7 @@ export async function SiteHeader({ locale }: { locale: string }) {
           <BrandLogo />
           <nav
             className="hidden items-center gap-1 md:flex"
-            aria-label="Primary navigation"
+            aria-label={t("primaryNavigation")}
           >
             <Button asChild variant="ghost" className="font-medium">
               <Link href="/studios">{t("explore")}</Link>

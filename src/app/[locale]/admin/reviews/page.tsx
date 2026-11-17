@@ -2,6 +2,7 @@ import { ArrowRight, ClipboardCheck, MapPin } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
+import { APP_TIME_ZONE } from "@/i18n/format";
 import type { AppLocale } from "@/i18n/routing";
 import { listPendingReviews } from "@/modules/admin/server";
 import { ReviewNotificationControls } from "@/components/admin/review-notification-controls";
@@ -30,6 +31,7 @@ export default async function AdminReviewsPage({
     {
       dateStyle: "medium",
       timeStyle: "short",
+      timeZone: APP_TIME_ZONE,
     },
   );
 

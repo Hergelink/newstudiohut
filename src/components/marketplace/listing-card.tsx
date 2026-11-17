@@ -20,6 +20,7 @@ export function ListingCard({
   locale: AppLocale;
   labels: { capacity: string; area: string; priceOnRequest: string };
 }) {
+  const number = new Intl.NumberFormat(locale === "en" ? "en-GB" : "tr-TR");
   const price =
     listing.priceAmount === null
       ? labels.priceOnRequest
@@ -84,13 +85,13 @@ export function ListingCard({
             {listing.capacity ? (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1.5">
                 <UsersRound className="size-3.5" aria-hidden="true" />
-                {labels.capacity}: {listing.capacity}
+                {labels.capacity}: {number.format(listing.capacity)}
               </span>
             ) : null}
             {listing.areaSqm ? (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1.5">
                 <Maximize2 className="size-3.5" aria-hidden="true" />
-                {labels.area}: {listing.areaSqm} m²
+                {labels.area}: {number.format(listing.areaSqm)} m²
               </span>
             ) : null}
           </div>

@@ -22,6 +22,7 @@ function validCoordinates(
 }
 
 export function ListingMap({
+  locale = "tr",
   apiKey,
   latitude,
   longitude,
@@ -29,6 +30,7 @@ export function ListingMap({
   title,
   labels,
 }: {
+  locale?: string;
   apiKey?: string;
   latitude: number | null;
   longitude: number | null;
@@ -41,7 +43,7 @@ export function ListingMap({
     directions: string;
   };
 }) {
-  const adapter = new GoogleMapsAdapter(apiKey);
+  const adapter = new GoogleMapsAdapter(apiKey, locale === "en" ? "en" : "tr");
   const availability = adapter.availability();
   const coordinates = validCoordinates(latitude, longitude);
   const directionsUrl = coordinates

@@ -17,14 +17,12 @@ const job: ClaimedReviewNotification = {
 function setup(overrides: Partial<ReviewNotificationRepository> = {}) {
   const repository = {
     claim: vi.fn().mockResolvedValue([job]),
-    getContext: vi
-      .fn()
-      .mockResolvedValue({
-        listingName: "Moda Studio",
-        businessName: "Moda",
-        district: "Kadıköy",
-        city: "İstanbul",
-      }),
+    getContext: vi.fn().mockResolvedValue({
+      listingName: "Moda Studio",
+      businessName: "Moda",
+      district: "Kadıköy",
+      city: "İstanbul",
+    }),
     markSent: vi.fn().mockResolvedValue(undefined),
     markFailed: vi.fn().mockResolvedValue(undefined),
     markCancelled: vi.fn().mockResolvedValue(undefined),
@@ -51,7 +49,7 @@ describe("admin studio-review notifications", () => {
     expect(email.send).toHaveBeenCalledWith({
       idempotencyKey: "studio-review/job-1",
       to: "admin@example.com",
-      subject: "StudioHut — Yeni stüdyo incelemesi: Moda Studio",
+      subject: "StudioHut — İncelemeye gönderilen stüdyo: Moda Studio",
       text: expect.stringContaining(
         "https://newstudiohut.vercel.app/admin/reviews/studio-1",
       ),
@@ -66,7 +64,7 @@ describe("admin studio-review notifications", () => {
     await service.process();
     expect(email.send).toHaveBeenCalledWith(
       expect.objectContaining({
-        subject: "StudioHut — New studio review: Moda Studio",
+        subject: "StudioHut — Studio submitted for review: Moda Studio",
         text: expect.stringContaining("/en/admin/reviews/studio-1"),
       }),
     );

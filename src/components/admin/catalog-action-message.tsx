@@ -18,10 +18,16 @@ export function CatalogActionMessage({
   );
 }
 
-export function FieldError({ errors }: { errors?: string[] }) {
+export function FieldError({
+  errors,
+  message,
+}: {
+  errors?: string[];
+  message: string;
+}) {
   return errors?.length ? (
     <p className="text-sm text-destructive" role="alert">
-      {errors[0]}
+      {message}
     </p>
   ) : null;
 }

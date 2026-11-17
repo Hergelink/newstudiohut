@@ -12,11 +12,7 @@ import {
   updatePassword,
 } from "@/modules/auth/service";
 import type { AuthActionResult } from "@/modules/auth/types";
-import { safeNextPath } from "@/modules/auth/safe-next";
-
-function localePath(locale: string, path: string) {
-  return locale === "en" ? `/en${path}` : path;
-}
+import { localePath, safeNextPath } from "@/modules/auth/safe-next";
 
 function asError(error: unknown): AuthActionResult {
   return {

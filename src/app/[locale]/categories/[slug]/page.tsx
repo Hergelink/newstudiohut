@@ -25,11 +25,16 @@ export async function generateMetadata({
   if (!category) return {};
 
   return {
-    title: `${category.name} | Studiohut`,
+    title: category.name,
     description: category.description ?? undefined,
     alternates: {
       canonical:
         locale === "en" ? `/en/categories/${slug}` : `/categories/${slug}`,
+      languages: {
+        tr: `/categories/${slug}`,
+        en: `/en/categories/${slug}`,
+        "x-default": `/categories/${slug}`,
+      },
     },
   };
 }

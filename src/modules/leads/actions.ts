@@ -4,6 +4,7 @@ import { createHmac } from "node:crypto";
 import { headers } from "next/headers";
 
 import { env } from "@/config/env";
+import { todayDate } from "@/i18n/format";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createLeadNotificationService } from "@/modules/leads/notifications";
 import { SupabaseLeadRepository } from "@/modules/leads/repository";
@@ -25,10 +26,15 @@ export type LeadActionState = {
 
 async function abuseKeyHash(secret: string) {
   const requestHeaders = await headers();
-  const forwarded = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const forwarded = requestHeaders
+    .get("x-forwarded-for")
+    ?.split(",")[0]
+    ?.trim();
   const ip = forwarded || requestHeaders.get("x-real-ip") || "unknown";
   const userAgent = requestHeaders.get("user-agent") || "unknown";
-  return createHmac("sha256", secret).update(`${ip}|${userAgent}`).digest("hex");
+  return createHmac("sha256", secret)
+    .update(`${ip}|${userAgent}`)
+    .digest("hex");
 }
 
 function errorMessage(error: unknown) {
@@ -54,21 +60,21 @@ export async function createLeadAction(
   }
   const startedAt = Number(formData.get("startedAt"));
   const elapsed = Date.now() - startedAt;
-  if (!Number.isFinite(startedAt) || elapsed < 1500 || elapsed > 2 * 60 * 60_000) {
+  if (
+    !Number.isFinite(startedAt) ||
+    elapsed < 1500 ||
+    elapsed > 2 * 60 * 60_000
+  ) {
     return { ok: false, message: "try_again" };
   }
   if (!env.LEAD_ABUSE_SECRET) {
     return { ok: false, message: "configuration_error" };
   }
 
-  const input = createLeadInputFromFormData(
-    formData,
-    listingId,
-    attribution,
-  );
+  const input = createLeadInputFromFormData(formData, listingId, attribution);
   if (
     typeof input.preferredDate === "string" &&
-    input.preferredDate < new Date().toISOString().slice(0, 10)
+    input.preferredDate < todayDate()
   ) {
     return {
       ok: false,
@@ -84,11 +90,7 @@ export async function createLeadAction(
       createLeadNotificationService() ?? undefined,
     ).create(input, await abuseKeyHash(env.LEAD_ABUSE_SECRET));
   } catch (error) {
-    if (
-      typeof error === "object" &&
-      error &&
-      "issues" in error
-    ) {
+    if (typeof error === "object" && error && "issues" in error) {
       const issues = error.issues;
       if (Array.isArray(issues)) {
         const fieldErrors: Record<string, string[]> = {};

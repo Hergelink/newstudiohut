@@ -54,7 +54,7 @@ describe("production hardening", () => {
 
   it("provides a root-level accessible production error fallback", () => {
     expect(globalError).toContain('"use client"');
-    expect(globalError).toContain('<html lang="tr">');
+    expect(globalError).toContain("<html lang={locale}>");
     expect(globalError).toContain("<main");
     expect(globalError).toContain("<h1");
     expect(globalError).toContain("onClick={reset}");

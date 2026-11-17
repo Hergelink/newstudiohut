@@ -117,4 +117,26 @@ describe("ListingDetailService", () => {
       service.getPublishedByPath("business", "draft", "tr"),
     ).resolves.toBeNull();
   });
+
+  it("translates saved selection values using feature definition metadata", async () => {
+    const service = new ListingDetailService(
+      new InMemoryDetailRepository({
+        ...record,
+        features: [
+          {
+            ...record.features[1],
+            validation: { optionsTr: { audio: "Ses", video: "Video" } },
+          },
+        ],
+      }),
+      media,
+    );
+    const listing = await service.getPublishedByPath(
+      "moda-creative",
+      "moda-podcast-studio",
+      "tr",
+    );
+    expect(listing?.features[0].value).toEqual(["Ses", "Video"]);
+    expect(record.features[1].valueJson).toEqual(["audio", "video"]);
+  });
 });

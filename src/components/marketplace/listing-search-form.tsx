@@ -34,8 +34,8 @@ type SearchLabels = {
   maximum: string;
 };
 
-function optionLabel(option: string) {
-  return option.replaceAll("_", " ");
+function optionLabel(definition: MarketplaceFeatureFilter, option: string) {
+  return definition.optionLabels?.[option] ?? option.replaceAll("_", " ");
 }
 
 export function ListingSearchForm({
@@ -58,7 +58,11 @@ export function ListingSearchForm({
   labels: SearchLabels;
 }) {
   return (
-    <form action={action} method="get" className="rounded-3xl border bg-card p-5 shadow-sm sm:p-6">
+    <form
+      action={action}
+      method="get"
+      className="rounded-3xl border bg-card p-5 shadow-sm sm:p-6"
+    >
       <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
         <SlidersHorizontal className="size-4" aria-hidden="true" />
         {labels.search}
@@ -66,11 +70,19 @@ export function ListingSearchForm({
       <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <label className="grid gap-2 text-sm font-medium xl:col-span-2">
           {labels.query}
-          <Input name="q" defaultValue={query.q} placeholder={labels.queryPlaceholder} />
+          <Input
+            name="q"
+            defaultValue={query.q}
+            placeholder={labels.queryPlaceholder}
+          />
         </label>
         <label className="grid gap-2 text-sm font-medium">
           {labels.location}
-          <Input name="location" defaultValue={query.location} placeholder={labels.locationPlaceholder} />
+          <Input
+            name="location"
+            defaultValue={query.location}
+            placeholder={labels.locationPlaceholder}
+          />
         </label>
         {lockedCategory ? (
           <div className="grid gap-2 text-sm font-medium">
@@ -89,22 +101,42 @@ export function ListingSearchForm({
             >
               <option value="">{labels.allCategories}</option>
               {categories.map((category) => (
-                <option key={category.id} value={category.slug}>{category.name}</option>
+                <option key={category.id} value={category.slug}>
+                  {category.name}
+                </option>
               ))}
             </select>
           </label>
         )}
         <label className="grid gap-2 text-sm font-medium">
           {labels.minPrice}
-          <Input name="minPrice" type="number" min="0" inputMode="numeric" defaultValue={query.minPrice} />
+          <Input
+            name="minPrice"
+            type="number"
+            min="0"
+            inputMode="numeric"
+            defaultValue={query.minPrice}
+          />
         </label>
         <label className="grid gap-2 text-sm font-medium">
           {labels.maxPrice}
-          <Input name="maxPrice" type="number" min="0" inputMode="numeric" defaultValue={query.maxPrice} />
+          <Input
+            name="maxPrice"
+            type="number"
+            min="0"
+            inputMode="numeric"
+            defaultValue={query.maxPrice}
+          />
         </label>
         <label className="grid gap-2 text-sm font-medium">
           {labels.capacity}
-          <Input name="capacity" type="number" min="0" inputMode="numeric" defaultValue={query.capacity} />
+          <Input
+            name="capacity"
+            type="number"
+            min="0"
+            inputMode="numeric"
+            defaultValue={query.capacity}
+          />
         </label>
         <label className="grid gap-2 text-sm font-medium">
           {labels.sort}
@@ -121,7 +153,9 @@ export function ListingSearchForm({
       </div>
       {featureDefinitions.length ? (
         <fieldset className="mt-6 border-t pt-6">
-          <legend className="px-1 text-sm font-semibold">{labels.featureFilters}</legend>
+          <legend className="px-1 text-sm font-semibold">
+            {labels.featureFilters}
+          </legend>
           <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {featureDefinitions.map((definition) => {
               const selected = featureFilters.find(
@@ -130,11 +164,18 @@ export function ListingSearchForm({
 
               if (definition.featureType === "boolean") {
                 return (
-                  <label key={definition.id} className="grid gap-2 text-sm font-medium">
+                  <label
+                    key={definition.id}
+                    className="grid gap-2 text-sm font-medium"
+                  >
                     {definition.name}
                     <select
                       name={featureParam(definition.key)}
-                      defaultValue={selected?.type === "boolean" ? String(selected.value) : ""}
+                      defaultValue={
+                        selected?.type === "boolean"
+                          ? String(selected.value)
+                          : ""
+                      }
                       className="h-11 rounded-xl border border-input bg-background px-4 text-sm shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       <option value="">{labels.any}</option>
@@ -147,9 +188,13 @@ export function ListingSearchForm({
 
               if (definition.featureType === "number") {
                 return (
-                  <fieldset key={definition.id} className="rounded-2xl border p-3">
+                  <fieldset
+                    key={definition.id}
+                    className="rounded-2xl border p-3"
+                  >
                     <legend className="px-1 text-sm font-medium">
-                      {definition.name}{definition.unit ? ` (${definition.unit})` : ""}
+                      {definition.name}
+                      {definition.unit ? ` (${definition.unit})` : ""}
                     </legend>
                     <div className="mt-1 grid grid-cols-2 gap-2">
                       <Input
@@ -160,7 +205,11 @@ export function ListingSearchForm({
                         min={definition.minimum ?? undefined}
                         max={definition.maximum ?? undefined}
                         placeholder={labels.minimum}
-                        defaultValue={selected?.type === "number" ? selected.minimum : undefined}
+                        defaultValue={
+                          selected?.type === "number"
+                            ? selected.minimum
+                            : undefined
+                        }
                       />
                       <Input
                         aria-label={`${definition.name} ${labels.maximum}`}
@@ -170,7 +219,11 @@ export function ListingSearchForm({
                         min={definition.minimum ?? undefined}
                         max={definition.maximum ?? undefined}
                         placeholder={labels.maximum}
-                        defaultValue={selected?.type === "number" ? selected.maximum : undefined}
+                        defaultValue={
+                          selected?.type === "number"
+                            ? selected.maximum
+                            : undefined
+                        }
                       />
                     </div>
                   </fieldset>
@@ -179,16 +232,23 @@ export function ListingSearchForm({
 
               if (definition.featureType === "select") {
                 return (
-                  <label key={definition.id} className="grid gap-2 text-sm font-medium">
+                  <label
+                    key={definition.id}
+                    className="grid gap-2 text-sm font-medium"
+                  >
                     {definition.name}
                     <select
                       name={featureParam(definition.key)}
-                      defaultValue={selected?.type === "select" ? selected.value : ""}
-                      className="h-11 rounded-xl border border-input bg-background px-4 text-sm capitalize shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      defaultValue={
+                        selected?.type === "select" ? selected.value : ""
+                      }
+                      className="h-11 rounded-xl border border-input bg-background px-4 text-sm shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       <option value="">{labels.any}</option>
                       {definition.options.map((option) => (
-                        <option key={option} value={option}>{optionLabel(option)}</option>
+                        <option key={option} value={option}>
+                          {optionLabel(definition, option)}
+                        </option>
                       ))}
                     </select>
                   </label>
@@ -196,15 +256,22 @@ export function ListingSearchForm({
               }
 
               if (definition.featureType === "multi_select") {
-                const selectedValues = selected?.type === "multi_select"
-                  ? selected.values
-                  : [];
+                const selectedValues =
+                  selected?.type === "multi_select" ? selected.values : [];
                 return (
-                  <fieldset key={definition.id} className="rounded-2xl border p-3">
-                    <legend className="px-1 text-sm font-medium">{definition.name}</legend>
+                  <fieldset
+                    key={definition.id}
+                    className="rounded-2xl border p-3"
+                  >
+                    <legend className="px-1 text-sm font-medium">
+                      {definition.name}
+                    </legend>
                     <div className="mt-1 flex flex-wrap gap-3">
                       {definition.options.map((option) => (
-                        <label key={option} className="inline-flex items-center gap-2 text-sm capitalize">
+                        <label
+                          key={option}
+                          className="inline-flex items-center gap-2 text-sm"
+                        >
                           <input
                             type="checkbox"
                             name={featureParam(definition.key)}
@@ -212,7 +279,7 @@ export function ListingSearchForm({
                             defaultChecked={selectedValues.includes(option)}
                             className="size-4 rounded border-input accent-primary"
                           />
-                          {optionLabel(option)}
+                          {optionLabel(definition, option)}
                         </label>
                       ))}
                     </div>
@@ -221,12 +288,17 @@ export function ListingSearchForm({
               }
 
               return (
-                <label key={definition.id} className="grid gap-2 text-sm font-medium">
+                <label
+                  key={definition.id}
+                  className="grid gap-2 text-sm font-medium"
+                >
                   {definition.name}
                   <Input
                     name={featureParam(definition.key)}
                     maxLength={definition.maxLength ?? undefined}
-                    defaultValue={selected?.type === "text" ? selected.value : undefined}
+                    defaultValue={
+                      selected?.type === "text" ? selected.value : undefined
+                    }
                   />
                 </label>
               );
@@ -239,9 +311,15 @@ export function ListingSearchForm({
         </p>
       ) : null}
       <div className="mt-5 flex flex-wrap gap-3">
-        <Button type="submit"><Search className="size-4" aria-hidden="true" />{labels.search}</Button>
+        <Button type="submit">
+          <Search className="size-4" aria-hidden="true" />
+          {labels.search}
+        </Button>
         <Button asChild type="button" variant="outline">
-          <Link href={resetHref}><RotateCcw className="size-4" aria-hidden="true" />{labels.clear}</Link>
+          <Link href={resetHref}>
+            <RotateCcw className="size-4" aria-hidden="true" />
+            {labels.clear}
+          </Link>
         </Button>
       </div>
     </form>

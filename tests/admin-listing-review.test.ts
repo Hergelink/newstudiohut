@@ -73,25 +73,59 @@ function media(): MediaUrlRepository {
     createSignedListingImageUrls: vi
       .fn()
       .mockResolvedValue(
-        new Map([[detailRecord.images[0].storagePath, "https://signed.test/image"]]),
+        new Map([
+          [detailRecord.images[0].storagePath, "https://signed.test/image"],
+        ]),
       ),
   };
 }
 
 describe("listing review validation", () => {
   it("allows publishing without a note and requires a bounded rejection reason", () => {
-    expect(listingReviewSchema.safeParse({ decision: "publish" }).success).toBe(true);
-    expect(listingReviewSchema.safeParse({ decision: "reject", reason: "" }).success).toBe(false);
+    expect(listingReviewSchema.safeParse({ decision: "publish" }).success).toBe(
+      true,
+    );
     expect(
-      listingReviewSchema.safeParse({ decision: "reject", reason: "Missing address details" }).success,
+      listingReviewSchema.safeParse({ decision: "reject", reason: "" }).success,
+    ).toBe(false);
+    expect(
+      listingReviewSchema.safeParse({
+        decision: "reject",
+        reason: "Missing address details",
+      }).success,
     ).toBe(true);
     expect(
-      listingReviewSchema.safeParse({ decision: "reject", reason: "x".repeat(1001) }).success,
+      listingReviewSchema.safeParse({
+        decision: "reject",
+        reason: "x".repeat(1001),
+      }).success,
     ).toBe(false);
   });
 });
 
 describe("ListingReviewService", () => {
+  it("uses localized option labels in the review details", async () => {
+    const service = new ListingReviewService(
+      repository({
+        findPending: vi.fn().mockResolvedValue({
+          ...detailRecord,
+          features: [
+            {
+              ...detailRecord.features[0],
+              featureType: "select",
+              valueBoolean: null,
+              valueText: "daylight",
+              validation: { optionsTr: { daylight: "Gün ışığı" } },
+            },
+          ],
+        }),
+      }),
+      media(),
+    );
+    expect(
+      (await service.getPending("listing-1", "tr"))?.features[0].value,
+    ).toBe("Gün ışığı");
+  });
   it("localizes queue and detail records without changing stored values", async () => {
     const service = new ListingReviewService(repository(), media());
 

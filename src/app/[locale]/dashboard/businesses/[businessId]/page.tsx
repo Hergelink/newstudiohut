@@ -36,6 +36,7 @@ export default async function BusinessDashboardPage({
     "listings.read",
   );
   const t = await getTranslations("BusinessDashboard");
+  const team = await getTranslations("Team");
   const listings = await new ListingManagementService(
     new SupabaseListingManagementRepository(client),
   ).listForBusiness(businessId);
@@ -60,7 +61,7 @@ export default async function BusinessDashboardPage({
       <div className="mt-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary">
-            {t("eyebrow", { role: membership.role })}
+            {t("eyebrow", { role: team(`roles.${membership.role}`) })}
           </p>
           <h1 className="mt-2 text-4xl font-semibold tracking-tight">
             {membership.businessName}

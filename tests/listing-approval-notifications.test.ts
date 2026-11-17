@@ -16,13 +16,11 @@ const job: ApprovalNotificationJob = {
 function setup(overrides: Partial<ApprovalNotificationRepository> = {}) {
   const repository = {
     claim: vi.fn().mockResolvedValue([job]),
-    getContext: vi
-      .fn()
-      .mockResolvedValue({
-        listingName: "Moda Studio",
-        listingSlug: "moda-studio",
-        businessSlug: "moda",
-      }),
+    getContext: vi.fn().mockResolvedValue({
+      listingName: "Moda Studio",
+      listingSlug: "moda-studio",
+      businessSlug: "moda",
+    }),
     markSent: vi.fn().mockResolvedValue(undefined),
     markFailed: vi.fn().mockResolvedValue(undefined),
     markCancelled: vi.fn().mockResolvedValue(undefined),
@@ -64,7 +62,7 @@ describe("listing approval emails to owners", () => {
     await service.process();
     expect(email.send).toHaveBeenCalledWith(
       expect.objectContaining({
-        subject: "StudioHut — Your listing is approved: Moda Studio",
+        subject: "StudioHut — Your listing has been approved: Moda Studio",
         text: expect.stringContaining("/en/studios/moda/moda-studio"),
       }),
     );

@@ -25,6 +25,7 @@ export type ListingDetailFeatureRecord = {
   nameEn: string;
   featureType: FeatureType;
   unit: string | null;
+  validation?: Json;
   valueBoolean: boolean | null;
   valueNumber: number | null;
   valueText: string | null;
@@ -137,7 +138,7 @@ export class SupabaseListingDetailRepository implements ListingDetailRepository 
     const definitionsResult = definitionIds.length
       ? await this.client
           .from("feature_definitions")
-          .select("id, key, name_tr, name_en, feature_type, unit")
+          .select("id, key, name_tr, name_en, feature_type, unit, validation")
           .in("id", definitionIds)
       : { data: [], error: null };
 
@@ -167,6 +168,7 @@ export class SupabaseListingDetailRepository implements ListingDetailRepository 
                 nameEn: definition.name_en,
                 featureType: definition.feature_type,
                 unit: definition.unit,
+                validation: definition.validation,
                 valueBoolean: value.value_boolean,
                 valueNumber: value.value_number,
                 valueText: value.value_text,

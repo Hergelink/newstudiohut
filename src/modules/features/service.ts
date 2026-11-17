@@ -1,5 +1,6 @@
 import type { FeatureType } from "@/lib/supabase/database.types";
 import type { AppLocale } from "@/i18n/routing";
+import { featureOptionLabels } from "@/modules/features/localization";
 import type {
   FeatureFilterRepository,
   FilterableFeatureRecord,
@@ -12,6 +13,7 @@ export type MarketplaceFeatureFilter = {
   featureType: FeatureType;
   unit: string | null;
   options: string[];
+  optionLabels?: Record<string, string>;
   minimum: number | null;
   maximum: number | null;
   maxLength: number | null;
@@ -38,8 +40,11 @@ function toMarketplaceFilter(
     featureType: record.featureType,
     unit: record.unit,
     options: Array.isArray(record.options)
-      ? record.options.filter((option): option is string => typeof option === "string")
+      ? record.options.filter(
+          (option): option is string => typeof option === "string",
+        )
       : [],
+    optionLabels: featureOptionLabels(record.validation, locale),
     minimum: typeof validation.min === "number" ? validation.min : null,
     maximum: typeof validation.max === "number" ? validation.max : null,
     maxLength:
@@ -59,4 +64,3 @@ export class FeatureFilterService {
     );
   }
 }
-

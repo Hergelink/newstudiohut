@@ -13,6 +13,7 @@ import { notFound } from "next/navigation";
 
 import { ListingGallery } from "@/components/marketplace/listing-gallery";
 import { ListingMap } from "@/components/maps/listing-map";
+import { todayDate } from "@/i18n/format";
 import { InquiryForm } from "@/components/leads/inquiry-form";
 import { ListingViewTracker } from "@/components/analytics/listing-view-tracker";
 import { SiteHeader } from "@/components/site-header";
@@ -112,6 +113,7 @@ function displayFeatureValue(
   feature: MarketplaceListingFeature,
   yes: string,
   no: string,
+  locale: string,
 ) {
   if (
     feature.type === "text" &&
@@ -156,9 +158,9 @@ function displayFeatureValue(
       ? feature.type === "select"
         ? feature.value.replaceAll("_", " ")
         : feature.value
-      : new Intl.NumberFormat("tr-TR", { maximumFractionDigits: 2 }).format(
-          feature.value,
-        );
+      : new Intl.NumberFormat(locale === "en" ? "en-GB" : "tr-TR", {
+          maximumFractionDigits: 2,
+        }).format(feature.value);
 
   return `${value}${feature.unit ? ` ${feature.unit}` : ""}`;
 }
@@ -330,7 +332,12 @@ export default async function ListingDetailPage({
                         {feature.name}
                       </dt>
                       <dd className="mt-1 font-semibold capitalize">
-                        {displayFeatureValue(feature, t("yes"), t("no"))}
+                        {displayFeatureValue(
+                          feature,
+                          t("yes"),
+                          t("no"),
+                          locale,
+                        )}
                       </dd>
                     </div>
                   ))}
@@ -339,6 +346,7 @@ export default async function ListingDetailPage({
             ) : null}
 
             <ListingMap
+              locale={locale}
               apiKey={env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
               latitude={listing.latitude}
               longitude={listing.longitude}
@@ -365,7 +373,9 @@ export default async function ListingDetailPage({
                     <UsersRound className="size-4" />
                     {t("capacity")}
                   </dt>
-                  <dd className="font-semibold">{listing.capacity}</dd>
+                  <dd className="font-semibold">
+                    {listing.capacity.toLocaleString(locale)}
+                  </dd>
                 </div>
               ) : null}
               {listing.areaSqm ? (
@@ -374,7 +384,9 @@ export default async function ListingDetailPage({
                     <Maximize2 className="size-4" />
                     {t("area")}
                   </dt>
-                  <dd className="font-semibold">{listing.areaSqm} m²</dd>
+                  <dd className="font-semibold">
+                    {listing.areaSqm.toLocaleString(locale)} m²
+                  </dd>
                 </div>
               ) : null}
               <div className="flex items-start justify-between gap-4">
@@ -395,7 +407,7 @@ export default async function ListingDetailPage({
                   listing.id,
                   attribution,
                 )}
-                minimumDate={new Date().toISOString().slice(0, 10)}
+                minimumDate={todayDate()}
                 startedAt={Date.now()}
                 labels={{
                   title: t("inquiry.title"),

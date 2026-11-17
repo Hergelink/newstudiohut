@@ -1,10 +1,14 @@
 import type { AppLocale } from "@/i18n/routing";
+import { localizedFeatureValue } from "@/modules/features/localization";
 import type { ListingReviewInput } from "@/modules/admin/review-schema";
 import type {
   ListingReviewRepository,
   ReviewFeatureRecord,
 } from "@/modules/admin/review-repository";
-import type { MarketplaceListingFeature, MarketplaceListingImage } from "@/modules/listings/detail-service";
+import type {
+  MarketplaceListingFeature,
+  MarketplaceListingImage,
+} from "@/modules/listings/detail-service";
 import type { MediaUrlRepository } from "@/modules/media/repository";
 
 function featureValue(feature: ReviewFeatureRecord) {
@@ -103,28 +107,37 @@ export class ListingReviewService {
       images: listing.images.flatMap((image) => {
         const url = urls.get(image.storagePath);
         return url
-          ? [{
-              id: image.id,
-              url,
-              altText: image.altText,
-              width: image.width,
-              height: image.height,
-              isCover: image.isCover,
-            }]
+          ? [
+              {
+                id: image.id,
+                url,
+                altText: image.altText,
+                width: image.width,
+                height: image.height,
+                isCover: image.isCover,
+              },
+            ]
           : [];
       }),
       features: listing.features.flatMap((feature) => {
-        const value = featureValue(feature);
+        const value = localizedFeatureValue(
+          featureValue(feature),
+          feature.featureType,
+          feature.validation,
+          locale,
+        );
         return value === null || value === undefined
           ? []
-          : [{
-              id: feature.id,
-              key: feature.id,
-              name: locale === "en" ? feature.nameEn : feature.nameTr,
-              type: feature.featureType,
-              unit: feature.unit,
-              value,
-            }];
+          : [
+              {
+                id: feature.id,
+                key: feature.id,
+                name: locale === "en" ? feature.nameEn : feature.nameTr,
+                type: feature.featureType,
+                unit: feature.unit,
+                value,
+              },
+            ];
       }),
     };
   }

@@ -1,4 +1,5 @@
 import "server-only";
+import { createTranslator } from "next-intl";
 
 import {
   ResendEmailSender,
@@ -12,14 +13,19 @@ export {
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 import { env } from "@/config/env";
+import { APP_TIME_ZONE, formatDateOnly } from "@/i18n/format";
+import type { AppLocale } from "@/i18n/routing";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { Database } from "@/lib/supabase/database.types";
 import type { LeadNotificationDispatcher } from "@/modules/leads/service";
+import en from "../../../messages/en.json";
+import tr from "../../../messages/tr.json";
 
 export type ClaimedLeadNotification = {
   id: string;
   leadId: string;
   recipientEmail: string;
+  recipientLocale?: AppLocale;
   attempts: number;
 };
 
@@ -116,18 +122,43 @@ export class SupabaseLeadNotificationRepository implements LeadNotificationRepos
   }
 }
 
-function notificationText(context: LeadNotificationContext) {
-  return [
-    `Studio: ${context.listingName}`,
-    `Name: ${context.leadName}`,
-    `Email: ${context.leadEmail}`,
-    `Phone: ${context.leadPhone}`,
-    context.preferredDate ? `Preferred date: ${context.preferredDate}` : null,
-    "",
-    context.message,
-  ]
-    .filter((line): line is string => line !== null)
-    .join("\n");
+function notificationEmail(
+  context: LeadNotificationContext,
+  recipientLocale?: AppLocale,
+) {
+  const translator = (locale: AppLocale) =>
+    createTranslator({
+      locale,
+      messages: locale === "en" ? en : tr,
+      namespace: "LeadNotificationEmail",
+      timeZone: APP_TIME_ZONE,
+    });
+  const text = (locale: AppLocale) => {
+    const t = translator(locale);
+    return t("body", {
+      studio: context.listingName,
+      name: context.leadName,
+      email: context.leadEmail,
+      phone: context.leadPhone,
+      preferredDate: context.preferredDate
+        ? formatDateOnly(context.preferredDate, locale)
+        : t("dateNotSpecified"),
+      message: context.message,
+    });
+  };
+  const studio = context.listingName.replace(/[\r\n]/g, " ");
+  if (recipientLocale) {
+    return {
+      subject: translator(recipientLocale)("subject", { studio }),
+      text: text(recipientLocale),
+    };
+  }
+  // Existing jobs contain only an email address, so do not infer the recipient's
+  // language from the inquirer or another business member.
+  return {
+    subject: translator("tr")("bilingualSubject", { studio }),
+    text: `${text("tr")}\n\n---\n\n${text("en")}`,
+  };
 }
 
 export class LeadNotificationService implements LeadNotificationDispatcher {
@@ -149,8 +180,7 @@ export class LeadNotificationService implements LeadNotificationDispatcher {
         await this.email.send({
           idempotencyKey: `lead-notification/${job.id}`,
           to: job.recipientEmail,
-          subject: `Studiohut inquiry — ${context.listingName}`,
-          text: notificationText(context),
+          ...notificationEmail(context, job.recipientLocale),
         });
         await this.repository.markSent(job.id);
       } catch (error) {
