@@ -231,6 +231,8 @@ export function StudioDiscoveryMap({
               </button>
               <Link
                 href={`/studios/${selected.businessSlug}/${selected.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-studio-blue"
               >
                 <div className="relative h-32 bg-secondary">

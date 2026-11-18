@@ -147,6 +147,14 @@ describe("studio discovery map", () => {
       "href",
       "/studios/moda/moda-studio",
     );
+    expect(screen.getByRole("link", { name: /View studio/ })).toHaveAttribute(
+      "target",
+      "_blank",
+    );
+    expect(screen.getByRole("link", { name: /View studio/ })).toHaveAttribute(
+      "rel",
+      "noopener noreferrer",
+    );
     fireEvent.click(screen.getByRole("button", { name: "Close preview" }));
     await waitFor(() =>
       expect(
