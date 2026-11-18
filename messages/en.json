@@ -119,7 +119,21 @@
     "errorBody": "Search is temporarily unavailable. Please try again shortly.",
     "paginationLabel": "Search result pages",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "filters": "Filters",
+    "viewLabel": "Browse studios",
+    "listView": "List view",
+    "mapView": "Explore on map",
+    "mapHeading": "Studio map of Türkiye",
+    "mapHint": "Only studios with a saved map location are shown. Select a point for details; select a numbered group to zoom in. Your filters apply to this map.",
+    "mapLoading": "Loading studio map…",
+    "mapError": "The map could not load. Check your connection or switch to list view.",
+    "mapEmpty": "No studios with a map location match your filters. Try clearing the filters or switch to list view to see studios without a map location.",
+    "mapReset": "Show Türkiye",
+    "mapOpenStudio": "View studio",
+    "mapClose": "Close studio preview",
+    "mapZoomIn": "Zoom in",
+    "mapZoomOut": "Zoom out"
   },
   "ListingDetail": {
     "breadcrumbs": "Breadcrumbs",

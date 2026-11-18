@@ -64,7 +64,7 @@ export default async function CategoryPage({
   return (
     <div className="min-h-screen">
       <SiteHeader locale={locale} />
-      <main id="main" tabIndex={-1} className="container py-10 sm:py-16">
+      <main id="main" tabIndex={-1} className="mx-auto w-full max-w-[1600px] px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
         <Link
           href="/#categories"
           className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"

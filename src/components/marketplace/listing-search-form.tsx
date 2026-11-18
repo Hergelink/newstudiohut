@@ -10,6 +10,7 @@ import type { ListingFeatureFilter } from "@/modules/listings/repository";
 import type { ListingSearchQuery } from "@/modules/listings/search-schema";
 
 type SearchLabels = {
+  filters: string;
   query: string;
   queryPlaceholder: string;
   location: string;
@@ -63,12 +64,15 @@ export function ListingSearchForm({
       method="get"
       className="rounded-3xl border bg-card p-5 shadow-sm sm:p-6"
     >
+      {query.view === "map" ? (
+        <input type="hidden" name="view" value="map" />
+      ) : null}
       <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
         <SlidersHorizontal className="size-4" aria-hidden="true" />
-        {labels.search}
+        {labels.filters}
       </div>
-      <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <label className="grid gap-2 text-sm font-medium xl:col-span-2">
+      <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+        <label className="grid gap-2 text-sm font-medium sm:col-span-2 lg:col-span-1">
           {labels.query}
           <Input
             name="q"
@@ -156,7 +160,7 @@ export function ListingSearchForm({
           <legend className="px-1 text-sm font-semibold">
             {labels.featureFilters}
           </legend>
-          <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
             {featureDefinitions.map((definition) => {
               const selected = featureFilters.find(
                 (filter) => filter.definitionId === definition.id,
@@ -310,7 +314,7 @@ export function ListingSearchForm({
           {labels.featureHint}
         </p>
       ) : null}
-      <div className="mt-5 flex flex-wrap gap-3">
+      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
         <Button type="submit">
           <Search className="size-4" aria-hidden="true" />
           {labels.search}

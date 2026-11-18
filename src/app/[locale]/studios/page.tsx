@@ -54,7 +54,7 @@ export default async function StudiosPage({
   return (
     <div className="min-h-screen">
       <SiteHeader locale={locale} />
-      <main id="main" tabIndex={-1} className="container py-10 sm:py-16">
+      <main id="main" tabIndex={-1} className="mx-auto w-full max-w-[1600px] px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
         <header className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">
             {t("eyebrow")}

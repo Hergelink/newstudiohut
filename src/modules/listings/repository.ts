@@ -25,6 +25,7 @@ export type ListingFeatureFilter =
   | { definitionId: string; key: string; type: "text"; value: string };
 
 export type PublishedListingFilters = {
+  mapOnly?: boolean;
   query?: string;
   location?: string;
   categoryId?: string;
@@ -45,6 +46,8 @@ export type PublishedListingRecord = Pick<
   | "name"
   | "slug"
   | "description"
+  | "latitude"
+  | "longitude"
   | "district"
   | "city"
   | "area_sqm"
@@ -74,7 +77,7 @@ export interface ListingRepository {
 }
 
 const listingColumns =
-  "id, business_id, category_id, name, slug, description, district, city, area_sqm, capacity, price_amount, currency, published_at";
+  "id, business_id, category_id, name, slug, description, latitude, longitude, district, city, area_sqm, capacity, price_amount, currency, published_at";
 
 function postgrestSearchTerm(value: string) {
   return value
@@ -102,6 +105,9 @@ export class SupabaseListingRepository implements ListingRepository {
       .select(listingColumns, { count: "exact" })
       .eq("status", "published");
 
+    if (filters.mapOnly) {
+      query = query.not("latitude", "is", null).not("longitude", "is", null);
+    }
     if (matchingListingIds) query = query.in("id", matchingListingIds);
 
     const text = filters.query ? postgrestSearchTerm(filters.query) : "";
@@ -144,6 +150,7 @@ export class SupabaseListingRepository implements ListingRepository {
       });
     }
 
+    query = query.order("id", { ascending: true });
     const from = (filters.page - 1) * filters.pageSize;
     const { data, error, count } = await query.range(
       from,

@@ -22,6 +22,7 @@ describe("parseListingSearchParams", () => {
       capacity: 8,
       sort: "price_asc",
       page: 3,
+      view: "list",
     });
   });
 

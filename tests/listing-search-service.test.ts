@@ -14,6 +14,8 @@ const record: PublishedListingRecord = {
   name: "Moda Podcast Studio",
   slug: "moda-podcast-studio",
   description: "Sessiz ve merkezi kayıt alanı",
+  latitude: 40.987,
+  longitude: 29.025,
   district: "Kadıköy",
   city: "İstanbul",
   area_sqm: 70,
@@ -46,6 +48,32 @@ const media = {
 };
 
 describe("ListingSearchService", () => {
+  it("uses a bounded larger map page with coordinates and the same filters", async () => {
+    const repository = new InMemoryListingRepository();
+    const service = new ListingSearchService(repository, media);
+    const result = await service.searchPublished(
+      {
+        mapOnly: true,
+        location: "İstanbul",
+        categoryId: "category-1",
+        sort: "newest",
+        page: 1,
+      },
+      "tr",
+    );
+    expect(repository.filters).toMatchObject({
+      mapOnly: true,
+      pageSize: 200,
+      location: "İstanbul",
+      categoryId: "category-1",
+    });
+    expect(result.listings[0]).toMatchObject({
+      latitude: 40.987,
+      longitude: 29.025,
+    });
+    expect(result.totalPages).toBe(1);
+  });
+
   it("normalizes the price range, localizes categories, and signs private covers", async () => {
     const repository = new InMemoryListingRepository();
     const service = new ListingSearchService(repository, media);

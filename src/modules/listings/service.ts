@@ -8,8 +8,10 @@ import type {
 } from "@/modules/listings/repository";
 
 export const PUBLIC_LISTING_PAGE_SIZE = 12;
+export const PUBLIC_MAP_PAGE_SIZE = 200;
 
 export type PublicListingSearch = {
+  mapOnly?: boolean;
   query?: string;
   location?: string;
   categoryId?: string;
@@ -30,6 +32,8 @@ export type MarketplaceListing = {
   businessSlug: string;
   categoryName: string;
   categorySlug: string;
+  latitude: number | null;
+  longitude: number | null;
   district: string;
   city: string;
   areaSqm: number | null;
@@ -53,6 +57,7 @@ function normalizeSearch(search: PublicListingSearch): PublishedListingFilters {
   const maximum = search.maxPrice;
 
   return {
+    mapOnly: search.mapOnly ?? false,
     query: search.query,
     location: search.location,
     categoryId: search.categoryId,
@@ -68,7 +73,7 @@ function normalizeSearch(search: PublicListingSearch): PublishedListingFilters {
     featureFilters: search.featureFilters ?? [],
     sort: search.sort,
     page: search.page,
-    pageSize: PUBLIC_LISTING_PAGE_SIZE,
+    pageSize: search.mapOnly ? PUBLIC_MAP_PAGE_SIZE : PUBLIC_LISTING_PAGE_SIZE,
   };
 }
 
@@ -100,6 +105,8 @@ export class ListingSearchService {
         categoryName:
           locale === "en" ? listing.categoryNameEn : listing.categoryNameTr,
         categorySlug: listing.categorySlug,
+        latitude: listing.latitude,
+        longitude: listing.longitude,
         district: listing.district,
         city: listing.city,
         areaSqm: listing.area_sqm,

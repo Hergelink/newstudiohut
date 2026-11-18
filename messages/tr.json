@@ -119,7 +119,21 @@
     "errorBody": "Arama şu anda kullanılamıyor. Lütfen kısa süre sonra tekrar deneyin.",
     "paginationLabel": "Arama sonucu sayfaları",
     "previous": "Önceki",
-    "next": "Sonraki"
+    "next": "Sonraki",
+    "filters": "Filtreler",
+    "viewLabel": "Stüdyoları keşfet",
+    "listView": "Liste görünümü",
+    "mapView": "Haritada keşfet",
+    "mapHeading": "Türkiye stüdyo haritası",
+    "mapHint": "Yalnızca harita konumu eklenmiş stüdyolar gösterilir. Detaylar için bir noktaya, yakınlaşmak için sayılı bir gruba tıklayın. Seçtiğiniz filtreler haritada da geçerlidir.",
+    "mapLoading": "Stüdyo haritası yükleniyor…",
+    "mapError": "Harita yüklenemedi. Bağlantınızı kontrol edin veya liste görünümüne geçin.",
+    "mapEmpty": "Filtrelerinize uygun, harita konumu eklenmiş bir stüdyo bulunamadı. Filtreleri temizleyebilir veya konumu eksik ilanlar için liste görünümüne geçebilirsiniz.",
+    "mapReset": "Türkiye’yi göster",
+    "mapOpenStudio": "Stüdyoyu görüntüle",
+    "mapClose": "Stüdyo önizlemesini kapat",
+    "mapZoomIn": "Yakınlaştır",
+    "mapZoomOut": "Uzaklaştır"
   },
   "ListingDetail": {
     "breadcrumbs": "Sayfa yolu",

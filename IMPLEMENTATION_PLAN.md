@@ -93,3 +93,11 @@ Current acceptance also includes the November 12 database release: all 13 migrat
 ## Non-goals before their phase
 
 UI flows do not use fake production data; the seed file is opt-in development data only.
+
+### Discovery layout and country map — 2026-11-18
+
+- [x] Desktop sidebar filters with a three-column listing grid; collapsible mobile filters.
+- [x] Shareable list/map views preserving URL filters, dynamic category features and localized links.
+- [x] Türkiye-wide map with clustered published studio pins and photo/detail previews linking to the studio page.
+- [x] Bounded map pagination, explicit missing-coordinate behavior and map loading/error/empty states.
+- [x] Browser verification using the real published studio: marker preview, detail navigation, mobile filters, no horizontal overflow, and filter/reset behavior.

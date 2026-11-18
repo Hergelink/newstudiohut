@@ -155,3 +155,9 @@ Public listing pages use the same OpenStreetMap map when no Google Embed key is 
 Optional public build-time provider settings are `NEXT_PUBLIC_MAP_TILE_URL` and `NEXT_PUBLIC_GEOCODER_URL` (Photon-compatible GeoJSON API). Defaults are shown in `.env.example`. Map requests go directly from the browser to these providers; visible attribution and normal browser caching/referrer headers are preserved. Do not add secrets to these public variables. Custom tile providers require updating the attribution in `InteractiveMap` to match their licence.
 
 The community OSM tile and Photon services are best-effort with no availability guarantee. Do not bulk-fetch/prefetch tiles or send automated bulk address queries. Before substantial traffic, switch to a hosted or self-hosted provider and review its limits. See [OSM tile policy](https://operations.osmfoundation.org/policies/tiles/) and [Photon deployment/API documentation](https://github.com/komoot/photon).
+
+### Discovery list and map views
+
+`/studios` and category pages share the discovery layout: desktop filters sit in a sticky left sidebar, with three listing columns on the right. On smaller screens the filter panel can be expanded, and cards use one or two columns. `?view=map` switches to a country-wide Türkiye map. Marker clusters separate nearby/coincident studios as users zoom in; selecting a studio opens its cover, category, location, capacity, area, price and localized listing link.
+
+Both modes use the same validated URL filters, database-driven category features, published-only repository query and RLS. Switching views resets pagination and retains filters; applying/clearing filters retains map mode. Map queries additionally require saved coordinates and are paginated at 200 studios per page (list view remains 12). Existing studios without coordinates remain visible in list view. No migrations, synthetic locations or production seed data are involved.
