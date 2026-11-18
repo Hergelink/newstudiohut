@@ -7,7 +7,12 @@ import type {
 } from "@/lib/supabase/database.types";
 import type { ListingDraftInput } from "@/modules/listings/management-schema";
 
-export type ManagedListing = ListingDraftInput & {
+export type ManagedListing = Omit<
+  ListingDraftInput,
+  "latitude" | "longitude"
+> & {
+  latitude?: number;
+  longitude?: number;
   id: string;
   businessId: string;
   status: ListingStatus;

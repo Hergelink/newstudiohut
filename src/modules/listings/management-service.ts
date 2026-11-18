@@ -56,6 +56,13 @@ export class ListingManagementService {
   }
 
   async submitForReview(businessId: string, listingId: string) {
+    const current = await this.listings.findForBusiness(businessId, listingId);
+    if (!current) throw new Error("listing_not_found");
+    if (current.latitude === undefined || current.longitude === undefined) {
+      throw Object.assign(new Error("review_incomplete"), {
+        missing: ["location"],
+      });
+    }
     const missing = await this.listings.submitForReview(businessId, listingId);
     if (missing.length) {
       const error = new Error("review_incomplete");

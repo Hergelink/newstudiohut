@@ -46,7 +46,7 @@ Phase 1 implementation is accepted. On October 28, 2026, the user explicitly def
 - [x] Database-backed Turkish/English sitemap and crawler rules for public-only indexing
 - [x] Repository, service, validation, and dashboard workflow component tests for the above
 
-The Google Maps key, referrer restrictions, and live iframe are intentionally deferred until the hosted preview/production origins are available. The no-key fallback remains the current expected behavior.
+Updated 2026-11-18: OpenStreetMap/Leaflet is the keyless default, with Photon address search and required pin selection on studio create/edit. Search results, tile loading and pin dragging were verified in the browser; coordinate validation and old draft review gating are covered by tests. Google Embed remains optional when a key is configured. Existing listings without coordinates need the host to choose a pin; no locations are invented or backfilled.
 
 ## Phase 3 — Administration and review (implemented locally)
 

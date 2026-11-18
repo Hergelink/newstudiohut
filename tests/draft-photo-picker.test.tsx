@@ -8,6 +8,7 @@ import {
   within,
 } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
+import { NextIntlClientProvider } from "next-intl";
 import { useState } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DraftPhotoPicker } from "@/components/dashboard/draft-photo-picker";
@@ -28,6 +29,9 @@ vi.mock("@/i18n/navigation", () => ({
   Link: ({ href, children }: { href: string; children: React.ReactNode }) => (
     <a href={href}>{children}</a>
   ),
+}));
+vi.mock("@/components/maps/interactive-map", () => ({
+  InteractiveMap: () => <div />,
 }));
 const labels = {
   ...messages.MediaManager,
@@ -68,16 +72,18 @@ describe("photo selection on the new studio form", () => {
   it("shows the photo picker inside the creation form before location fields", () => {
     const action = vi.fn(async () => ({ ok: false }));
     render(
-      <NewStudioForm
-        categoryId="category"
-        categoryName="Photography"
-        features={[]}
-        featureValues={[]}
-        labels={messages.ListingForm}
-        studiosPath="/dashboard/businesses/business/studios"
-        photoLabels={labels}
-        actions={{ create: action, prepare: action, complete: action }}
-      />,
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <NewStudioForm
+          categoryId="category"
+          categoryName="Photography"
+          features={[]}
+          featureValues={[]}
+          labels={messages.ListingForm}
+          studiosPath="/dashboard/businesses/business/studios"
+          photoLabels={labels}
+          actions={{ create: action, prepare: action, complete: action }}
+        />
+      </NextIntlClientProvider>,
     );
     const input = screen.getByLabelText("Photo");
     expect(input.closest("form")).toBe(

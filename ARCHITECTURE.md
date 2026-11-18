@@ -98,7 +98,7 @@ Owners create email-bound invitation links that expire after seven days. The app
 
 ### Maps
 
-Domain/UI code targets `MapAdapter`, not Google APIs directly. `GoogleMapsAdapter.availability()` returns a typed `missing_api_key` state when the public key is absent. Published listing pages render a Google Maps Embed iframe only when both a configured browser key and valid coordinates are present. Otherwise they render an explicit localized fallback; the keyless Google Maps directions URL remains available when coordinates exist.
+Studio creation/editing uses a reusable Leaflet client map with OpenStreetMap tiles and a separate Photon-compatible address search boundary. Search is explicit, cancellable and time-limited; provider endpoints are configurable through public environment variables. Coordinates are required at the application write boundary and before review submission, while legacy rows can still be read without them. Public listings render the same map by default, or a Google Embed iframe if a key is configured. Missing coordinates retain a localized address fallback. Google directions links require no API key. See README for provider usage limits and attribution.
 
 ### Media
 

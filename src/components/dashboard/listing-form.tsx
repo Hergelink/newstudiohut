@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, type ReactNode } from "react";
+import { useActionState, useState, type ReactNode } from "react";
 
+import { LocationPicker } from "@/components/maps/location-picker";
 import { FormSubmit } from "@/components/dashboard/form-submit";
 import { Input } from "@/components/ui/input";
 import { ListingFeatureFields } from "@/components/dashboard/listing-feature-fields";
@@ -72,6 +73,12 @@ export function ListingForm({
     unexpectedError: string;
   };
 }) {
+  const [locationMissing, setLocationMissing] = useState(false);
+  const [address, setAddress] = useState({
+    addressLine: listing?.addressLine ?? "",
+    district: listing?.district ?? "",
+    city: listing?.city ?? "İstanbul",
+  });
   const [state, formAction] = useActionState(action, { ok: false });
   const messages: Record<string, string> = {
     validation_error: labels.validationError,
@@ -86,7 +93,21 @@ export function ListingForm({
     : null;
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form
+      action={formAction}
+      className="space-y-6"
+      onSubmit={(event) => {
+        if (detailsSaved) return;
+        const data = new FormData(event.currentTarget);
+        if (!data.get("latitude") || !data.get("longitude")) {
+          event.preventDefault();
+          setLocationMissing(true);
+          event.currentTarget
+            .querySelector<HTMLInputElement>("#studio-map-search")
+            ?.focus();
+        }
+      }}
+    >
       <input type="hidden" name="categoryId" value={categoryId} />
       <input type="hidden" name="currency" value="TRY" />
       <fieldset
@@ -147,6 +168,22 @@ export function ListingForm({
         <section className="rounded-3xl border bg-card p-6 shadow-sm sm:p-8">
           <h2 className="text-xl font-semibold">{labels.location}</h2>
           <div className="mt-5 grid gap-5 md:grid-cols-2">
+            <LocationPicker
+              latitude={listing?.latitude}
+              longitude={listing?.longitude}
+              serverError={Boolean(
+                locationMissing ||
+                state.fieldErrors?.latitude ||
+                state.fieldErrors?.longitude,
+              )}
+              onAddress={(result) =>
+                setAddress((current) => ({
+                  addressLine: result.address || current.addressLine,
+                  district: result.district || current.district,
+                  city: result.city || current.city,
+                }))
+              }
+            />
             <label className="grid gap-2 text-sm font-medium md:col-span-2">
               {labels.addressLine}
               <Input
@@ -154,7 +191,13 @@ export function ListingForm({
                 required
                 minLength={3}
                 maxLength={250}
-                defaultValue={listing?.addressLine}
+                value={address.addressLine}
+                onChange={(event) =>
+                  setAddress((current) => ({
+                    ...current,
+                    addressLine: event.target.value,
+                  }))
+                }
               />
             </label>
             <label className="grid gap-2 text-sm font-medium">
@@ -164,7 +207,13 @@ export function ListingForm({
                 required
                 minLength={2}
                 maxLength={100}
-                defaultValue={listing?.district}
+                value={address.district}
+                onChange={(event) =>
+                  setAddress((current) => ({
+                    ...current,
+                    district: event.target.value,
+                  }))
+                }
               />
             </label>
             <label className="grid gap-2 text-sm font-medium">
@@ -174,29 +223,13 @@ export function ListingForm({
                 required
                 minLength={2}
                 maxLength={100}
-                defaultValue={listing?.city ?? "İstanbul"}
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-medium">
-              {labels.latitude}
-              <Input
-                name="latitude"
-                type="number"
-                step="any"
-                min="-90"
-                max="90"
-                defaultValue={listing?.latitude}
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-medium">
-              {labels.longitude}
-              <Input
-                name="longitude"
-                type="number"
-                step="any"
-                min="-180"
-                max="180"
-                defaultValue={listing?.longitude}
+                value={address.city}
+                onChange={(event) =>
+                  setAddress((current) => ({
+                    ...current,
+                    city: event.target.value,
+                  }))
+                }
               />
             </label>
           </div>

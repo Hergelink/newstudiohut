@@ -24,6 +24,8 @@ const draftInput: ListingDraftInput = {
   district: "Kadıköy",
   city: "İstanbul",
   currency: "TRY",
+  latitude: 40.987,
+  longitude: 29.025,
 };
 
 const managedListing: ManagedListing = {
@@ -88,10 +90,31 @@ describe("listing draft validation", () => {
     });
   });
 
+  it("requires both coordinates and rejects invalid ranges", () => {
+    for (const values of [
+      { latitude: undefined, longitude: undefined },
+      { latitude: "", longitude: "" },
+      { latitude: 91 },
+      { longitude: -181 },
+      { latitude: "NaN" },
+    ]) {
+      expect(
+        listingDraftSchema.safeParse({ ...draftInput, ...values }).success,
+      ).toBe(false);
+    }
+    expect(
+      listingDraftSchema.safeParse({ ...draftInput, latitude: 0, longitude: 0 })
+        .success,
+    ).toBe(true);
+  });
+
   it("rejects a single coordinate and unsupported currencies", () => {
     expect(
-      listingDraftSchema.safeParse({ ...draftInput, latitude: "41.0082" })
-        .success,
+      listingDraftSchema.safeParse({
+        ...draftInput,
+        latitude: "41.0082",
+        longitude: undefined,
+      }).success,
     ).toBe(false);
     expect(
       listingDraftSchema.safeParse({ ...draftInput, currency: "EUR" }).success,
@@ -241,6 +264,29 @@ describe("ListingManagementService", () => {
       ],
     });
     expect(submitForReview).toHaveBeenCalledWith("business-1", "listing-1");
+  });
+
+  it("prevents old drafts without a location from being submitted", async () => {
+    const submitForReview = vi.fn();
+    const service = new ListingManagementService(
+      repository({
+        findForBusiness: vi
+          .fn()
+          .mockResolvedValue({
+            ...managedListing,
+            latitude: undefined,
+            longitude: undefined,
+          }),
+        submitForReview,
+      }),
+    );
+    await expect(
+      service.submitForReview("business-1", "listing-1"),
+    ).rejects.toMatchObject({
+      message: "review_incomplete",
+      missing: ["location"],
+    });
+    expect(submitForReview).not.toHaveBeenCalled();
   });
 
   it("submits a complete draft for review", async () => {

@@ -79,3 +79,14 @@
     text-wrap: balance;
   }
 }
+
+.studio-map-pin span {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border: 3px solid white;
+  border-radius: 50% 50% 50% 0;
+  background: #2945ff;
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 8px #0005;
+}

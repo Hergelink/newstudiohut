@@ -256,7 +256,11 @@
     "inviteSubtitle": "E-posta adresine özel, yedi gün geçerli güvenli bir davet bağlantısı oluşturun.",
     "email": "E-posta",
     "role": "Rol",
-    "roles": { "owner": "Sahip", "manager": "Yönetici", "editor": "Editör" },
+    "roles": {
+      "owner": "Sahip",
+      "manager": "Yönetici",
+      "editor": "Editör"
+    },
     "invite": "Davet oluştur",
     "inviting": "Oluşturuluyor…",
     "inviteCreated": "Davet hazır. Bu bağlantıyı yalnızca davet ettiğiniz kişiyle paylaşın.",
@@ -295,7 +299,11 @@
     "createAccount": "Hesap oluştur",
     "role": "Rol",
     "expires": "Son geçerlilik tarihi",
-    "roles": { "owner": "Sahip", "manager": "Yönetici", "editor": "Editör" },
+    "roles": {
+      "owner": "Sahip",
+      "manager": "Yönetici",
+      "editor": "Editör"
+    },
     "accept": "Daveti kabul et",
     "accepting": "Kabul ediliyor…",
     "acceptError": "Davet kabul edilemedi. Doğru e-posta adresiyle giriş yaptığınızdan emin olun.",
@@ -494,7 +502,8 @@
       "price": "Başlangıç fiyatı",
       "images": "En az bir fotoğraf",
       "cover": "Kapak fotoğrafı",
-      "requiredFeatures": "Kategori için zorunlu özellikler"
+      "requiredFeatures": "Kategori için zorunlu özellikler",
+      "location": "Haritada stüdyo konumunu seçin."
     }
   },
   "Admin": {
@@ -678,5 +687,20 @@
     "errorTitle": "Bir şeyler ters gitti",
     "errorBody": "Sayfa şu anda yüklenemiyor. Lütfen tekrar deneyin.",
     "tryAgain": "Tekrar dene"
+  },
+  "LocationPicker": {
+    "searchLabel": "Stüdyonuzu haritada bulun *",
+    "hint": "Bir adres veya mekân arayın ve sonuçlardan birini seçin. Girişi tam işaretlemek için haritaya tıklayın veya pini sürükleyin. Kaydetmek için harita konumu zorunludur. Kaydetmeden önce aşağıdaki adres alanlarını kontrol edin.",
+    "placeholder": "Stüdyo adı, sokak veya mahalle…",
+    "search": "Ara",
+    "searching": "Aranıyor…",
+    "results": "Bulunan konumlar",
+    "noResults": "Konum bulunamadı. Yakındaki bir sokağı arayın veya konumu doğrudan haritada seçin.",
+    "searchError": "Adres araması şu anda kullanılamıyor. Tekrar deneyin veya pini doğrudan haritaya yerleştirin.",
+    "mapLabel": "Stüdyo konum haritası",
+    "mapError": "Harita yüklenemedi. Bağlantınızı kontrol edin. Adres aramasıyla konum seçebilirsiniz.",
+    "loading": "Harita yükleniyor…",
+    "selected": "Konum seçildi",
+    "required": "Stüdyonuzu kaydetmek için haritada bir konum seçin."
   }
 }

@@ -3,9 +3,15 @@
 import "@testing-library/jest-dom/vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import React from "react";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { ListingMap } from "@/components/maps/listing-map";
+
+vi.mock("@/components/maps/interactive-map", () => ({
+  InteractiveMap: ({ label }: { label: string }) => (
+    <div role="region" aria-label={label} />
+  ),
+}));
 
 const labels = {
   heading: "Location",
@@ -27,8 +33,10 @@ describe("ListingMap", () => {
         labels={labels}
       />,
     );
-    expect(screen.getByText("Map unavailable")).toBeTruthy();
-    expect(screen.queryByTitle("Studio — Location")).toBeNull();
+    expect(
+      screen.getByRole("region", { name: "Studio — Location" }),
+    ).toBeTruthy();
+    expect(document.querySelector("iframe")).toBeNull();
     expect(
       screen.getByRole("link", { name: "Get directions" }),
     ).toHaveAttribute("href", expect.stringContaining("google.com/maps/dir"));

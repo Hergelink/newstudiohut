@@ -107,7 +107,7 @@ The TypeScript RLS contract test catches accidental removal of policies/grants w
 | `CRON_SECRET`                     | server only | notification retries | Vercel bearer secret protecting the cron endpoint; minimum 32 characters |
 | `ANALYTICS_HASH_SECRET`           | server only | listing analytics    | HMAC secret for anonymous session identifiers; minimum 32 characters     |
 
-Missing Supabase values do not affect the static public shell, but authentication and protected routes will report configuration errors. Missing Google Maps configuration is represented explicitly by the adapter and listing pages render a fallback without making a Maps request. When configuring Maps, enable the Google Maps Embed API and restrict the browser key to the deployed Studiohut origins.
+Missing Supabase values do not affect the static public shell, but authentication and protected routes will report configuration errors. Without a Google Maps key, listing pages use the OpenStreetMap adapter; addresses without coordinates show a fallback. When configuring Maps, enable the Google Maps Embed API and restrict the browser key to the deployed Studiohut origins.
 
 The Phase 3 admin review UI requires `20261028000100_phase3_listing_review.sql` to be applied to the target Supabase project. Until that migration is explicitly reviewed and applied, no live publish/reject action should be considered available.
 
@@ -145,3 +145,13 @@ in a browser variable. The exact GitHub → Vercel steps are in
 ## Phase boundary
 
 No production route uses seed or fake listing data. Public search, listing operations, media, administration, leads, and analytics use Supabase through their authorization boundaries. Deployment-dependent password-recovery verification, Google Maps referrer restrictions, the unapplied Phase 3/4/5 local migrations, and production notification/analytics configuration remain explicit launch gates.
+
+### Studio location maps
+
+Studio forms now use Leaflet 1.9 with OpenStreetMap tiles and Photon address search. No API key is needed for the defaults. Search runs only after pressing Search/Enter (minimum three characters), returns at most five results, times out after ten seconds, and never saves a location until the host selects a result or places a pin. Hosts can drag the pin and correct the address fields. A coordinate pair is mandatory on create/update, validated by the server, and older drafts without coordinates must add a location before submitting for review. Existing published listings without coordinates keep their address fallback.
+
+Public listing pages use the same OpenStreetMap map when no Google Embed key is configured; an existing `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` continues to select Google Embed. Directions open Google Maps. Coordinates reuse the existing Supabase columns; no database migration or backfill is needed. This requirement is enforced at application write boundaries, not a new database constraint.
+
+Optional public build-time provider settings are `NEXT_PUBLIC_MAP_TILE_URL` and `NEXT_PUBLIC_GEOCODER_URL` (Photon-compatible GeoJSON API). Defaults are shown in `.env.example`. Map requests go directly from the browser to these providers; visible attribution and normal browser caching/referrer headers are preserved. Do not add secrets to these public variables. Custom tile providers require updating the attribution in `InteractiveMap` to match their licence.
+
+The community OSM tile and Photon services are best-effort with no availability guarantee. Do not bulk-fetch/prefetch tiles or send automated bulk address queries. Before substantial traffic, switch to a hosted or self-hosted provider and review its limits. See [OSM tile policy](https://operations.osmfoundation.org/policies/tiles/) and [Photon deployment/API documentation](https://github.com/komoot/photon).

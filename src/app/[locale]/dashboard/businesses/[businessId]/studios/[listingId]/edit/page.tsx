@@ -218,6 +218,7 @@ export default async function EditStudioPage({
                 forbidden: reviewT("forbidden"),
                 unexpected_error: reviewT("unexpectedError"),
                 missing_description: reviewT("missing.description"),
+                missing_location: reviewT("missing.location"),
                 missing_area: reviewT("missing.area"),
                 missing_capacity: reviewT("missing.capacity"),
                 missing_price: reviewT("missing.price"),

@@ -1,6 +1,7 @@
-import { ExternalLink, KeyRound, MapPinOff } from "lucide-react";
+import { ExternalLink, MapPinOff } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { InteractiveMap } from "@/components/maps/interactive-map";
 import { GoogleMapsAdapter } from "@/modules/maps/adapter";
 
 type Coordinates = { lat: number; lng: number };
@@ -44,7 +45,6 @@ export function ListingMap({
   };
 }) {
   const adapter = new GoogleMapsAdapter(apiKey, locale === "en" ? "en" : "tr");
-  const availability = adapter.availability();
   const coordinates = validCoordinates(latitude, longitude);
   const directionsUrl = coordinates
     ? adapter.buildDirectionsUrl(coordinates)
@@ -72,30 +72,37 @@ export function ListingMap({
         ) : null}
       </div>
 
-      {availability.available && coordinates ? (
-        <div className="mt-6 aspect-[16/8] min-h-72 overflow-hidden rounded-3xl border bg-secondary">
-          <iframe
-            title={`${title} — ${labels.heading}`}
-            src={adapter.buildEmbedUrl(coordinates)}
-            className="size-full border-0"
-            loading="lazy"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+      {coordinates ? (
+        <div
+          className={
+            apiKey?.trim()
+              ? "mt-6 aspect-[16/8] min-h-72 overflow-hidden rounded-3xl border bg-secondary"
+              : "mt-6"
+          }
+        >
+          {apiKey?.trim() ? (
+            <iframe
+              title={`${title} — ${labels.heading}`}
+              src={adapter.buildEmbedUrl(coordinates)}
+              className="size-full border-0"
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          ) : (
+            <InteractiveMap
+              value={coordinates}
+              label={`${title} — ${labels.heading}`}
+              errorLabel={labels.unavailable}
+              loadingLabel={labels.heading}
+            />
+          )}
         </div>
       ) : (
         <div className="mt-6 grid min-h-72 place-items-center rounded-3xl border border-dashed bg-secondary/40 p-8 text-center">
           <div className="max-w-md">
-            {availability.available ? (
-              <MapPinOff className="mx-auto size-9 text-muted-foreground" />
-            ) : (
-              <KeyRound className="mx-auto size-9 text-muted-foreground" />
-            )}
-            <p className="mt-4 font-semibold">
-              {availability.available
-                ? labels.missingCoordinates
-                : labels.unavailable}
-            </p>
+            <MapPinOff className="mx-auto size-9 text-muted-foreground" />
+            <p className="mt-4 font-semibold">{labels.missingCoordinates}</p>
           </div>
         </div>
       )}

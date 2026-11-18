@@ -256,7 +256,11 @@
     "inviteSubtitle": "Create a secure email-specific invitation link that remains valid for seven days.",
     "email": "Email",
     "role": "Role",
-    "roles": { "owner": "Owner", "manager": "Manager", "editor": "Editor" },
+    "roles": {
+      "owner": "Owner",
+      "manager": "Manager",
+      "editor": "Editor"
+    },
     "invite": "Create invitation",
     "inviting": "Creating…",
     "inviteCreated": "The invitation is ready. Share this link only with the person you invited.",
@@ -295,7 +299,11 @@
     "createAccount": "Create account",
     "role": "Role",
     "expires": "Expires",
-    "roles": { "owner": "Owner", "manager": "Manager", "editor": "Editor" },
+    "roles": {
+      "owner": "Owner",
+      "manager": "Manager",
+      "editor": "Editor"
+    },
     "accept": "Accept invitation",
     "accepting": "Accepting…",
     "acceptError": "The invitation could not be accepted. Make sure you signed in with the invited email address.",
@@ -494,7 +502,8 @@
       "price": "Starting price",
       "images": "At least one photo",
       "cover": "Cover photo",
-      "requiredFeatures": "Required category features"
+      "requiredFeatures": "Required category features",
+      "location": "Choose a studio location on the map."
     }
   },
   "Admin": {
@@ -678,5 +687,20 @@
     "errorTitle": "Something went wrong",
     "errorBody": "This page cannot be loaded right now. Please try again.",
     "tryAgain": "Try again"
+  },
+  "LocationPicker": {
+    "searchLabel": "Find your studio on the map *",
+    "hint": "Search for an address or place, then choose a result. Click the map or drag the pin to fine-tune the entrance. A map location is required to save. Check the address fields below before saving.",
+    "placeholder": "Studio name, street or neighbourhood…",
+    "search": "Search",
+    "searching": "Searching…",
+    "results": "Matching locations",
+    "noResults": "No locations found. Try a nearby street or select the location directly on the map.",
+    "searchError": "Address search is unavailable. Try again, or place the pin directly on the map.",
+    "mapLabel": "Studio location map",
+    "mapError": "Map tiles could not load. Try refreshing your connection. Address search can still select a location.",
+    "loading": "Loading map…",
+    "selected": "Location selected",
+    "required": "Select a location on the map to save your studio."
   }
 }

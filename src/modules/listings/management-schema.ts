@@ -25,8 +25,24 @@ export const listingDraftSchema = z
     addressLine: z.string().trim().min(3).max(250),
     district: z.string().trim().min(2).max(100),
     city: z.string().trim().min(2).max(100).default("İstanbul"),
-    latitude: optionalNumber(z.number().min(-90).max(90)),
-    longitude: optionalNumber(z.number().min(-180).max(180)),
+    latitude: z.preprocess(
+      (value) =>
+        typeof value === "string"
+          ? value.trim()
+            ? Number(value)
+            : undefined
+          : value,
+      z.number().min(-90).max(90),
+    ),
+    longitude: z.preprocess(
+      (value) =>
+        typeof value === "string"
+          ? value.trim()
+            ? Number(value)
+            : undefined
+          : value,
+      z.number().min(-180).max(180),
+    ),
     areaSqm: optionalNumber(z.number().positive().max(1_000_000)),
     capacity: optionalNumber(z.number().int().positive().max(1_000_000)),
     priceAmount: optionalNumber(z.number().min(0).max(1_000_000_000)),
