@@ -15,9 +15,9 @@ export function StudioPlatformSection({ labels }: { labels: PlatformLabels }) {
   return (
     <section
       aria-labelledby="studio-platform-title"
-      className="overflow-hidden bg-studio-blue py-14 text-white sm:py-20 lg:py-24"
+      className="container pb-16 sm:pb-24"
     >
-      <div className="container grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+      <div className="grid items-center gap-12 overflow-hidden rounded-[2rem] bg-studio-blue p-7 text-white sm:p-12 lg:grid-cols-[0.85fr_1.15fr] lg:p-16">
         <div className="max-w-lg">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
             {labels.eyebrow}
