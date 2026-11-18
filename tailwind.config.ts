@@ -15,6 +15,7 @@ const config: Config = {
       },
       colors: {
         "studio-blue": "#2945ff",
+        "studio-blue-hover": "#2038d9",
         "studio-red": "#e34545",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -124,7 +124,7 @@ export default async function HomePage({
               </label>
               <Button
                 size="lg"
-                className="h-14 bg-black px-8 text-white hover:bg-black/80"
+                className="h-14 px-8"
               >
                 <Search className="size-5" />
                 {t("search")}

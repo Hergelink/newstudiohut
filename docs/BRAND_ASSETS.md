@@ -16,6 +16,11 @@ The ring is confined to the lower-right corner of the studio-owner panel, with
 its center on the panel corner so only one quarter is visible. The hero has no
 ring decoration.
 
+Primary buttons use StudioHut blue (`#2945ff`) with white labels, a darker
+hover state (`#2038d9`) and blue keyboard focus rings. Secondary buttons remain
+neutral, and the white calls to action on the colored/dark brand panels retain
+their contrast. The global primary text/accent tokens remain monochrome.
+
 ## Link sharing artwork
 
 `public/images/social/studiohut-{tr,en}-v2.png` are public 1200 × 630 PNG cards

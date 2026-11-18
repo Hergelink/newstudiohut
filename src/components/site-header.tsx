@@ -31,10 +31,10 @@ export async function SiteHeader({ locale }: { locale: string }) {
     </>
   ) : (
     <>
-      <Button asChild variant="outline" size="sm">
+      <Button asChild size="sm">
         <Link href="/login">{t("login")}</Link>
       </Button>
-      <Button asChild size="sm">
+      <Button asChild variant="outline" size="sm">
         <Link href="/sign-up">{t("signup")}</Link>
       </Button>
     </>
@@ -69,7 +69,7 @@ export async function SiteHeader({ locale }: { locale: string }) {
                 </Link>
               </Button>
             ) : (
-              <Button asChild variant="outline" size="sm">
+              <Button asChild size="sm">
                 <Link href="/login">{t("login")}</Link>
               </Button>
             )}
