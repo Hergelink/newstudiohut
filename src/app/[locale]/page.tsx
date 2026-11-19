@@ -83,7 +83,7 @@ export default async function HomePage({
             <p className="mb-7 text-xs font-semibold uppercase tracking-[0.24em] text-white/80">
               {t("eyebrow")}
             </p>
-            <h1 className="max-w-5xl text-balance text-5xl font-semibold leading-[1.02] tracking-[-0.055em] sm:text-7xl lg:text-[6rem]">
+            <h1 className="max-w-5xl text-balance text-[2.5rem] font-semibold leading-[1.05] tracking-[-0.055em] sm:text-6xl lg:text-7xl">
               {t("title")}
             </h1>
             <p className="mt-7 max-w-2xl text-balance text-base leading-7 text-white/90 sm:text-xl sm:leading-8">
@@ -134,24 +134,6 @@ export default async function HomePage({
           </div>
         </section>
 
-        <Suspense fallback={<CategorySectionSkeleton />}>
-          <CategorySection locale={locale === "en" ? "en" : "tr"} />
-        </Suspense>
-
-        <Suspense fallback={<FeaturedStudioSectionSkeleton />}>
-          <FeaturedStudioSection locale={locale === "en" ? "en" : "tr"} />
-        </Suspense>
-
-        <StudioPlatformSection
-          labels={{
-            eyebrow: t("platformEyebrow"),
-            title: t("platformTitle"),
-            body: t("platformBody"),
-            action: t("platformAction"),
-            statement: t("platformStatement"),
-          }}
-        />
-
         <section
           id="how-it-works"
           className="scroll-mt-24 border-y border-black/10 bg-[#f7f7f5] py-24 sm:py-36"
@@ -161,7 +143,7 @@ export default async function HomePage({
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-black/50">
                 {t("howEyebrow")}
               </p>
-              <h2 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.045em] sm:text-6xl">
+              <h2 className="mt-5 text-balance text-3xl font-semibold tracking-[-0.045em] sm:text-5xl">
                 {t("howTitle")}
               </h2>
               <p className="mt-5 text-lg leading-8 text-black/55">
@@ -204,7 +186,7 @@ export default async function HomePage({
                         aria-hidden="true"
                       />
                     </div>
-                    <h3 className="mt-16 text-2xl font-semibold tracking-[-0.03em]">
+                    <h3 className="mt-16 text-xl font-semibold tracking-[-0.03em]">
                       {step.title}
                     </h3>
                     <p className="mt-3 max-w-sm leading-7 text-black/55">
@@ -217,6 +199,24 @@ export default async function HomePage({
           </div>
         </section>
 
+        <Suspense fallback={<CategorySectionSkeleton />}>
+          <CategorySection locale={locale === "en" ? "en" : "tr"} />
+        </Suspense>
+
+        <Suspense fallback={<FeaturedStudioSectionSkeleton />}>
+          <FeaturedStudioSection locale={locale === "en" ? "en" : "tr"} />
+        </Suspense>
+
+        <StudioPlatformSection
+          labels={{
+            eyebrow: t("platformEyebrow"),
+            title: t("platformTitle"),
+            body: t("platformBody"),
+            action: t("platformAction"),
+            statement: t("platformStatement"),
+          }}
+        />
+
         <section className="container py-16 sm:py-24">
           <div className="relative isolate grid items-center gap-8 overflow-hidden rounded-[2rem] bg-black p-7 pb-24 text-white sm:gap-10 sm:p-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12 lg:p-16">
             <BrandRing className="bottom-0 right-0 -z-10 size-40 translate-x-1/2 translate-y-1/2 border-[12px] sm:size-64 sm:border-[16px]" />
@@ -224,7 +224,7 @@ export default async function HomePage({
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">
                 {t("businessEyebrow")}
               </p>
-              <h2 className="mt-5 max-w-xl text-balance text-3xl font-semibold tracking-[-0.045em] sm:text-5xl xl:text-6xl">
+              <h2 className="mt-5 max-w-xl text-balance text-3xl font-semibold tracking-[-0.045em] sm:text-4xl xl:text-5xl">
                 {t("businessCta")}
               </h2>
               <p className="mt-4 max-w-lg text-base leading-7 text-white/65 sm:text-lg sm:leading-8">

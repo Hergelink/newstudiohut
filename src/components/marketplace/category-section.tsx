@@ -43,7 +43,7 @@ export async function CategorySection({ locale }: { locale: AppLocale }) {
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-black/50">
               {t("categoriesEyebrow")}
             </p>
-            <h2 className="mt-5 text-4xl font-semibold tracking-[-0.045em] sm:text-6xl">
+            <h2 className="mt-5 text-3xl font-semibold tracking-[-0.045em] sm:text-5xl">
               {t("categoriesTitle")}
             </h2>
             <p className="mt-4 text-lg text-black/55">
@@ -69,7 +69,7 @@ export async function CategorySection({ locale }: { locale: AppLocale }) {
                   <span className="text-xs font-semibold tracking-[0.14em] text-black/45">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span className="grid size-20 place-items-center rounded-3xl bg-studio-blue/[0.08] text-studio-blue transition-transform duration-300 group-hover:-rotate-6 sm:size-24">
+                  <span className="grid size-20 place-items-center rounded-3xl bg-studio-blue/[0.08] text-studio-blue sm:size-24">
                     <CategoryIcon
                       slug={category.slug}
                       className="size-10 sm:size-12"
@@ -88,10 +88,7 @@ export async function CategorySection({ locale }: { locale: AppLocale }) {
                 </span>
                 <span className="mt-7 flex items-center gap-2 text-sm font-semibold text-studio-blue">
                   {t("categoryAction")}
-                  <ArrowUpRight
-                    className="size-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-                    aria-hidden="true"
-                  />
+                  <ArrowUpRight className="size-4" aria-hidden="true" />
                 </span>
               </Link>
             ))}

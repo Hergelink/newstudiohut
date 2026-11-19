@@ -24,7 +24,7 @@ export function StudioPlatformSection({ labels }: { labels: PlatformLabels }) {
           </p>
           <h2
             id="studio-platform-title"
-            className="mt-5 whitespace-pre-line text-balance text-4xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-5xl lg:text-6xl"
+            className="mt-5 whitespace-pre-line text-balance text-3xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-4xl lg:text-5xl"
           >
             {labels.title}
           </h2>
@@ -59,7 +59,7 @@ export function StudioPlatformSection({ labels }: { labels: PlatformLabels }) {
               vectorEffect="non-scaling-stroke"
             />
           </svg>
-          <p className="max-w-lg whitespace-pre-line text-center text-[clamp(2rem,5vw,3.75rem)] font-semibold leading-[1.08] tracking-[-0.045em]">
+          <p className="max-w-lg whitespace-pre-line text-center text-[clamp(1.75rem,4vw,3rem)] font-semibold leading-[1.08] tracking-[-0.045em]">
             {labels.statement}
           </p>
         </div>

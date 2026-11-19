@@ -46,7 +46,7 @@ export function FeaturedStudios({
           </p>
           <h2
             id="featured-studios-title"
-            className="mt-5 text-balance text-4xl font-semibold tracking-[-0.045em] sm:text-6xl"
+            className="mt-5 text-balance text-3xl font-semibold tracking-[-0.045em] sm:text-5xl"
           >
             {labels.title}
           </h2>
