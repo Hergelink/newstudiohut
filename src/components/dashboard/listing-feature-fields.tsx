@@ -23,7 +23,7 @@ export function ListingFeatureFields({
   };
 }) {
   return (
-    <div className="mt-5 grid items-start gap-5 md:grid-cols-2">
+    <div className="mt-5 grid grid-cols-1 items-start gap-5">
       {features.map((feature) => {
         const name = `feature.${feature.key}`;
         const id = `feature-${feature.id}`;
@@ -47,7 +47,7 @@ export function ListingFeatureFields({
           return (
             <fieldset
               key={feature.id}
-              className={`rounded-2xl border p-4 ${feature.options.length > 6 ? "md:col-span-2" : ""}`}
+              className="min-w-0 rounded-2xl border p-4"
               aria-describedby={error ? `${id}-error` : undefined}
             >
               <legend className="px-1 text-sm font-medium">{label}</legend>
