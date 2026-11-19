@@ -49,6 +49,7 @@ export function ListingForm({
     name: string;
     slug: string;
     slugHint: string;
+    slugPlaceholder: string;
     description: string;
     addressLine: string;
     district: string;
@@ -144,7 +145,7 @@ export function ListingForm({
                 pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
                 maxLength={140}
                 defaultValue={listing?.slug}
-                placeholder="moda-fotograf-studyosu"
+                placeholder={labels.slugPlaceholder}
               />
               <span className="text-xs font-normal text-muted-foreground">
                 {labels.slugHint}

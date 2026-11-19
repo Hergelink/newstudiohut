@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
 import type { StudioLocation } from "@/modules/maps/location-search";
@@ -17,6 +18,10 @@ export function InteractiveMap({
   errorLabel: string;
   loadingLabel: string;
 }) {
+  const t = useTranslations("MapControls");
+  const zoomIn = t("zoomIn");
+  const zoomOut = t("zoomOut");
+  const contributors = t("contributors");
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<LeafletMap | null>(null);
   const marker = useRef<Marker | null>(null);
@@ -35,6 +40,7 @@ export function InteractiveMap({
         if (disposed || !container.current) return;
         const instance = L.map(container.current, {
           scrollWheelZoom: false,
+          zoomControl: false,
           worldCopyJump: true,
           maxBounds: [
             [-85, -180],
@@ -48,13 +54,15 @@ export function InteractiveMap({
           initial.current ? 16 : 10,
         );
         map.current = instance;
+        L.control
+          .zoom({ zoomInTitle: zoomIn, zoomOutTitle: zoomOut })
+          .addTo(instance);
         const tiles = L.tileLayer(
           process.env.NEXT_PUBLIC_MAP_TILE_URL ||
             "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
           {
             maxZoom: 19,
-            attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ${contributors}`,
           },
         ).addTo(instance);
         tiles.on("tileerror", () => {
@@ -110,7 +118,7 @@ export function InteractiveMap({
       map.current = null;
       marker.current = null;
     };
-  }, [label]);
+  }, [label, zoomIn, zoomOut, contributors]);
   useEffect(() => {
     if (value && map.current && marker.current) {
       marker.current.setLatLng([value.lat, value.lng]).setOpacity(1);

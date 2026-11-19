@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Map as LeafletMap, Popup } from "leaflet";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { ArrowUpRight, ImageIcon, LocateFixed, MapPin, X } from "lucide-react";
 
 import {
@@ -48,6 +49,8 @@ export function StudioDiscoveryMap({
   locale: AppLocale;
   labels: MapLabels;
 }) {
+  const mapT = useTranslations("MapControls");
+  const contributors = mapT("contributors");
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<LeafletMap | null>(null);
   const popup = useRef<Popup | null>(null);
@@ -81,8 +84,7 @@ export function StudioDiscoveryMap({
           "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
         {
           maxZoom: 19,
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ${contributors}`,
         },
       ).addTo(instance);
       tiles.on("tileerror", () => {
@@ -161,7 +163,7 @@ export function StudioDiscoveryMap({
       map.current = null;
       popup.current = null;
     };
-  }, [listings, labels.zoomIn, labels.zoomOut]);
+  }, [listings, labels.zoomIn, labels.zoomOut, contributors]);
 
   useEffect(() => {
     popup.current?.update();

@@ -1,6 +1,10 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-import type { Database, FeatureType, Json } from "@/lib/supabase/database.types";
+import type {
+  Database,
+  FeatureType,
+  Json,
+} from "@/lib/supabase/database.types";
 import type {
   AdminCategoryInput,
   AdminFeatureDefinitionInput,
@@ -37,11 +41,18 @@ export interface AdminCatalogRepository {
   listCategories(): Promise<AdminCategory[]>;
   findCategory(categoryId: string): Promise<AdminCategory | null>;
   createCategory(input: AdminCategoryInput): Promise<AdminCategory>;
-  updateCategory(categoryId: string, input: AdminCategoryInput): Promise<AdminCategory>;
+  updateCategory(
+    categoryId: string,
+    input: AdminCategoryInput,
+  ): Promise<AdminCategory>;
   deleteCategory(categoryId: string): Promise<void>;
   listFeatureDefinitions(): Promise<AdminFeatureDefinition[]>;
-  findFeatureDefinition(featureId: string): Promise<AdminFeatureDefinition | null>;
-  createFeatureDefinition(input: AdminFeatureDefinitionInput): Promise<AdminFeatureDefinition>;
+  findFeatureDefinition(
+    featureId: string,
+  ): Promise<AdminFeatureDefinition | null>;
+  createFeatureDefinition(
+    input: AdminFeatureDefinitionInput,
+  ): Promise<AdminFeatureDefinition>;
   updateFeatureDefinition(
     featureId: string,
     input: AdminFeatureDefinitionInput,
@@ -53,7 +64,10 @@ export interface AdminCatalogRepository {
     categoryId: string,
     input: CategoryFeatureAssignmentInput,
   ): Promise<void>;
-  removeCategoryFeature(categoryId: string, featureDefinitionId: string): Promise<void>;
+  removeCategoryFeature(
+    categoryId: string,
+    featureDefinitionId: string,
+  ): Promise<void>;
 }
 
 function categoryFromRow(
@@ -73,17 +87,51 @@ function categoryFromRow(
   };
 }
 
-function validationFor(input: AdminFeatureDefinitionInput): Json {
+// Preserve localized labels and contact metadata when an administrator edits rules.
+function validationFor(
+  input: AdminFeatureDefinitionInput,
+  previous: Json = {},
+): Json {
+  const validation =
+    previous && typeof previous === "object" && !Array.isArray(previous)
+      ? { ...previous }
+      : {};
+  delete validation.min;
+  delete validation.max;
+  delete validation.maxLength;
   if (input.featureType === "number") {
-    return {
-      ...(input.min === undefined ? {} : { min: input.min }),
-      ...(input.max === undefined ? {} : { max: input.max }),
-    };
+    if (input.min !== undefined) validation.min = input.min;
+    if (input.max !== undefined) validation.max = input.max;
   }
-  if (input.featureType === "text" && input.maxLength !== undefined) {
-    return { maxLength: input.maxLength };
+  if (input.featureType === "text" && input.maxLength !== undefined)
+    validation.maxLength = input.maxLength;
+  for (const [key, labels] of [
+    ["optionsTr", input.optionLabelsTr],
+    ["optionsEn", input.optionLabelsEn],
+  ] as const) {
+    const existing = validation[key];
+    if (
+      input.featureType !== "select" &&
+      input.featureType !== "multi_select"
+    ) {
+      delete validation[key];
+    } else if (labels !== undefined) {
+      validation[key] = Object.fromEntries(
+        (input.options ?? []).map((option, index) => [option, labels[index]]),
+      );
+    } else if (
+      existing &&
+      typeof existing === "object" &&
+      !Array.isArray(existing)
+    ) {
+      validation[key] = Object.fromEntries(
+        Object.entries(existing).filter(([option]) =>
+          input.options?.includes(option),
+        ),
+      );
+    }
   }
-  return {};
+  return validation;
 }
 
 function featureFromRow(
@@ -105,7 +153,7 @@ function featureFromRow(
   };
 }
 
-function featureWrite(input: AdminFeatureDefinitionInput) {
+function featureWrite(input: AdminFeatureDefinitionInput, previous?: Json) {
   return {
     key: input.key,
     name_tr: input.nameTr,
@@ -113,7 +161,7 @@ function featureWrite(input: AdminFeatureDefinitionInput) {
     feature_type: input.featureType,
     unit: input.unit,
     options: input.options,
-    validation: validationFor(input),
+    validation: validationFor(input, previous),
   };
 }
 
@@ -184,7 +232,10 @@ export class SupabaseAdminCatalogRepository implements AdminCatalogRepository {
   }
 
   async deleteCategory(categoryId: string) {
-    const { error } = await this.client.from("categories").delete().eq("id", categoryId);
+    const { error } = await this.client
+      .from("categories")
+      .delete()
+      .eq("id", categoryId);
     if (error) throw error;
   }
 
@@ -217,10 +268,15 @@ export class SupabaseAdminCatalogRepository implements AdminCatalogRepository {
     return featureFromRow(data);
   }
 
-  async updateFeatureDefinition(featureId: string, input: AdminFeatureDefinitionInput) {
+  async updateFeatureDefinition(
+    featureId: string,
+    input: AdminFeatureDefinitionInput,
+  ) {
+    const current = await this.findFeatureDefinition(featureId);
+    if (!current) throw new Error("feature_not_found");
     const { data, error } = await this.client
       .from("feature_definitions")
-      .update(featureWrite(input))
+      .update(featureWrite(input, current.validation))
       .eq("id", featureId)
       .select(featureColumns)
       .maybeSingle();
@@ -261,20 +317,24 @@ export class SupabaseAdminCatalogRepository implements AdminCatalogRepository {
           .in("id", ids)
       : { data: [], error: null };
     if (definitions.error) throw definitions.error;
-    const byId = new Map((definitions.data ?? []).map((item) => [item.id, item]));
+    const byId = new Map(
+      (definitions.data ?? []).map((item) => [item.id, item]),
+    );
     return (data ?? []).flatMap((assignment) => {
       const feature = byId.get(assignment.feature_definition_id);
       return feature
-        ? [{
-            featureDefinitionId: assignment.feature_definition_id,
-            featureKey: feature.key,
-            featureNameTr: feature.name_tr,
-            featureNameEn: feature.name_en,
-            featureType: feature.feature_type,
-            isRequired: assignment.is_required,
-            isFilterable: assignment.is_filterable,
-            sortOrder: assignment.sort_order,
-          }]
+        ? [
+            {
+              featureDefinitionId: assignment.feature_definition_id,
+              featureKey: feature.key,
+              featureNameTr: feature.name_tr,
+              featureNameEn: feature.name_en,
+              featureType: feature.feature_type,
+              isRequired: assignment.is_required,
+              isFilterable: assignment.is_filterable,
+              sortOrder: assignment.sort_order,
+            },
+          ]
         : [];
     });
   }

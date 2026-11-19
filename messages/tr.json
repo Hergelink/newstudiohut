@@ -19,7 +19,9 @@
     "login": "Giriş yap",
     "signup": "Kaydol",
     "dashboard": "Panelim",
-    "signOut": "Çıkış yap"
+    "signOut": "Çıkış yap",
+    "switchToTurkish": "Türkçeye geç",
+    "switchToEnglish": "Switch to English"
   },
   "Footer": {
     "label": "Site alt bilgisi",
@@ -112,7 +114,7 @@
     "page": "Sayfa {page} / {total}",
     "capacityShort": "Kapasite",
     "area": "Alan",
-    "priceOnRequest": "Fiyat için iletişime geçin",
+    "priceOnRequest": "Saatlik ücret için iletişime geçin",
     "emptyTitle": "Bu filtrelerle eşleşen stüdyo yok",
     "emptyBody": "Filtreleri genişletmeyi deneyin. Yeni yayınlanan stüdyolar burada otomatik olarak görünecek.",
     "errorTitle": "Stüdyolar yüklenemedi",
@@ -145,7 +147,7 @@
     "yes": "Evet",
     "no": "Hayır",
     "startingPrice": "Saatlik ücret",
-    "priceOnRequest": "Fiyat için iletişime geçin",
+    "priceOnRequest": "Saatlik ücret için iletişime geçin",
     "capacity": "Kapasite",
     "area": "Alan",
     "address": "Adres",
@@ -385,7 +387,8 @@
     "saving": "Güncelleniyor…",
     "validationError": "Geçerli bir talep durumu seçin.",
     "notFound": "Bu talep bulunamadı.",
-    "unexpectedError": "Talep durumu güncellenemedi."
+    "unexpectedError": "Talep durumu güncellenemedi.",
+    "listingSource": "Stüdyo ilanı"
   },
   "ListingForm": {
     "back": "İşletmeye dön",
@@ -438,7 +441,8 @@
     },
     "minimumBookingHours": "Minimum rezervasyon süresi (saat)",
     "pricingHint": "Bir saatlik ücreti ve rezervasyon başına minimum süreyi girin.",
-    "turkishLira": "Türk lirası (₺ / TRY)"
+    "turkishLira": "Türk lirası (₺ / TRY)",
+    "slugPlaceholder": "moda-fotograf-studyosu"
   },
   "NewStudioPhotos": {
     "beforeSave": "Fotoğrafları şimdi seçebilirsiniz. Taslağı kaydettiğinizde yüklenecekler.",
@@ -520,7 +524,7 @@
       "images": "En az bir fotoğraf",
       "cover": "Kapak fotoğrafı",
       "requiredFeatures": "Kategori için zorunlu özellikler",
-      "location": "Haritada stüdyo konumunu seçin."
+      "location": "Harita konumu"
     }
   },
   "Admin": {
@@ -639,9 +643,9 @@
       "text": "Metin"
     },
     "unit": "Birim",
-    "options": "Seçim seçenekleri",
-    "optionsPlaceholder": "gün_ışığı\nflaş\nsürekli_ışık",
-    "optionsHint": "Tekli ve çoklu seçim alanlarında zorunludur. Her satıra bir seçenek yazın veya seçenekleri virgülle ayırın.",
+    "options": "Seçenek anahtarları",
+    "optionsPlaceholder": "daylight\nflash\ncontinuous_light",
+    "optionsHint": "Her satıra bir sabit seçenek anahtarı yazın. Türkçe ve İngilizce etiketleri aşağıya aynı sırayla ekleyin.",
     "min": "En düşük değer",
     "max": "En yüksek değer",
     "maxLength": "En fazla karakter sayısı",
@@ -657,7 +661,10 @@
     "dangerBody": "Kategori atamaları otomatik silinir; ancak kayıtlı ilan değerleri silmeyi engelleyebilir.",
     "delete": "Özelliği sil",
     "deleting": "Siliniyor…",
-    "deleteConfirmation": "Kullanılmayan bu özellik tanımı kalıcı olarak silinsin mi? Bu işlem geri alınamaz."
+    "deleteConfirmation": "Kullanılmayan bu özellik tanımı kalıcı olarak silinsin mi? Bu işlem geri alınamaz.",
+    "optionLabelsTr": "Türkçe seçenek etiketleri",
+    "optionLabelsEn": "İngilizce seçenek etiketleri",
+    "optionLabelsHint": "Her seçenek için bir etiket yazın. Satır sırası yukarıdaki anahtarlarla eşleşmelidir."
   },
   "AdminReviews": {
     "eyebrow": "Platform kalite kontrolü",
@@ -703,7 +710,10 @@
     "skip": "İçeriğe geç",
     "errorTitle": "Bir şeyler ters gitti",
     "errorBody": "Sayfa şu anda yüklenemiyor. Lütfen tekrar deneyin.",
-    "tryAgain": "Tekrar dene"
+    "tryAgain": "Tekrar dene",
+    "notFoundTitle": "Sayfa bulunamadı",
+    "notFoundBody": "Aradığınız sayfa taşınmış, kaldırılmış veya bağlantısı değişmiş olabilir.",
+    "backHome": "Ana sayfaya dön"
   },
   "LocationPicker": {
     "searchLabel": "Stüdyonuzu haritada bulun *",
@@ -724,5 +734,10 @@
     "perHour": "/ saat",
     "onRequest": "Saatlik ücret için iletişime geçin",
     "minimumBooking": "Minimum rezervasyon: {hours} saat"
+  },
+  "MapControls": {
+    "zoomIn": "Yakınlaştır",
+    "zoomOut": "Uzaklaştır",
+    "contributors": "katkıda bulunanlar"
   }
 }

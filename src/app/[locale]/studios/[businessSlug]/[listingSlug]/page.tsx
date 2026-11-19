@@ -332,7 +332,7 @@ export default async function ListingDetailPage({
                       <dt className="text-sm text-muted-foreground">
                         {feature.name}
                       </dt>
-                      <dd className="mt-1 font-semibold capitalize">
+                      <dd className="mt-1 font-semibold">
                         {displayFeatureValue(
                           feature,
                           t("yes"),

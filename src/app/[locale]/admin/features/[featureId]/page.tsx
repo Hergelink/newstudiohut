@@ -61,7 +61,32 @@ export default async function EditAdminFeaturePage({
           action={updateFeatureDefinitionAction.bind(null, locale, featureId)}
           initial={feature}
           labels={{
-            key: t("key"), keyHint: t("keyHint"), nameTr: t("nameTr"), nameEn: t("nameEn"), type: t("type"), boolean: t("types.boolean"), number: t("types.number"), select: t("types.select"), multiSelect: t("types.multi_select"), text: t("types.text"), unit: t("unit"), options: t("options"), optionsPlaceholder: t("optionsPlaceholder"), optionsHint: t("optionsHint"), min: t("min"), max: t("max"), maxLength: t("maxLength"), save: t("save"), saving: t("saving"), validation_error: t("validationError"), conflict: t("conflict"), in_use: t("inUse"), unexpected_error: t("unexpectedError"),
+            key: t("key"),
+            keyHint: t("keyHint"),
+            nameTr: t("nameTr"),
+            nameEn: t("nameEn"),
+            type: t("type"),
+            boolean: t("types.boolean"),
+            number: t("types.number"),
+            select: t("types.select"),
+            multiSelect: t("types.multi_select"),
+            text: t("types.text"),
+            unit: t("unit"),
+            options: t("options"),
+            optionsPlaceholder: t("optionsPlaceholder"),
+            optionsHint: t("optionsHint"),
+            optionLabelsTr: t("optionLabelsTr"),
+            optionLabelsEn: t("optionLabelsEn"),
+            optionLabelsHint: t("optionLabelsHint"),
+            min: t("min"),
+            max: t("max"),
+            maxLength: t("maxLength"),
+            save: t("save"),
+            saving: t("saving"),
+            validation_error: t("validationError"),
+            conflict: t("conflict"),
+            in_use: t("inUse"),
+            unexpected_error: t("unexpectedError"),
           }}
         />
         <aside className="space-y-4 rounded-3xl border border-destructive/20 bg-card p-6 xl:h-fit">
@@ -73,7 +98,11 @@ export default async function EditAdminFeaturePage({
             action={deleteFeatureDefinitionAction.bind(null, locale, featureId)}
             confirmation={t("deleteConfirmation")}
             labels={{
-              delete: t("delete"), deleting: t("deleting"), conflict: t("conflict"), in_use: t("inUse"), unexpected_error: t("unexpectedError"),
+              delete: t("delete"),
+              deleting: t("deleting"),
+              conflict: t("conflict"),
+              in_use: t("inUse"),
+              unexpected_error: t("unexpectedError"),
             }}
           />
         </aside>

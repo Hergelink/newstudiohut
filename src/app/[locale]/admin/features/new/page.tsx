@@ -34,7 +34,32 @@ export default async function NewAdminFeaturePage({
         <FeatureDefinitionForm
           action={createFeatureDefinitionAction.bind(null, locale)}
           labels={{
-            key: t("key"), keyHint: t("keyHint"), nameTr: t("nameTr"), nameEn: t("nameEn"), type: t("type"), boolean: t("types.boolean"), number: t("types.number"), select: t("types.select"), multiSelect: t("types.multi_select"), text: t("types.text"), unit: t("unit"), options: t("options"), optionsPlaceholder: t("optionsPlaceholder"), optionsHint: t("optionsHint"), min: t("min"), max: t("max"), maxLength: t("maxLength"), save: t("create"), saving: t("creating"), validation_error: t("validationError"), conflict: t("conflict"), in_use: t("inUse"), unexpected_error: t("unexpectedError"),
+            key: t("key"),
+            keyHint: t("keyHint"),
+            nameTr: t("nameTr"),
+            nameEn: t("nameEn"),
+            type: t("type"),
+            boolean: t("types.boolean"),
+            number: t("types.number"),
+            select: t("types.select"),
+            multiSelect: t("types.multi_select"),
+            text: t("types.text"),
+            unit: t("unit"),
+            options: t("options"),
+            optionsPlaceholder: t("optionsPlaceholder"),
+            optionsHint: t("optionsHint"),
+            optionLabelsTr: t("optionLabelsTr"),
+            optionLabelsEn: t("optionLabelsEn"),
+            optionLabelsHint: t("optionLabelsHint"),
+            min: t("min"),
+            max: t("max"),
+            maxLength: t("maxLength"),
+            save: t("create"),
+            saving: t("creating"),
+            validation_error: t("validationError"),
+            conflict: t("conflict"),
+            in_use: t("inUse"),
+            unexpected_error: t("unexpectedError"),
           }}
         />
       </div>

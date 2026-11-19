@@ -15,6 +15,7 @@ export async function getListingFormLabels() {
     name: t("name"),
     slug: t("slug"),
     slugHint: t("slugHint"),
+    slugPlaceholder: t("slugPlaceholder"),
     description: t("description"),
     addressLine: t("addressLine"),
     district: t("district"),

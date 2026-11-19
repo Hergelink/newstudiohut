@@ -132,7 +132,11 @@ export default async function BusinessLeadDetailPage({
             <dl className="mt-5 grid gap-4 text-sm sm:grid-cols-2">
               <div>
                 <dt className="text-muted-foreground">{t("source")}</dt>
-                <dd className="mt-1 font-semibold">{lead.source}</dd>
+                <dd className="mt-1 font-semibold">
+                  {lead.source === "listing_detail"
+                    ? t("listingSource")
+                    : lead.source}
+                </dd>
               </div>
               <div>
                 <dt className="text-muted-foreground">{t("utmSource")}</dt>

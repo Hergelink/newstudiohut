@@ -1,12 +1,13 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 
 import {
   CatalogActionMessage,
   FieldError,
 } from "@/components/admin/catalog-action-message";
 import { FormSubmit } from "@/components/dashboard/form-submit";
+import { featureOptionLabels } from "@/modules/features/localization";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -34,6 +35,11 @@ export function FeatureDefinitionForm({
   initial?: AdminFeatureDefinition;
   labels: Record<string, string>;
 }) {
+  const [featureType, setFeatureType] = useState(
+    initial?.featureType ?? "boolean",
+  );
+  const needsOptions =
+    featureType === "select" || featureType === "multi_select";
   const [state, formAction] = useActionState(action, { ok: false });
   return (
     <form
@@ -82,7 +88,10 @@ export function FeatureDefinitionForm({
           <select
             id="featureType"
             name="featureType"
-            defaultValue={initial?.featureType ?? "boolean"}
+            value={featureType}
+            onChange={(event) =>
+              setFeatureType(event.target.value as typeof featureType)
+            }
             className="flex h-11 w-full rounded-xl border border-input bg-background px-4 text-sm shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <option value="boolean">{labels.boolean}</option>
@@ -104,20 +113,55 @@ export function FeatureDefinitionForm({
             message={labels.validation_error}
           />
         </div>
-        <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="options">{labels.options}</Label>
-          <Textarea
-            id="options"
-            name="options"
-            defaultValue={initial?.options?.join("\n") ?? ""}
-            placeholder={labels.optionsPlaceholder}
-          />
-          <p className="text-xs text-muted-foreground">{labels.optionsHint}</p>
-          <FieldError
-            errors={state.fieldErrors?.options}
-            message={labels.validation_error}
-          />
-        </div>
+        {needsOptions ? (
+          <>
+            <div className="space-y-2 sm:col-span-2">
+              <Label htmlFor="options">{labels.options}</Label>
+              <Textarea
+                required
+                id="options"
+                name="options"
+                defaultValue={initial?.options?.join("\n") ?? ""}
+                placeholder={labels.optionsPlaceholder}
+              />
+              <p className="text-xs text-muted-foreground">
+                {labels.optionsHint}
+              </p>
+              <FieldError
+                errors={state.fieldErrors?.options}
+                message={labels.validation_error}
+              />
+            </div>
+            {(["tr", "en"] as const).map((locale) => {
+              const field =
+                locale === "tr" ? "optionLabelsTr" : "optionLabelsEn";
+              const translations = featureOptionLabels(
+                initial?.validation,
+                locale,
+              );
+              return (
+                <div key={locale} className="space-y-2">
+                  <Label htmlFor={field}>{labels[field]}</Label>
+                  <Textarea
+                    id={field}
+                    name={field}
+                    required
+                    defaultValue={(initial?.options ?? [])
+                      .map((option) => translations[option] ?? "")
+                      .join("\n")}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    {labels.optionLabelsHint}
+                  </p>
+                  <FieldError
+                    errors={state.fieldErrors?.[field]}
+                    message={labels.validation_error}
+                  />
+                </div>
+              );
+            })}
+          </>
+        ) : null}
         <div className="space-y-2">
           <Label htmlFor="min">{labels.min}</Label>
           <Input

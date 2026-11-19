@@ -103,3 +103,48 @@ describe("admin catalog components", () => {
     expect(screen.getByLabelText("Filterable")).toBeInTheDocument();
   });
 });
+
+it.each(["tr", "en"] as const)(
+  "prefills both option translations when editing a %s feature",
+  async (locale) => {
+    const messages =
+      locale === "tr"
+        ? (await import("../messages/tr.json")).default
+        : (await import("../messages/en.json")).default;
+    const labels: Record<string, string> = Object.fromEntries(
+      Object.entries(messages.AdminFeatureForm).filter(
+        (entry): entry is [string, string] => typeof entry[1] === "string",
+      ),
+    );
+    render(
+      <FeatureDefinitionForm
+        action={action}
+        labels={labels}
+        initial={{
+          id: "lighting",
+          key: "lighting",
+          nameTr: "Işık",
+          nameEn: "Lighting",
+          featureType: "multi_select",
+          unit: null,
+          options: ["daylight", "flash"],
+          validation: {
+            optionsTr: { daylight: "Doğal ışık", flash: "Flaş" },
+            optionsEn: { daylight: "Daylight", flash: "Flash" },
+          },
+          createdAt: "2026-11-19",
+          updatedAt: "2026-11-19",
+        }}
+      />,
+    );
+    expect(
+      screen.getByLabelText(messages.AdminFeatureForm.optionLabelsTr),
+    ).toHaveValue("Doğal ışık\nFlaş");
+    expect(
+      screen.getByLabelText(messages.AdminFeatureForm.optionLabelsEn),
+    ).toHaveValue("Daylight\nFlash");
+    expect(
+      screen.getByLabelText(messages.AdminFeatureForm.options),
+    ).toHaveValue("daylight\nflash");
+  },
+);

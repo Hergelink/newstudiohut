@@ -19,7 +19,9 @@
     "login": "Log in",
     "signup": "Sign up",
     "dashboard": "Dashboard",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "switchToTurkish": "Türkçeye geç",
+    "switchToEnglish": "Switch to English"
   },
   "Footer": {
     "label": "Site footer",
@@ -43,7 +45,7 @@
     "searchLabel": "What do you need?",
     "searchPlaceholder": "Photography, podcast, rehearsal...",
     "locationLabel": "Where?",
-    "locationPlaceholder": "District or neighborhood",
+    "locationPlaceholder": "District or neighbourhood",
     "search": "Search",
     "categoriesEyebrow": "Categories",
     "categoriesTitle": "A space for every creation",
@@ -112,7 +114,7 @@
     "page": "Page {page} of {total}",
     "capacityShort": "Capacity",
     "area": "Area",
-    "priceOnRequest": "Contact for price",
+    "priceOnRequest": "Hourly rate on request",
     "emptyTitle": "No studios match these filters",
     "emptyBody": "Try broadening the filters. Newly published studios will appear here automatically.",
     "errorTitle": "Studios could not be loaded",
@@ -145,7 +147,7 @@
     "yes": "Yes",
     "no": "No",
     "startingPrice": "Hourly rate",
-    "priceOnRequest": "Contact for price",
+    "priceOnRequest": "Hourly rate on request",
     "capacity": "Capacity",
     "area": "Area",
     "address": "Address",
@@ -156,7 +158,7 @@
     "inquiry": {
       "title": "Ask about this studio",
       "subtitle": "Send your preferred date and project details directly to the studio team.",
-      "name": "Name",
+      "name": "Full name",
       "email": "Email",
       "phone": "Phone",
       "preferredDate": "Preferred date",
@@ -166,7 +168,7 @@
       "privacy": "Your contact details are shared only with the business managing this listing.",
       "successTitle": "Your inquiry was sent",
       "successBody": "The studio team received your details and can now contact you directly.",
-      "invalidName": "Enter your name.",
+      "invalidName": "Enter your full name.",
       "invalidEmail": "Enter a valid email address.",
       "invalidPhone": "Enter a valid phone number.",
       "invalidDate": "Choose today or a future date.",
@@ -385,7 +387,8 @@
     "saving": "Updating…",
     "validationError": "Choose a valid inquiry status.",
     "notFound": "This inquiry could not be found.",
-    "unexpectedError": "The inquiry status could not be updated."
+    "unexpectedError": "The inquiry status could not be updated.",
+    "listingSource": "Studio listing"
   },
   "ListingForm": {
     "back": "Back to business",
@@ -438,7 +441,8 @@
     },
     "minimumBookingHours": "Minimum booking hours",
     "pricingHint": "Enter your rate for one hour and the minimum number of hours per booking.",
-    "turkishLira": "Turkish lira (₺ / TRY)"
+    "turkishLira": "Turkish lira (₺ / TRY)",
+    "slugPlaceholder": "moda-photo-studio"
   },
   "NewStudioPhotos": {
     "beforeSave": "Choose photos now; they will upload when you save the draft.",
@@ -520,7 +524,7 @@
       "images": "At least one photo",
       "cover": "Cover photo",
       "requiredFeatures": "Required category features",
-      "location": "Choose a studio location on the map."
+      "location": "Map location"
     }
   },
   "Admin": {
@@ -639,9 +643,9 @@
       "text": "Text"
     },
     "unit": "Unit",
-    "options": "Selection options",
+    "options": "Option keys",
     "optionsPlaceholder": "daylight\nflash\ncontinuous_light",
-    "optionsHint": "Required for single-select and multi-select fields. Enter one option per line or separate them with commas.",
+    "optionsHint": "Enter one stable option key per line. Add Turkish and English labels below in the same order.",
     "min": "Minimum value",
     "max": "Maximum value",
     "maxLength": "Maximum text length",
@@ -657,7 +661,10 @@
     "dangerBody": "Category assignments are removed automatically, but stored listing values can block deletion.",
     "delete": "Delete feature",
     "deleting": "Deleting…",
-    "deleteConfirmation": "Permanently delete this unused feature definition? This cannot be undone."
+    "deleteConfirmation": "Permanently delete this unused feature definition? This cannot be undone.",
+    "optionLabelsTr": "Turkish option labels",
+    "optionLabelsEn": "English option labels",
+    "optionLabelsHint": "Enter one label per option, in the same order as the keys above."
   },
   "AdminReviews": {
     "eyebrow": "Platform quality",
@@ -703,7 +710,10 @@
     "skip": "Skip to content",
     "errorTitle": "Something went wrong",
     "errorBody": "This page cannot be loaded right now. Please try again.",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "The page may have moved, been removed, or its address may have changed.",
+    "backHome": "Back to home"
   },
   "LocationPicker": {
     "searchLabel": "Find your studio on the map *",
@@ -715,7 +725,7 @@
     "noResults": "No locations found. Try a nearby street or select the location directly on the map.",
     "searchError": "Address search is unavailable. Try again, or place the pin directly on the map.",
     "mapLabel": "Studio location map",
-    "mapError": "Map tiles could not load. Try refreshing your connection. Address search can still select a location.",
+    "mapError": "The map could not load. Check your connection. You can still select a location using address search.",
     "loading": "Loading map…",
     "selected": "Location selected",
     "required": "Select a location on the map to save your studio."
@@ -724,5 +734,10 @@
     "perHour": "/ hour",
     "onRequest": "Hourly rate on request",
     "minimumBooking": "Minimum booking: {hours, plural, one {# hour} other {# hours}}"
+  },
+  "MapControls": {
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "contributors": "contributors"
   }
 }

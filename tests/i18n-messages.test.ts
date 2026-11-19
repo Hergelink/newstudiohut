@@ -318,3 +318,58 @@ describe("translation keys referenced by application source", () => {
     }
   });
 });
+
+// Brand names, measurement units and the hidden spam trap are not translated.
+describe("application-owned visible copy", () => {
+  it("keeps JSX prose and accessibility text in the translation catalogs", () => {
+    const violations: string[] = [];
+    const brandOrUnit = new Set(["StudioHut", "Instagram", "m²", "/studios/"]);
+    for (const file of sourceFiles(join(process.cwd(), "src"))) {
+      if (!file.endsWith(".tsx")) continue;
+      const source = ts.createSourceFile(
+        file,
+        ts.sys.readFile(file)!,
+        ts.ScriptTarget.Latest,
+        true,
+        ts.ScriptKind.TSX,
+      );
+      function hidden(node: ts.Node): boolean {
+        if (
+          ts.isJsxElement(node) &&
+          node.openingElement.attributes.properties.some(
+            (property) =>
+              ts.isJsxAttribute(property) &&
+              property.name.getText(source) === "aria-hidden" &&
+              property.initializer &&
+              ts.isStringLiteral(property.initializer) &&
+              property.initializer.text === "true",
+          )
+        )
+          return true;
+        return node.parent ? hidden(node.parent) : false;
+      }
+      function inspect(node: ts.Node) {
+        let text = "";
+        if (ts.isJsxText(node) && !hidden(node)) text = node.text.trim();
+        if (
+          ts.isJsxAttribute(node) &&
+          ["aria-label", "title", "placeholder", "alt"].includes(
+            node.name.getText(source),
+          ) &&
+          node.initializer &&
+          ts.isStringLiteral(node.initializer)
+        )
+          text = node.initializer.text;
+        if (/\p{L}/u.test(text) && !brandOrUnit.has(text)) {
+          const line =
+            source.getLineAndCharacterOfPosition(node.getStart(source)).line +
+            1;
+          violations.push(`${relative(process.cwd(), file)}:${line}: ${text}`);
+        }
+        ts.forEachChild(node, inspect);
+      }
+      inspect(source);
+    }
+    expect(violations).toEqual([]);
+  });
+});
