@@ -1,5 +1,9 @@
 import type { AppLocale } from "@/i18n/routing";
 import type { FeatureType, Json } from "@/lib/supabase/database.types";
+import {
+  formatOpeningHours,
+  parseOpeningHours,
+} from "@/modules/features/opening-hours";
 
 export function featureOptionLabels(
   validation: Json | undefined,
@@ -28,6 +32,10 @@ export function localizedFeatureValue(
   validation: Json | undefined,
   locale: AppLocale,
 ) {
+  if (type === "text" && typeof value === "string") {
+    const hours = parseOpeningHours(value);
+    if (hours) return formatOpeningHours(hours, locale);
+  }
   const labels = featureOptionLabels(validation, locale);
   if (type === "select" && typeof value === "string") {
     return labels[value] ?? value;

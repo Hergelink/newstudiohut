@@ -48,6 +48,7 @@ export function parseListingFeatureValues(
 
     const validated = validateFeatureValue(
       {
+        key: definition.key,
         featureType: definition.featureType,
         options: definition.options,
         validation: definition.validation,

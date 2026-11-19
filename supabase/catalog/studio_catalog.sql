@@ -22,7 +22,7 @@ values
  ('studio_contact_phone', 'İletişim telefonu', 'Contact phone', 'text', null, null,
   '{"maxLength":50,"format":"tel","section":"contact","placeholder":"+90 5xx xxx xx xx"}'),
  ('studio_opening_hours', 'Çalışma saatleri', 'Opening hours', 'text', null, null,
-  '{"maxLength":500,"section":"contact"}'),
+  '{"maxLength":500,"format":"opening_hours","section":"contact"}'),
  ('shooting_types', 'Çekim türleri', 'Types of shoots', 'multi_select', null,
   '["product","portrait","fashion","video","commercial"]',
   '{"optionsTr":{"product":"Ürün","portrait":"Portre","fashion":"Moda","video":"Video","commercial":"Reklam"},"optionsEn":{"product":"Product","portrait":"Portrait","fashion":"Fashion","video":"Video","commercial":"Commercial"}}'),

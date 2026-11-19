@@ -440,6 +440,20 @@
     "pricingHint": "Enter your rate for one hour and the minimum number of hours per booking.",
     "turkishLira": "Turkish lira (₺ / TRY)"
   },
+  "OpeningHours": {
+    "days": "Days open",
+    "opens": "Opening time",
+    "closes": "Closing time",
+    "chooseTime": "Select a time",
+    "allDays": "Select all days",
+    "deselectDays": "Clear day selection",
+    "clear": "Clear opening hours",
+    "hint": "The same hours apply to your selected days. Times use the Türkiye time zone. Choose 24:00 to close at midnight.",
+    "nextDay": "The closing time is on the following day.",
+    "existing": "Current information: {value}",
+    "legacyHint": "Your existing opening-hours information is kept until you choose a new schedule.",
+    "invalid": "Select at least one day and both times in 30-minute intervals. Opening and closing times must differ."
+  },
   "NewStudioPhotos": {
     "beforeSave": "Choose photos now; they will upload when you save the draft.",
     "queueOrderHint": "Drag photos or use the arrow buttons to arrange them. The first photo will be your cover.",

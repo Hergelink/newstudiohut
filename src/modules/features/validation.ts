@@ -2,8 +2,13 @@ import { z } from "zod";
 
 import type { FeatureType, Json } from "@/lib/supabase/database.types";
 import { studioWebsiteSchema } from "@/modules/features/contact-validation";
+import {
+  isOpeningHoursFeature,
+  isValidOpeningHoursValue,
+} from "@/modules/features/opening-hours";
 
 export type FeatureDefinitionContract = {
+  key?: string;
   featureType: FeatureType;
   options: Json | null;
   validation: Json;
@@ -41,6 +46,8 @@ export function featureValueSchema(
       let schema = z.string().trim().min(1);
       if (typeof rules.maxLength === "number")
         schema = schema.max(rules.maxLength);
+      if (isOpeningHoursFeature(definition))
+        return schema.refine(isValidOpeningHoursValue, "invalid_opening_hours");
       return schema;
     }
     case "select": {

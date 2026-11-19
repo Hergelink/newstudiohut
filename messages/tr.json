@@ -440,6 +440,20 @@
     "pricingHint": "Bir saatlik ücreti ve rezervasyon başına minimum süreyi girin.",
     "turkishLira": "Türk lirası (₺ / TRY)"
   },
+  "OpeningHours": {
+    "days": "Açık olunan günler",
+    "opens": "Açılış saati",
+    "closes": "Kapanış saati",
+    "chooseTime": "Saat seçin",
+    "allDays": "Tüm günleri seç",
+    "deselectDays": "Gün seçimini temizle",
+    "clear": "Çalışma saatlerini temizle",
+    "hint": "Seçtiğiniz günlerde aynı saatler uygulanır. Saatler Türkiye saatine göredir. Gece yarısı kapanışı için 24:00 seçebilirsiniz.",
+    "nextDay": "Kapanış saati ertesi güne aittir.",
+    "existing": "Mevcut bilgi: {value}",
+    "legacyHint": "Yeni bir program seçene kadar mevcut çalışma saati bilginiz korunur.",
+    "invalid": "En az bir gün seçin; açılış ve kapanış saatlerini yarım saatlik aralıklardan seçin. İki saat aynı olamaz."
+  },
   "NewStudioPhotos": {
     "beforeSave": "Fotoğrafları şimdi seçebilirsiniz. Taslağı kaydettiğinizde yüklenecekler.",
     "queueOrderHint": "Fotoğrafları sürükleyerek veya ok düğmeleriyle sıralayın. İlk fotoğraf kapak görseliniz olacak.",

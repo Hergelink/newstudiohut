@@ -1,6 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { OpeningHoursFields } from "@/components/dashboard/opening-hours-fields";
 import type { MarketplaceListingFormFeature } from "@/modules/features/form-service";
 import { listingFeatureFormValue } from "@/modules/listings/management-features";
 import type { ListingFeatureValueWrite } from "@/modules/listings/management-repository";
@@ -42,6 +43,21 @@ export function ListingFeatureFields({
           </>
         );
         const error = errors?.[name]?.length ? labels.validationError : null;
+        if (
+          feature.featureType === "text" &&
+          feature.inputFormat === "opening_hours"
+        ) {
+          return (
+            <OpeningHoursFields
+              key={feature.id}
+              id={id}
+              name={name}
+              label={label}
+              initialValue={typeof initial === "string" ? initial : undefined}
+              hasError={Boolean(error)}
+            />
+          );
+        }
         if (feature.featureType === "multi_select") {
           const selected = Array.isArray(initial) ? initial : [];
           return (

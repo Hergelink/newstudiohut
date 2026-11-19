@@ -1,5 +1,6 @@
 import type { AppLocale } from "@/i18n/routing";
 import { featureOptionLabels } from "@/modules/features/localization";
+import { isOpeningHoursFeature } from "@/modules/features/opening-hours";
 import type {
   ListingFormFeatureRecord,
   ListingFormFeatureRepository,
@@ -16,7 +17,7 @@ export type MarketplaceListingFormFeature = {
   minimum: number | null;
   maximum: number | null;
   maxLength: number | null;
-  inputFormat?: "url" | "email" | "tel";
+  inputFormat?: "url" | "email" | "tel" | "opening_hours";
   placeholder?: string;
   section?: "contact" | "category";
   optionLabels?: Record<string, string>;
@@ -56,11 +57,13 @@ export class ListingFormFeatureService {
               ? validation.maxLength
               : null,
           inputFormat:
-            validation.format === "url" ||
-            validation.format === "email" ||
-            validation.format === "tel"
-              ? validation.format
-              : undefined,
+            feature.featureType === "text" && isOpeningHoursFeature(feature)
+              ? "opening_hours"
+              : validation.format === "url" ||
+                  validation.format === "email" ||
+                  validation.format === "tel"
+                ? validation.format
+                : undefined,
           placeholder:
             typeof validation.placeholder === "string"
               ? validation.placeholder
