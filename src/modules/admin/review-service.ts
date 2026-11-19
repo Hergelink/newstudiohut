@@ -48,6 +48,7 @@ export type PendingReviewDetail = PendingReview & {
   longitude: number | null;
   areaSqm: number | null;
   capacity: number | null;
+  minimumBookingHours: number;
   priceAmount: number | null;
   currency: string;
   createdAt: string;
@@ -102,6 +103,7 @@ export class ListingReviewService {
       areaSqm: listing.area_sqm,
       capacity: listing.capacity,
       priceAmount: listing.price_amount,
+      minimumBookingHours: listing.minimum_booking_hours,
       currency: listing.currency,
       createdAt: listing.created_at,
       images: listing.images.flatMap((image) => {

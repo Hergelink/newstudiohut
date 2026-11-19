@@ -19,6 +19,7 @@ const listing: ManagedListing = {
   district: "Kadıköy",
   city: "İstanbul",
   currency: "TRY",
+  minimumBookingHours: 2,
   status: "draft",
   rejectionReason: null,
   updatedAt: "2026-10-28T00:00:00Z",

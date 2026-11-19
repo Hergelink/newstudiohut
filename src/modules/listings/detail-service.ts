@@ -41,6 +41,7 @@ export type MarketplaceListingDetail = {
   longitude: number | null;
   areaSqm: number | null;
   capacity: number | null;
+  minimumBookingHours: number;
   priceAmount: number | null;
   currency: string;
   publishedAt: string | null;
@@ -107,6 +108,7 @@ export class ListingDetailService {
       areaSqm: listing.area_sqm,
       capacity: listing.capacity,
       priceAmount: listing.price_amount,
+      minimumBookingHours: listing.minimum_booking_hours,
       currency: listing.currency,
       publishedAt: listing.published_at,
       updatedAt: listing.updated_at,

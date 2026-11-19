@@ -63,7 +63,7 @@ describe("database-defined studio form fields", () => {
       screen.queryByRole("combobox", { name: "Lighting setup" }),
     ).not.toBeInTheDocument();
     expect(
-      screen.getByRole("combobox", { name: "Vocal booth" }),
+      screen.getByRole("checkbox", { name: "Vocal booth" }),
     ).toBeInTheDocument();
   });
 

@@ -101,3 +101,11 @@ UI flows do not use fake production data; the seed file is opt-in development da
 - [x] Türkiye-wide map with clustered published studio pins and photo/detail previews linking to the studio page.
 - [x] Bounded map pagination, explicit missing-coordinate behavior and map loading/error/empty states.
 - [x] Browser verification using the real published studio: marker preview, detail navigation, mobile filters, no horizontal overflow, and filter/reset behavior.
+
+### Hourly pricing and structured facilities — 2026-11-19
+
+- [x] Hourly price units and explicit Turkish lira formatting on studio cards, map previews, public details and moderation.
+- [x] Validated, editable minimum booking hours persisted in PostgreSQL and displayed with prices.
+- [x] Database-defined equipment/access/amenity/rule checklists, with existing free-text notes retained.
+- [x] Native boolean checkboxes correctly persist both checked and unchecked states.
+- [x] Local PostgreSQL migration execution plus approved live rollback rehearsal/application, preserving existing prices, statuses, notes and RLS policies.

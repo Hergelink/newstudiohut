@@ -20,6 +20,7 @@ const record: PublishedListingRecord = {
   city: "İstanbul",
   area_sqm: 70,
   capacity: 12,
+  minimum_booking_hours: 2,
   price_amount: 2500,
   currency: "TRY",
   published_at: "2026-10-28T08:00:00.000Z",
@@ -99,6 +100,7 @@ describe("ListingSearchService", () => {
     });
     expect(result).toMatchObject({ total: 13, page: 1, totalPages: 2 });
     expect(result.listings[0]).toMatchObject({
+      minimumBookingHours: 2,
       categoryName: "Podcast Studio",
       coverUrl: "https://storage.test/listing-1/cover.webp",
     });

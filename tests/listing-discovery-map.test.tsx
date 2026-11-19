@@ -1,6 +1,8 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
 import React from "react";
+import { NextIntlClientProvider } from "next-intl";
+import messages from "../messages/en.json";
 import {
   act,
   cleanup,
@@ -95,6 +97,7 @@ const listing: MarketplaceListing = {
   capacity: 12,
   priceAmount: 2500,
   currency: "TRY",
+  minimumBookingHours: 2,
   coverUrl: null,
   coverAltText: null,
 };
@@ -115,7 +118,9 @@ function setup(listings: MarketplaceListing[] = [listing]) {
     },
   );
   return render(
-    <StudioDiscoveryMap listings={listings} locale="tr" labels={labels} />,
+    <NextIntlClientProvider locale="en" messages={messages}>
+      <StudioDiscoveryMap listings={listings} locale="tr" labels={labels} />
+    </NextIntlClientProvider>,
   );
 }
 describe("studio discovery map", () => {

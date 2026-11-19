@@ -1,4 +1,8 @@
 import {
+  ListingPrice,
+  MinimumBooking,
+} from "@/components/marketplace/listing-price";
+import {
   ArrowLeft,
   Building2,
   MapPin,
@@ -46,14 +50,6 @@ export default async function AdminReviewDetailPage({
   const listing = await getPendingReview(listingId, locale as AppLocale);
   if (!listing) notFound();
 
-  const price =
-    listing.priceAmount === null
-      ? t("priceMissing")
-      : new Intl.NumberFormat(locale === "en" ? "en-GB" : "tr-TR", {
-          style: "currency",
-          currency: listing.currency,
-          maximumFractionDigits: 0,
-        }).format(listing.priceAmount);
   const action = reviewListingAction.bind(null, locale, listing.id);
 
   return (
@@ -140,7 +136,16 @@ export default async function AdminReviewDetailPage({
         <aside className="space-y-5 lg:sticky lg:top-6 lg:h-fit">
           <section className="rounded-3xl border bg-card p-6">
             <p className="text-sm text-muted-foreground">{t("price")}</p>
-            <p className="mt-1 text-2xl font-semibold">{price}</p>
+            <p className="mt-1 text-2xl font-semibold">
+              <ListingPrice
+                amount={listing.priceAmount}
+                currency={listing.currency}
+                locale={locale as AppLocale}
+              />
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              <MinimumBooking hours={listing.minimumBookingHours} />
+            </p>
             <dl className="mt-6 space-y-4 border-t pt-6 text-sm">
               <div className="flex justify-between gap-4">
                 <dt className="inline-flex items-center gap-2 text-muted-foreground">

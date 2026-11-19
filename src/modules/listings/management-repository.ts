@@ -62,7 +62,7 @@ export interface ListingManagementRepository {
 }
 
 const managementColumns =
-  "id, business_id, category_id, name, slug, description, status, address_line, district, city, country_code, latitude, longitude, area_sqm, capacity, price_amount, currency, rejection_reason, published_at, created_at, updated_at";
+  "id, business_id, category_id, name, slug, description, status, address_line, district, city, country_code, latitude, longitude, area_sqm, capacity, price_amount, minimum_booking_hours, currency, rejection_reason, published_at, created_at, updated_at";
 
 function rowToManaged(
   row: Database["public"]["Tables"]["listings"]["Row"],
@@ -81,6 +81,7 @@ function rowToManaged(
     longitude: row.longitude ?? undefined,
     areaSqm: row.area_sqm ?? undefined,
     capacity: row.capacity ?? undefined,
+    minimumBookingHours: row.minimum_booking_hours,
     priceAmount: row.price_amount ?? undefined,
     currency: row.currency === "TRY" ? "TRY" : "TRY",
     status: row.status,
@@ -104,6 +105,7 @@ function draftRow(businessId: string, input: ListingDraftInput) {
     longitude: input.longitude ?? null,
     area_sqm: input.areaSqm ?? null,
     capacity: input.capacity ?? null,
+    minimum_booking_hours: input.minimumBookingHours,
     price_amount: input.priceAmount ?? null,
     currency: input.currency,
   };

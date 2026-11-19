@@ -58,6 +58,7 @@ export type PendingReviewDetailRecord = PendingReviewRecord &
     | "longitude"
     | "area_sqm"
     | "capacity"
+    | "minimum_booking_hours"
     | "price_amount"
     | "currency"
     | "created_at"
@@ -73,7 +74,7 @@ export interface ListingReviewRepository {
 }
 
 const pendingColumns =
-  "id, business_id, category_id, name, slug, description, address_line, district, city, country_code, latitude, longitude, area_sqm, capacity, price_amount, currency, created_at, updated_at";
+  "id, business_id, category_id, name, slug, description, address_line, district, city, country_code, latitude, longitude, area_sqm, capacity, price_amount, minimum_booking_hours, currency, created_at, updated_at";
 
 export class SupabaseListingReviewRepository implements ListingReviewRepository {
   constructor(private readonly client: SupabaseClient<Database>) {}
@@ -208,6 +209,7 @@ export class SupabaseListingReviewRepository implements ListingReviewRepository 
       area_sqm: listing.area_sqm,
       capacity: listing.capacity,
       price_amount: listing.price_amount,
+      minimum_booking_hours: listing.minimum_booking_hours,
       currency: listing.currency,
       created_at: listing.created_at,
       updated_at: listing.updated_at,

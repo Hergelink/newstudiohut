@@ -7,6 +7,10 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
+import {
+  ListingPrice,
+  MinimumBooking,
+} from "@/components/marketplace/listing-price";
 import type { AppLocale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import type { MarketplaceListing } from "@/modules/listings/service";
@@ -21,14 +25,6 @@ export function ListingCard({
   labels: { capacity: string; area: string; priceOnRequest: string };
 }) {
   const number = new Intl.NumberFormat(locale === "en" ? "en-GB" : "tr-TR");
-  const price =
-    listing.priceAmount === null
-      ? labels.priceOnRequest
-      : new Intl.NumberFormat(locale === "en" ? "en-TR" : "tr-TR", {
-          style: "currency",
-          currency: listing.currency,
-          maximumFractionDigits: 0,
-        }).format(listing.priceAmount);
 
   return (
     <article className="overflow-hidden rounded-3xl border bg-card shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
@@ -69,9 +65,16 @@ export function ListingCard({
               </p>
             </div>
             <p className="shrink-0 text-sm font-semibold text-primary">
-              {price}
+              <ListingPrice
+                amount={listing.priceAmount}
+                currency={listing.currency}
+                locale={locale}
+              />
             </p>
           </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            <MinimumBooking hours={listing.minimumBookingHours} />
+          </p>
           <p className="mt-4 flex items-center gap-1.5 text-sm text-muted-foreground">
             <MapPin className="size-4" aria-hidden="true" />
             {listing.district}, {listing.city}

@@ -119,3 +119,11 @@ npx supabase gen types typescript --local > /tmp/database.types.ts
 ```
 
 Review the generated diff before replacing the checked-in type file.
+
+### Hourly pricing and facilities (2026-11-19)
+
+`listings.price_amount` now represents the hourly rate, with no numerical conversion of existing values. `minimum_booking_hours` is a non-null smallint, default 1, constrained to 1–168 whole hours. Currency remains TRY; the form explicitly labels it Turkish lira (₺ / TRY). The existing ownership policies and grants continue to apply.
+
+Migration `20261119000100_hourly_rates_and_facilities.sql` adds seven database-defined multi-select groups (photography/video equipment, backdrops, access/parking, general amenities, house rules, music equipment, and recording software). Existing written equipment/access/rule information is retained as additional notes. Lighting is converted from `select` to `multi_select`: `both` becomes `["daylight","artificial"]`. Unknown prior lighting choices abort the migration instead of being discarded. Definitions/labels remain admin-manageable; React contains no category-specific option lists.
+
+The migration passed a local PostgreSQL rehearsal with the original schema and validation trigger, and a live rollback rehearsal before application. The live apply verified prices, listing status and legacy notes unchanged, seven checklist definitions, ten category assignments, and the unchanged total of 40 public/Storage RLS policies. Temporary verification snapshots had RLS enabled and browser-role grants revoked. The migration was registered in Supabase history.

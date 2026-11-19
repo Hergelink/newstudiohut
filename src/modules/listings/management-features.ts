@@ -18,7 +18,10 @@ export function parseListingFeatureValues(
 
   for (const definition of definitions) {
     const name = fieldName(definition.key);
-    const raw = formData.get(name);
+    const raw =
+      definition.featureType === "boolean"
+        ? formData.getAll(name).at(-1)
+        : formData.get(name);
     let value: unknown;
 
     if (definition.featureType === "multi_select") {

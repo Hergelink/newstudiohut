@@ -29,6 +29,7 @@ const detailRecord = {
   area_sqm: 80,
   capacity: 12,
   price_amount: 2500,
+  minimum_booking_hours: 2,
   currency: "TRY",
   created_at: "2026-10-27T09:00:00.000Z",
   images: [

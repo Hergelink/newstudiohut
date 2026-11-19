@@ -6,6 +6,10 @@ import type { Map as LeafletMap, Popup } from "leaflet";
 import Image from "next/image";
 import { ArrowUpRight, ImageIcon, LocateFixed, MapPin, X } from "lucide-react";
 
+import {
+  ListingPrice,
+  MinimumBooking,
+} from "@/components/marketplace/listing-price";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
@@ -164,14 +168,6 @@ export function StudioDiscoveryMap({
   }, [selection]);
 
   const selected = selection?.listing;
-  const price =
-    selected?.priceAmount != null
-      ? new Intl.NumberFormat(locale === "en" ? "en-TR" : "tr-TR", {
-          style: "currency",
-          currency: selected.currency,
-          maximumFractionDigits: 0,
-        }).format(selected.priceAmount)
-      : labels.priceOnRequest;
 
   return (
     <div className="mt-6 space-y-3">
@@ -272,8 +268,17 @@ export function StudioDiscoveryMap({
                       <span>{number.format(selected.areaSqm)} m²</span>
                     ) : null}
                   </div>
+                  <p className="text-xs text-muted-foreground">
+                    <MinimumBooking hours={selected.minimumBookingHours} />
+                  </p>
                   <div className="flex flex-wrap items-center justify-between gap-2 border-t pt-3">
-                    <span className="text-sm font-semibold">{price}</span>
+                    <span className="text-sm font-semibold">
+                      <ListingPrice
+                        amount={selected.priceAmount}
+                        currency={selected.currency}
+                        locale={locale}
+                      />
+                    </span>
                     <span className="inline-flex items-center gap-1 text-xs font-semibold text-studio-blue">
                       {labels.open}
                       <ArrowUpRight className="size-4" />

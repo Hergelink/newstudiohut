@@ -24,6 +24,7 @@ const draftInput: ListingDraftInput = {
   district: "Kadıköy",
   city: "İstanbul",
   currency: "TRY",
+  minimumBookingHours: 2,
   latitude: 40.987,
   longitude: 29.025,
 };

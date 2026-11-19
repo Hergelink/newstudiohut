@@ -52,6 +52,7 @@ export type PublishedListingRecord = Pick<
   | "city"
   | "area_sqm"
   | "capacity"
+  | "minimum_booking_hours"
   | "price_amount"
   | "currency"
   | "published_at"
@@ -77,7 +78,7 @@ export interface ListingRepository {
 }
 
 const listingColumns =
-  "id, business_id, category_id, name, slug, description, latitude, longitude, district, city, area_sqm, capacity, price_amount, currency, published_at";
+  "id, business_id, category_id, name, slug, description, latitude, longitude, district, city, area_sqm, capacity, price_amount, minimum_booking_hours, currency, published_at";
 
 function postgrestSearchTerm(value: string) {
   return value

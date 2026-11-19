@@ -19,6 +19,7 @@ const record: PublishedListingDetailRecord = {
   longitude: 29.025,
   area_sqm: 80,
   capacity: 10,
+  minimum_booking_hours: 2,
   price_amount: 3000,
   currency: "TRY",
   published_at: "2026-10-28T08:00:00.000Z",
@@ -97,6 +98,7 @@ describe("ListingDetailService", () => {
     );
 
     expect(listing).toMatchObject({
+      minimumBookingHours: 2,
       name: "Moda Podcast Studio",
       categoryName: "Podcast Studio",
       images: [{ url: "https://storage.test/listing-1/cover.webp" }],

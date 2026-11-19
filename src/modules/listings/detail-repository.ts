@@ -47,6 +47,7 @@ export type PublishedListingDetailRecord = Pick<
   | "longitude"
   | "area_sqm"
   | "capacity"
+  | "minimum_booking_hours"
   | "price_amount"
   | "currency"
   | "published_at"
@@ -69,7 +70,7 @@ export interface ListingDetailRepository {
 }
 
 const detailColumns =
-  "id, category_id, name, slug, description, address_line, district, city, country_code, latitude, longitude, area_sqm, capacity, price_amount, currency, published_at, updated_at";
+  "id, category_id, name, slug, description, address_line, district, city, country_code, latitude, longitude, area_sqm, capacity, price_amount, minimum_booking_hours, currency, published_at, updated_at";
 
 export class SupabaseListingDetailRepository implements ListingDetailRepository {
   constructor(private readonly client: SupabaseClient<Database>) {}

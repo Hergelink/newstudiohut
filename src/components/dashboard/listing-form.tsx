@@ -58,6 +58,9 @@ export function ListingForm({
     area: string;
     capacity: string;
     price: string;
+    minimumBookingHours: string;
+    pricingHint: string;
+    turkishLira: string;
     currency: string;
     any: string;
     yes: string;
@@ -109,7 +112,6 @@ export function ListingForm({
       }}
     >
       <input type="hidden" name="categoryId" value={categoryId} />
-      <input type="hidden" name="currency" value="TRY" />
       <fieldset
         disabled={detailsSaved}
         hidden={detailsSaved}
@@ -237,6 +239,9 @@ export function ListingForm({
 
         <section className="rounded-3xl border bg-card p-6 shadow-sm sm:p-8">
           <h2 className="text-xl font-semibold">{labels.details}</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {labels.pricingHint}
+          </p>
           <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             <label className="grid gap-2 text-sm font-medium">
               {labels.area}
@@ -268,12 +273,29 @@ export function ListingForm({
                 defaultValue={listing?.priceAmount}
               />
             </label>
-            <div className="grid gap-2 text-sm font-medium">
+            <label className="grid gap-2 text-sm font-medium">
               {labels.currency}
-              <div className="flex h-11 items-center rounded-xl border bg-secondary/50 px-4 text-sm">
-                TRY
-              </div>
-            </div>
+              <select
+                name="currency"
+                defaultValue="TRY"
+                className="h-11 min-w-0 rounded-xl border border-input bg-background px-4 text-sm shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <option value="TRY">{labels.turkishLira}</option>
+              </select>
+            </label>
+            <label className="grid gap-2 text-sm font-medium">
+              {labels.minimumBookingHours}
+              <Input
+                name="minimumBookingHours"
+                type="number"
+                required
+                min="1"
+                max="168"
+                step="1"
+                defaultValue={listing?.minimumBookingHours ?? 1}
+                aria-invalid={Boolean(state.fieldErrors?.minimumBookingHours)}
+              />
+            </label>
           </div>
         </section>
 

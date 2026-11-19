@@ -113,6 +113,7 @@ export type Database = {
         longitude: number | null;
         area_sqm: number | null;
         capacity: number | null;
+        minimum_booking_hours: number;
         price_amount: number | null;
         currency: string;
         rejection_reason: string | null;

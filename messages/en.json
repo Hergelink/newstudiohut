@@ -84,20 +84,20 @@
   "Listings": {
     "eyebrow": "Studio discovery",
     "title": "Find the right studio for your needs",
-    "subtitle": "Compare published spaces by location, category, capacity, and price range.",
+    "subtitle": "Compare published spaces by location, category, capacity and hourly rate.",
     "query": "Keyword",
     "queryPlaceholder": "Photography, podcast, rehearsal...",
     "location": "Location",
     "locationPlaceholder": "District or city",
     "category": "Category",
     "allCategories": "All categories",
-    "minPrice": "Minimum price (₺)",
-    "maxPrice": "Maximum price (₺)",
+    "minPrice": "Minimum hourly rate (₺)",
+    "maxPrice": "Maximum hourly rate (₺)",
     "capacity": "Minimum capacity",
     "sort": "Sort",
     "newest": "Newest",
-    "priceAsc": "Price: low to high",
-    "priceDesc": "Price: high to low",
+    "priceAsc": "Hourly rate: low to high",
+    "priceDesc": "Hourly rate: high to low",
     "search": "Search studios",
     "clear": "Clear filters",
     "featureFilters": "Category features",
@@ -144,7 +144,7 @@
     "features": "Space features",
     "yes": "Yes",
     "no": "No",
-    "startingPrice": "Starting price",
+    "startingPrice": "Hourly rate",
     "priceOnRequest": "Contact for price",
     "capacity": "Capacity",
     "area": "Area",
@@ -400,7 +400,7 @@
     "rejectionReason": "Review note:",
     "basics": "Basic information",
     "location": "Location",
-    "details": "Capacity and pricing",
+    "details": "Capacity and hourly pricing",
     "features": "Studio facilities and equipment",
     "contact": "Website and contact information",
     "contactHint": "Optional details displayed with your published listing. Website addresses such as www.yourstudio.com.tr are accepted.",
@@ -416,7 +416,7 @@
     "longitude": "Longitude",
     "area": "Area (m²)",
     "capacity": "Capacity",
-    "price": "Starting price",
+    "price": "Hourly rate",
     "currency": "Currency",
     "any": "Not specified",
     "yes": "Yes",
@@ -435,7 +435,10 @@
       "pending_review": "In review",
       "published": "Published",
       "rejected": "Rejected"
-    }
+    },
+    "minimumBookingHours": "Minimum booking hours",
+    "pricingHint": "Enter your rate for one hour and the minimum number of hours per booking.",
+    "turkishLira": "Turkish lira (₺ / TRY)"
   },
   "NewStudioPhotos": {
     "beforeSave": "Choose photos now; they will upload when you save the draft.",
@@ -513,7 +516,7 @@
       "description": "Description",
       "area": "Area",
       "capacity": "Capacity",
-      "price": "Starting price",
+      "price": "Hourly rate",
       "images": "At least one photo",
       "cover": "Cover photo",
       "requiredFeatures": "Required category features",
@@ -676,7 +679,7 @@
     "yes": "Yes",
     "no": "No",
     "location": "Location",
-    "price": "Starting price",
+    "price": "Hourly rate",
     "priceMissing": "Not specified",
     "capacity": "Capacity",
     "area": "Area",
@@ -716,5 +719,10 @@
     "loading": "Loading map…",
     "selected": "Location selected",
     "required": "Select a location on the map to save your studio."
+  },
+  "Pricing": {
+    "perHour": "/ hour",
+    "onRequest": "Hourly rate on request",
+    "minimumBooking": "Minimum booking: {hours, plural, one {# hour} other {# hours}}"
   }
 }

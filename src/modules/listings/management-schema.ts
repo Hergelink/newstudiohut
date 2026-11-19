@@ -45,6 +45,10 @@ export const listingDraftSchema = z
     ),
     areaSqm: optionalNumber(z.number().positive().max(1_000_000)),
     capacity: optionalNumber(z.number().int().positive().max(1_000_000)),
+    minimumBookingHours: z.preprocess(
+      (value) => (value === "" || value == null ? 1 : Number(value)),
+      z.number().int().min(1).max(168),
+    ),
     priceAmount: optionalNumber(z.number().min(0).max(1_000_000_000)),
     currency: z.enum(["TRY"]).default("TRY"),
   })
@@ -72,6 +76,7 @@ export function listingDraftInputFromFormData(
     longitude: formData.get("longitude"),
     areaSqm: formData.get("areaSqm"),
     capacity: formData.get("capacity"),
+    minimumBookingHours: formData.get("minimumBookingHours"),
     priceAmount: formData.get("priceAmount"),
     currency: formData.get("currency") || "TRY",
   };

@@ -84,20 +84,20 @@
   "Listings": {
     "eyebrow": "Stüdyo keşfi",
     "title": "İhtiyacınıza uygun stüdyoyu bulun",
-    "subtitle": "Yayınlanmış mekânları konum, kategori, kapasite ve fiyat aralığına göre karşılaştırın.",
+    "subtitle": "Yayınlanmış mekânları konum, kategori, kapasite ve saatlik ücrete göre karşılaştırın.",
     "query": "Anahtar kelime",
     "queryPlaceholder": "Fotoğraf, podcast, prova...",
     "location": "Konum",
     "locationPlaceholder": "İlçe veya şehir",
     "category": "Kategori",
     "allCategories": "Tüm kategoriler",
-    "minPrice": "En düşük fiyat (₺)",
-    "maxPrice": "En yüksek fiyat (₺)",
+    "minPrice": "En düşük saatlik ücret (₺)",
+    "maxPrice": "En yüksek saatlik ücret (₺)",
     "capacity": "Minimum kapasite",
     "sort": "Sıralama",
     "newest": "En yeni",
-    "priceAsc": "Fiyat: düşükten yükseğe",
-    "priceDesc": "Fiyat: yüksekten düşüğe",
+    "priceAsc": "Saatlik ücret: düşükten yükseğe",
+    "priceDesc": "Saatlik ücret: yüksekten düşüğe",
     "search": "Stüdyoları ara",
     "clear": "Filtreleri temizle",
     "featureFilters": "Kategori özellikleri",
@@ -144,7 +144,7 @@
     "features": "Mekân özellikleri",
     "yes": "Evet",
     "no": "Hayır",
-    "startingPrice": "Başlangıç fiyatı",
+    "startingPrice": "Saatlik ücret",
     "priceOnRequest": "Fiyat için iletişime geçin",
     "capacity": "Kapasite",
     "area": "Alan",
@@ -400,7 +400,7 @@
     "rejectionReason": "İnceleme notu:",
     "basics": "Temel bilgiler",
     "location": "Konum",
-    "details": "Kapasite ve fiyat",
+    "details": "Kapasite ve saatlik fiyatlandırma",
     "features": "Stüdyo olanakları ve ekipmanları",
     "contact": "Web sitesi ve iletişim bilgileri",
     "contactHint": "Yayınlanan ilanınızda gösterilecek isteğe bağlı bilgiler. www.studyom.com.tr gibi web sitesi adresleri kabul edilir.",
@@ -416,7 +416,7 @@
     "longitude": "Boylam",
     "area": "Alan (m²)",
     "capacity": "Kapasite",
-    "price": "Başlangıç fiyatı",
+    "price": "Saatlik ücret",
     "currency": "Para birimi",
     "any": "Belirtilmedi",
     "yes": "Evet",
@@ -435,7 +435,10 @@
       "pending_review": "İncelemede",
       "published": "Yayında",
       "rejected": "Reddedildi"
-    }
+    },
+    "minimumBookingHours": "Minimum rezervasyon süresi (saat)",
+    "pricingHint": "Bir saatlik ücreti ve rezervasyon başına minimum süreyi girin.",
+    "turkishLira": "Türk lirası (₺ / TRY)"
   },
   "NewStudioPhotos": {
     "beforeSave": "Fotoğrafları şimdi seçebilirsiniz. Taslağı kaydettiğinizde yüklenecekler.",
@@ -513,7 +516,7 @@
       "description": "Açıklama",
       "area": "Alan",
       "capacity": "Kapasite",
-      "price": "Başlangıç fiyatı",
+      "price": "Saatlik ücret",
       "images": "En az bir fotoğraf",
       "cover": "Kapak fotoğrafı",
       "requiredFeatures": "Kategori için zorunlu özellikler",
@@ -676,7 +679,7 @@
     "yes": "Evet",
     "no": "Hayır",
     "location": "Konum",
-    "price": "Başlangıç fiyatı",
+    "price": "Saatlik ücret",
     "priceMissing": "Belirtilmedi",
     "capacity": "Kapasite",
     "area": "Alan",
@@ -716,5 +719,10 @@
     "loading": "Harita yükleniyor…",
     "selected": "Konum seçildi",
     "required": "Stüdyonuzu kaydetmek için haritada bir konum seçin."
+  },
+  "Pricing": {
+    "perHour": "/ saat",
+    "onRequest": "Saatlik ücret için iletişime geçin",
+    "minimumBooking": "Minimum rezervasyon: {hours} saat"
   }
 }

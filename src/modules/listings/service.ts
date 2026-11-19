@@ -38,6 +38,7 @@ export type MarketplaceListing = {
   city: string;
   areaSqm: number | null;
   capacity: number | null;
+  minimumBookingHours: number;
   priceAmount: number | null;
   currency: string;
   coverUrl: string | null;
@@ -112,6 +113,7 @@ export class ListingSearchService {
         areaSqm: listing.area_sqm,
         capacity: listing.capacity,
         priceAmount: listing.price_amount,
+        minimumBookingHours: listing.minimum_booking_hours,
         currency: listing.currency,
         coverUrl: listing.coverStoragePath
           ? (signedUrls.get(listing.coverStoragePath) ?? null)

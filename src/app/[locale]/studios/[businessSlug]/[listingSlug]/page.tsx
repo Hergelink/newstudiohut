@@ -1,3 +1,8 @@
+import { listingHourlyOffer } from "@/modules/listings/pricing";
+import {
+  ListingPrice,
+  MinimumBooking,
+} from "@/components/marketplace/listing-price";
 import {
   ArrowLeft,
   Building2,
@@ -197,14 +202,7 @@ export default async function ListingDetailPage({
   const t = await getTranslations("ListingDetail");
   const path = canonicalPath(locale, businessSlug, listingSlug);
   const absoluteUrl = new URL(path, env.NEXT_PUBLIC_SITE_URL).toString();
-  const price =
-    listing.priceAmount === null
-      ? t("priceOnRequest")
-      : new Intl.NumberFormat(locale === "en" ? "en-TR" : "tr-TR", {
-          style: "currency",
-          currency: listing.currency,
-          maximumFractionDigits: 0,
-        }).format(listing.priceAmount);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Place",
@@ -232,15 +230,11 @@ export default async function ListingDetailPage({
       name: feature.name,
       value: feature.value,
     })),
-    offers:
-      listing.priceAmount === null
-        ? undefined
-        : {
-            "@type": "Offer",
-            price: listing.priceAmount,
-            priceCurrency: listing.currency,
-            availability: "https://schema.org/InStock",
-          },
+    offers: listingHourlyOffer(
+      listing.priceAmount,
+      listing.currency,
+      listing.minimumBookingHours,
+    ),
   };
 
   return (
@@ -287,7 +281,13 @@ export default async function ListingDetailPage({
               </span>
             </div>
           </div>
-          <p className="text-2xl font-semibold text-primary">{price}</p>
+          <p className="text-2xl font-semibold text-primary">
+            <ListingPrice
+              amount={listing.priceAmount}
+              currency={listing.currency}
+              locale={locale as AppLocale}
+            />
+          </p>
         </header>
 
         <div className="mt-8">
@@ -366,7 +366,16 @@ export default async function ListingDetailPage({
             <p className="text-sm text-muted-foreground">
               {t("startingPrice")}
             </p>
-            <p className="mt-1 text-2xl font-semibold">{price}</p>
+            <p className="mt-1 text-2xl font-semibold">
+              <ListingPrice
+                amount={listing.priceAmount}
+                currency={listing.currency}
+                locale={locale as AppLocale}
+              />
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              <MinimumBooking hours={listing.minimumBookingHours} />
+            </p>
             <dl className="mt-6 space-y-4 border-t pt-6 text-sm">
               {listing.capacity ? (
                 <div className="flex items-center justify-between gap-4">
