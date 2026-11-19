@@ -1,6 +1,8 @@
 import "server-only";
 
 import { cache } from "react";
+import { listPublicCategories } from "@/modules/categories/server";
+import { HomepageDiscoveryService } from "@/modules/listings/homepage-service";
 
 import type { AppLocale } from "@/i18n/routing";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -24,6 +26,13 @@ export async function searchPublicListings(
   );
   return service.searchPublished(search, locale);
 }
+
+export const getHomepageStudios = cache((locale: AppLocale) =>
+  new HomepageDiscoveryService({
+    listCategories: listPublicCategories,
+    searchListings: searchPublicListings,
+  }).load(locale),
+);
 
 export const getPublicListingDetail = cache(
   async (businessSlug: string, listingSlug: string, locale: AppLocale) => {

@@ -19,11 +19,14 @@ export function ListingCard({
   listing,
   locale,
   labels,
+  headingLevel = "h2",
 }: {
   listing: MarketplaceListing;
   locale: AppLocale;
   labels: { capacity: string; area: string; priceOnRequest: string };
+  headingLevel?: "h2" | "h3" | "h4";
 }) {
+  const Heading = headingLevel;
   const number = new Intl.NumberFormat(locale === "en" ? "en-GB" : "tr-TR");
 
   return (
@@ -56,9 +59,9 @@ export function ListingCard({
         <div className="p-4 xl:p-5">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div className="min-w-0">
-              <h2 className="break-words text-lg font-semibold tracking-tight">
+              <Heading className="break-words text-lg font-semibold tracking-tight">
                 {listing.name}
-              </h2>
+              </Heading>
               <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
                 <Building2 className="size-3.5" aria-hidden="true" />
                 {listing.businessName}

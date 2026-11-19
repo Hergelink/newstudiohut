@@ -11,6 +11,7 @@ export const PUBLIC_LISTING_PAGE_SIZE = 12;
 export const PUBLIC_MAP_PAGE_SIZE = 200;
 
 export type PublicListingSearch = {
+  pageSize?: number;
   mapOnly?: boolean;
   query?: string;
   location?: string;
@@ -74,7 +75,14 @@ function normalizeSearch(search: PublicListingSearch): PublishedListingFilters {
     featureFilters: search.featureFilters ?? [],
     sort: search.sort,
     page: search.page,
-    pageSize: search.mapOnly ? PUBLIC_MAP_PAGE_SIZE : PUBLIC_LISTING_PAGE_SIZE,
+    pageSize: search.mapOnly
+      ? PUBLIC_MAP_PAGE_SIZE
+      : search.pageSize !== undefined && Number.isFinite(search.pageSize)
+        ? Math.max(
+            1,
+            Math.min(PUBLIC_LISTING_PAGE_SIZE, Math.floor(search.pageSize)),
+          )
+        : PUBLIC_LISTING_PAGE_SIZE,
   };
 }
 

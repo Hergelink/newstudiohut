@@ -1,4 +1,4 @@
-import { ArrowUpRight, Instagram } from "lucide-react";
+import { ArrowUpRight, Instagram, Mail } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { BrandLogo } from "@/components/brand-logo";
@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 
 const linkClassName =
   "inline-flex min-h-10 items-center text-sm text-black/60 transition-colors hover:text-studio-blue focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-studio-blue focus-visible:ring-offset-4";
+const contactEmail = "info@studiohut.co";
 
 export async function SiteFooter() {
   const t = await getTranslations("Footer");
@@ -16,7 +17,7 @@ export async function SiteFooter() {
       className="border-t border-black/10 bg-white text-black"
     >
       <div className="container">
-        <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-14 sm:py-20 lg:grid-cols-[1.6fr_1fr_1fr] lg:gap-20">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-14 sm:py-20 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr] lg:gap-10">
           <div className="col-span-2 lg:col-span-1">
             <BrandLogo />
             <p className="mt-6 max-w-sm text-sm leading-7 text-black/60">
@@ -78,6 +79,21 @@ export async function SiteFooter() {
               </li>
             </ul>
           </nav>
+          <div className="col-span-2 lg:col-span-1">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.16em]">
+              {t("contactTitle")}
+            </h2>
+            <p className="mt-4 max-w-xs text-sm leading-7 text-black/60">
+              {t("contactBody")}
+            </p>
+            <a
+              href={`mailto:${contactEmail}`}
+              className={`${linkClassName} mt-3 gap-2 break-all`}
+            >
+              <Mail className="size-4 shrink-0" aria-hidden="true" />
+              {contactEmail}
+            </a>
+          </div>
         </div>
 
         <div className="flex flex-col items-start justify-between gap-3 border-t border-black/10 py-6 text-xs text-black/55 sm:flex-row sm:items-center">

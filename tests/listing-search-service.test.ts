@@ -49,6 +49,22 @@ const media = {
 };
 
 describe("ListingSearchService", () => {
+  it.each([
+    [3, 3],
+    [100, 12],
+    [0, 1],
+    [Number.NaN, 12],
+  ])(
+    "bounds an internal homepage page size of %s to %s",
+    async (requested, expected) => {
+      const repository = new InMemoryListingRepository();
+      await new ListingSearchService(repository, media).searchPublished(
+        { sort: "newest", page: 1, pageSize: requested },
+        "tr",
+      );
+      expect(repository.filters?.pageSize).toBe(expected);
+    },
+  );
   it("uses a bounded larger map page with coordinates and the same filters", async () => {
     const repository = new InMemoryListingRepository();
     const service = new ListingSearchService(repository, media);

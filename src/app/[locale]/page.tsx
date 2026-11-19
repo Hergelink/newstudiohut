@@ -17,6 +17,10 @@ import {
 } from "@/components/marketplace/category-section";
 import { BrandRing } from "@/components/brand-ring";
 import { StudioPlatformSection } from "@/components/marketplace/studio-platform-section";
+import {
+  FeaturedStudioSection,
+  FeaturedStudioSectionSkeleton,
+} from "@/components/marketplace/featured-studio-section";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
@@ -122,10 +126,7 @@ export default async function HomePage({
                   />
                 </span>
               </label>
-              <Button
-                size="lg"
-                className="h-14 px-8"
-              >
+              <Button size="lg" className="h-14 px-8">
                 <Search className="size-5" />
                 {t("search")}
               </Button>
@@ -135,6 +136,10 @@ export default async function HomePage({
 
         <Suspense fallback={<CategorySectionSkeleton />}>
           <CategorySection locale={locale === "en" ? "en" : "tr"} />
+        </Suspense>
+
+        <Suspense fallback={<FeaturedStudioSectionSkeleton />}>
+          <FeaturedStudioSection locale={locale === "en" ? "en" : "tr"} />
         </Suspense>
 
         <StudioPlatformSection

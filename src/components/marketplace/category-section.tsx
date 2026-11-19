@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import type { AppLocale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { listPublicCategories } from "@/modules/categories/server";
+import { CategoryIcon } from "@/components/marketplace/category-icon";
 
 export function CategorySectionSkeleton() {
   return (
@@ -14,9 +15,12 @@ export function CategorySectionSkeleton() {
     >
       <div className="h-10 w-72 animate-pulse rounded-xl bg-secondary" />
       <div className="mt-3 h-5 w-96 max-w-full animate-pulse rounded-lg bg-secondary" />
-      <div className="mt-12 grid gap-px overflow-hidden border border-black/10 bg-black/10 sm:grid-cols-2">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <div key={index} className="h-64 animate-pulse bg-white" />
+      <div className="mt-12 grid gap-5 sm:grid-cols-2">
+        {Array.from({ length: 2 }).map((_, index) => (
+          <div
+            key={index}
+            className="h-72 animate-pulse rounded-3xl bg-secondary"
+          />
         ))}
       </div>
     </section>
@@ -54,24 +58,25 @@ export async function CategorySection({ locale }: { locale: AppLocale }) {
         </div>
 
         {categories.length ? (
-          <div className="mt-14 grid gap-px overflow-hidden border border-black/10 bg-black/10 sm:grid-cols-2">
+          <div className="mt-14 grid gap-5 sm:grid-cols-2">
             {categories.map((category, index) => (
               <Link
                 key={category.id}
                 href={`/categories/${category.slug}`}
-                className="group flex min-h-64 flex-col bg-white p-7 transition-colors hover:bg-[#f5f5f3] focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black sm:p-9"
+                className="group relative flex min-h-80 flex-col overflow-hidden rounded-[1.75rem] border border-black/10 bg-[#fafaf9] p-7 transition-colors hover:border-studio-blue/30 hover:bg-[#f3f5ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-studio-blue focus-visible:ring-offset-4 sm:p-9"
               >
                 <span className="flex items-start justify-between">
                   <span className="text-xs font-semibold tracking-[0.14em] text-black/45">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <ArrowUpRight
-                    className="size-6 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-                    strokeWidth={1.5}
-                    aria-hidden="true"
-                  />
+                  <span className="grid size-20 place-items-center rounded-3xl bg-studio-blue/[0.08] text-studio-blue transition-transform duration-300 group-hover:-rotate-6 sm:size-24">
+                    <CategoryIcon
+                      slug={category.slug}
+                      className="size-10 sm:size-12"
+                    />
+                  </span>
                 </span>
-                <span className="mt-auto">
+                <span className="mt-8">
                   <span className="block text-2xl font-semibold tracking-[-0.03em]">
                     {category.name}
                   </span>
@@ -80,6 +85,13 @@ export async function CategorySection({ locale }: { locale: AppLocale }) {
                       {category.description}
                     </span>
                   ) : null}
+                </span>
+                <span className="mt-7 flex items-center gap-2 text-sm font-semibold text-studio-blue">
+                  {t("categoryAction")}
+                  <ArrowUpRight
+                    className="size-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                    aria-hidden="true"
+                  />
                 </span>
               </Link>
             ))}
