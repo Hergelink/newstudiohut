@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import type { MarketplaceCategory } from "@/modules/categories/service";
+import { categoryVisual } from "@/modules/categories/presentation";
 import { HomepageDiscoveryService } from "@/modules/listings/homepage-service";
 import type {
   MarketplaceListing,
@@ -50,6 +51,10 @@ const page = (listings: MarketplaceListing[]): MarketplaceListingPage => ({
 });
 
 describe("homepage studio discovery", () => {
+  it("keeps newly created categories renderable with a safe default icon", () => {
+    expect(categoryVisual("new-category")).toBe("space");
+    expect(categoryVisual("constructor")).toBe("space");
+  });
   it("loads current published listings separately for database-defined categories", async () => {
     const searchListings = vi
       .fn()

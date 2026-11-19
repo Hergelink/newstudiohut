@@ -16,5 +16,5 @@ const visuals: Record<string, CategoryVisual> = {
 };
 
 export function categoryVisual(slug: string): CategoryVisual {
-  return visuals[slug] ?? "space";
+  return Object.hasOwn(visuals, slug) ? visuals[slug] : "space";
 }
