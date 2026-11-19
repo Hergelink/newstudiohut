@@ -409,8 +409,6 @@
     "contactHint": "Optional details displayed with your published listing. Website addresses such as www.yourstudio.com.tr are accepted.",
     "category": "Category",
     "name": "Studio name",
-    "slug": "StudioHut listing link name",
-    "slugHint": "A short name for your listing on StudioHut, such as moda-studio. Enter your real website in the contact section below.",
     "description": "Description",
     "addressLine": "Address",
     "district": "District",
@@ -428,7 +426,6 @@
     "save": "Save draft",
     "saving": "Saving…",
     "validationError": "Check the form details and try again.",
-    "slugTaken": "This studio URL is already in use for your business.",
     "forbidden": "You do not have permission to perform this action.",
     "notEditable": "Only draft or rejected studios can be edited.",
     "categoryUnavailable": "The selected category is inactive or could not be found.",
@@ -441,8 +438,7 @@
     },
     "minimumBookingHours": "Minimum booking hours",
     "pricingHint": "Enter your rate for one hour and the minimum number of hours per booking.",
-    "turkishLira": "Turkish lira (₺ / TRY)",
-    "slugPlaceholder": "moda-photo-studio"
+    "turkishLira": "Turkish lira (₺ / TRY)"
   },
   "NewStudioPhotos": {
     "beforeSave": "Choose photos now; they will upload when you save the draft.",

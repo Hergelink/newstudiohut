@@ -47,9 +47,6 @@ export function ListingForm({
     contactHint: string;
     category: string;
     name: string;
-    slug: string;
-    slugHint: string;
-    slugPlaceholder: string;
     description: string;
     addressLine: string;
     district: string;
@@ -70,7 +67,6 @@ export function ListingForm({
     save: string;
     saving: string;
     validationError: string;
-    slugTaken: string;
     forbidden: string;
     notEditable: string;
     categoryUnavailable: string;
@@ -86,7 +82,6 @@ export function ListingForm({
   const [state, formAction] = useActionState(action, { ok: false });
   const messages: Record<string, string> = {
     validation_error: labels.validationError,
-    slug_taken: labels.slugTaken,
     forbidden: labels.forbidden,
     listing_not_editable: labels.notEditable,
     category_not_available: labels.categoryUnavailable,
@@ -136,20 +131,6 @@ export function ListingForm({
                 maxLength={140}
                 defaultValue={listing?.name}
               />
-            </label>
-            <label className="grid gap-2 text-sm font-medium md:col-span-2">
-              {labels.slug}
-              <Input
-                name="slug"
-                required
-                pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
-                maxLength={140}
-                defaultValue={listing?.slug}
-                placeholder={labels.slugPlaceholder}
-              />
-              <span className="text-xs font-normal text-muted-foreground">
-                {labels.slugHint}
-              </span>
             </label>
             <label className="grid gap-2 text-sm font-medium md:col-span-2">
               {labels.description}

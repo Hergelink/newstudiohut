@@ -8,6 +8,7 @@ import type {
   ManagedListing,
 } from "@/modules/listings/management-repository";
 import {
+  listingDraftInputFromFormData,
   listingDraftSchema,
   type ListingDraftInput,
 } from "@/modules/listings/management-schema";
@@ -18,7 +19,6 @@ const categoryId = "11111111-1111-4111-8111-111111111111";
 const draftInput: ListingDraftInput = {
   categoryId,
   name: "Moda Podcast Studio",
-  slug: "moda-podcast-studio",
   description: null,
   addressLine: "Moda Caddesi 10",
   district: "Kadıköy",
@@ -31,6 +31,7 @@ const draftInput: ListingDraftInput = {
 
 const managedListing: ManagedListing = {
   ...draftInput,
+  slug: "moda-podcast-studio",
   id: "listing-1",
   businessId: "business-1",
   status: "draft",
@@ -74,6 +75,20 @@ function feature(
 }
 
 describe("listing draft validation", () => {
+  it("accepts form data without a slug and ignores a submitted custom slug", () => {
+    const formData = new FormData();
+    Object.entries(draftInput).forEach(([key, value]) => {
+      if (value != null) formData.set(key, String(value));
+    });
+    expect(
+      listingDraftSchema.parse(listingDraftInputFromFormData(formData)),
+    ).toMatchObject({ name: draftInput.name });
+    formData.set("slug", "custom-slug");
+    expect(
+      listingDraftSchema.parse(listingDraftInputFromFormData(formData)),
+    ).not.toHaveProperty("slug");
+  });
+
   it("coerces optional numeric fields and accepts a complete coordinate pair", () => {
     const result = listingDraftSchema.parse({
       ...draftInput,
@@ -199,6 +214,97 @@ describe("dynamic listing feature form", () => {
 });
 
 describe("ListingManagementService", () => {
+  it("generates the link from the studio name on the server", async () => {
+    const repo = repository();
+    await new ListingManagementService(repo).createDraft(
+      "business-1",
+      { ...draftInput, name: "İstanbul Işık Çekim Stüdyosu" },
+      [],
+    );
+    expect(repo.createDraft).toHaveBeenCalledWith(
+      "business-1",
+      expect.objectContaining({ slug: "istanbul-isik-cekim-studyosu" }),
+    );
+    expect(repo.replaceFeatureValues).toHaveBeenCalledOnce();
+  });
+
+  it("adds a suffix when this business already has the same studio name", async () => {
+    const repo = repository({
+      listForBusiness: vi
+        .fn()
+        .mockResolvedValue([
+          managedListing,
+          { ...managedListing, id: "listing-2", slug: "moda-podcast-studio-2" },
+        ]),
+    });
+    await new ListingManagementService(repo).createDraft(
+      "business-1",
+      draftInput,
+      [],
+    );
+    expect(repo.listForBusiness).toHaveBeenCalledWith("business-1");
+    expect(repo.createDraft).toHaveBeenCalledWith(
+      "business-1",
+      expect.objectContaining({ slug: "moda-podcast-studio-3" }),
+    );
+  });
+
+  it("retries a concurrent slug conflict without duplicating feature writes", async () => {
+    const repo = repository({
+      createDraft: vi
+        .fn()
+        .mockRejectedValueOnce({
+          code: "23505",
+          message:
+            'duplicate key value violates unique constraint "listings_business_id_slug_key"',
+        })
+        .mockResolvedValue(managedListing),
+    });
+    await new ListingManagementService(repo).createDraft(
+      "business-1",
+      draftInput,
+      [],
+    );
+    expect(repo.createDraft).toHaveBeenNthCalledWith(
+      2,
+      "business-1",
+      expect.objectContaining({ slug: "moda-podcast-studio-2" }),
+    );
+    expect(repo.replaceFeatureValues).toHaveBeenCalledOnce();
+  });
+
+  it("does not retry unrelated database errors", async () => {
+    const error = { code: "23505", message: "unique constraint listings_pkey" };
+    const repo = repository({ createDraft: vi.fn().mockRejectedValue(error) });
+    await expect(
+      new ListingManagementService(repo).createDraft(
+        "business-1",
+        draftInput,
+        [],
+      ),
+    ).rejects.toEqual(error);
+    expect(repo.createDraft).toHaveBeenCalledOnce();
+    expect(repo.replaceFeatureValues).not.toHaveBeenCalled();
+  });
+
+  it("preserves the existing link when the host changes the studio name", async () => {
+    const repo = repository();
+    await new ListingManagementService(repo).updateDraft(
+      "business-1",
+      "listing-1",
+      { ...draftInput, name: "Updated studio name" },
+      [],
+    );
+    expect(repo.updateDraft).toHaveBeenCalledWith(
+      "business-1",
+      "listing-1",
+      expect.objectContaining({
+        name: "Updated studio name",
+        slug: "moda-podcast-studio",
+      }),
+    );
+  });
+
   it("does not create a draft for an inactive category", async () => {
     const createDraft = vi.fn();
     const service = new ListingManagementService(
@@ -271,13 +377,11 @@ describe("ListingManagementService", () => {
     const submitForReview = vi.fn();
     const service = new ListingManagementService(
       repository({
-        findForBusiness: vi
-          .fn()
-          .mockResolvedValue({
-            ...managedListing,
-            latitude: undefined,
-            longitude: undefined,
-          }),
+        findForBusiness: vi.fn().mockResolvedValue({
+          ...managedListing,
+          latitude: undefined,
+          longitude: undefined,
+        }),
         submitForReview,
       }),
     );

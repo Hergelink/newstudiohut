@@ -7,8 +7,10 @@ import type {
 } from "@/lib/supabase/database.types";
 import type { ListingDraftInput } from "@/modules/listings/management-schema";
 
+export type ListingDraftWrite = ListingDraftInput & { slug: string };
+
 export type ManagedListing = Omit<
-  ListingDraftInput,
+  ListingDraftWrite,
   "latitude" | "longitude"
 > & {
   latitude?: number;
@@ -41,12 +43,12 @@ export interface ListingManagementRepository {
   ): Promise<ManagedListing | null>;
   createDraft(
     businessId: string,
-    input: ListingDraftInput,
+    input: ListingDraftWrite,
   ): Promise<ManagedListing>;
   updateDraft(
     businessId: string,
     listingId: string,
-    input: ListingDraftInput,
+    input: ListingDraftWrite,
   ): Promise<ManagedListing>;
   replaceFeatureValues(
     listingId: string,
@@ -90,7 +92,7 @@ function rowToManaged(
   };
 }
 
-function draftRow(businessId: string, input: ListingDraftInput) {
+function draftRow(businessId: string, input: ListingDraftWrite) {
   return {
     business_id: businessId,
     category_id: input.categoryId,
@@ -145,7 +147,7 @@ export class SupabaseListingManagementRepository implements ListingManagementRep
     return data ? rowToManaged(data) : null;
   }
 
-  async createDraft(businessId: string, input: ListingDraftInput) {
+  async createDraft(businessId: string, input: ListingDraftWrite) {
     const { data, error } = await this.client
       .from("listings")
       .insert({ ...draftRow(businessId, input), status: "draft" })
@@ -159,7 +161,7 @@ export class SupabaseListingManagementRepository implements ListingManagementRep
   async updateDraft(
     businessId: string,
     listingId: string,
-    input: ListingDraftInput,
+    input: ListingDraftWrite,
   ) {
     const { data, error } = await this.client
       .from("listings")

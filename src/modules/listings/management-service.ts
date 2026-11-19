@@ -3,6 +3,22 @@ import type {
   ListingFeatureValueWrite,
   ListingManagementRepository,
 } from "@/modules/listings/management-repository";
+import {
+  availableListingSlug,
+  listingSlugFromName,
+} from "@/modules/listings/slug";
+
+function isSlugConflict(error: unknown) {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    error.code === "23505" &&
+    "message" in error &&
+    typeof error.message === "string" &&
+    error.message.includes("listings_business_id_slug_key")
+  );
+}
 
 export class ListingManagementService {
   constructor(private readonly listings: ListingManagementRepository) {}
@@ -27,9 +43,31 @@ export class ListingManagementService {
     if (!(await this.listings.isActiveCategory(input.categoryId))) {
       throw new Error("category_not_available");
     }
-    const listing = await this.listings.createDraft(businessId, input);
-    await this.listings.replaceFeatureValues(listing.id, features);
-    return listing;
+    const base = listingSlugFromName(input.name);
+    const taken = new Set(
+      (await this.listings.listForBusiness(businessId)).map(
+        (listing) => listing.slug,
+      ),
+    );
+
+    // The unique constraint also protects simultaneous submissions with the same name.
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const slug = availableListingSlug(base, taken);
+      let listing;
+      try {
+        listing = await this.listings.createDraft(businessId, {
+          ...input,
+          slug,
+        });
+      } catch (error) {
+        if (!isSlugConflict(error) || attempt === 4) throw error;
+        taken.add(slug);
+        continue;
+      }
+      await this.listings.replaceFeatureValues(listing.id, features);
+      return listing;
+    }
+    throw new Error("listing_slug_unavailable");
   }
 
   async updateDraft(
@@ -46,11 +84,10 @@ export class ListingManagementService {
     if (current.categoryId !== input.categoryId) {
       throw new Error("category_change_not_allowed");
     }
-    const listing = await this.listings.updateDraft(
-      businessId,
-      listingId,
-      input,
-    );
+    const listing = await this.listings.updateDraft(businessId, listingId, {
+      ...input,
+      slug: current.slug,
+    });
     await this.listings.replaceFeatureValues(listing.id, features);
     return listing;
   }

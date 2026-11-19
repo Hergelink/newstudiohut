@@ -409,8 +409,6 @@
     "contactHint": "Yayınlanan ilanınızda gösterilecek isteğe bağlı bilgiler. www.studyom.com.tr gibi web sitesi adresleri kabul edilir.",
     "category": "Kategori",
     "name": "Stüdyo adı",
-    "slug": "StudioHut ilan bağlantı adı",
-    "slugHint": "İlanınızın StudioHut bağlantısı için moda-studyo gibi kısa bir ad girin. Gerçek web sitenizi aşağıdaki iletişim bölümüne ekleyin.",
     "description": "Açıklama",
     "addressLine": "Adres",
     "district": "İlçe",
@@ -428,7 +426,6 @@
     "save": "Taslağı kaydet",
     "saving": "Kaydediliyor…",
     "validationError": "Formdaki bilgileri kontrol edip tekrar deneyin.",
-    "slugTaken": "Bu stüdyo bağlantısı işletmenizde kullanılıyor.",
     "forbidden": "Bu işlem için işletme yetkiniz yok.",
     "notEditable": "Yalnızca taslak veya reddedilmiş stüdyolar düzenlenebilir.",
     "categoryUnavailable": "Seçilen kategori aktif değil veya bulunamadı.",
@@ -441,8 +438,7 @@
     },
     "minimumBookingHours": "Minimum rezervasyon süresi (saat)",
     "pricingHint": "Bir saatlik ücreti ve rezervasyon başına minimum süreyi girin.",
-    "turkishLira": "Türk lirası (₺ / TRY)",
-    "slugPlaceholder": "moda-fotograf-studyosu"
+    "turkishLira": "Türk lirası (₺ / TRY)"
   },
   "NewStudioPhotos": {
     "beforeSave": "Fotoğrafları şimdi seçebilirsiniz. Taslağı kaydettiğinizde yüklenecekler.",

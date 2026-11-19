@@ -41,6 +41,29 @@ vi.mock("@/components/maps/location-picker", () => ({
   LocationPicker: () => null,
 }));
 afterEach(cleanup);
+describe("studio basics form", () => {
+  for (const locale of ["tr", "en"] as const) {
+    it(`collects the studio name without asking for a link name in ${locale}`, () => {
+      const messages = locale === "tr" ? tr : en;
+      const view = render(
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <ListingForm
+            action={vi.fn()}
+            categoryId="photo"
+            categoryName="Photography"
+            features={[]}
+            featureValues={[]}
+            labels={messages.ListingForm}
+          />
+        </NextIntlClientProvider>,
+      );
+      expect(
+        screen.getByRole("textbox", { name: messages.ListingForm.name }),
+      ).toBeRequired();
+      expect(view.container.querySelector('[name="slug"]')).toBeNull();
+    });
+  }
+});
 describe("hourly pricing", () => {
   it("shows the hourly price and minimum on explore cards", () => {
     render(
@@ -147,7 +170,6 @@ describe("hourly pricing", () => {
     Object.entries({
       categoryId: "11111111-1111-4111-8111-111111111111",
       name: "Studio",
-      slug: "studio",
       addressLine: "Moda Cd. 10",
       district: "Kadıköy",
       city: "İstanbul",

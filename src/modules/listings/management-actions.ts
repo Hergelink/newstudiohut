@@ -26,21 +26,15 @@ function localePath(locale: string, path: string) {
 }
 
 function actionError(error: unknown): DashboardActionState {
-  const code =
-    typeof error === "object" && error && "code" in error
-      ? String(error.code)
-      : "";
   const message = error instanceof Error ? error.message : "";
   return {
     ok: false,
     message:
-      code === "23505"
-        ? "slug_taken"
-        : message === "listing_not_editable"
-          ? "listing_not_editable"
-          : message === "category_not_available"
-            ? "category_not_available"
-            : "unexpected_error",
+      message === "listing_not_editable"
+        ? "listing_not_editable"
+        : message === "category_not_available"
+          ? "category_not_available"
+          : "unexpected_error",
   };
 }
 

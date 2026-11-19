@@ -11,13 +11,6 @@ export const listingDraftSchema = z
   .object({
     categoryId: z.uuid(),
     name: z.string().trim().min(2).max(140),
-    slug: z
-      .string()
-      .trim()
-      .toLowerCase()
-      .min(2)
-      .max(140)
-      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
     description: z.preprocess((value) => {
       const text = typeof value === "string" ? value.trim() : "";
       return text || null;
@@ -67,7 +60,6 @@ export function listingDraftInputFromFormData(
   return {
     categoryId: categoryId ?? formData.get("categoryId"),
     name: formData.get("name"),
-    slug: formData.get("slug"),
     description: formData.get("description"),
     addressLine: formData.get("addressLine"),
     district: formData.get("district"),
