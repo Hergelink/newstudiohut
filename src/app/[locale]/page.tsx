@@ -203,10 +203,6 @@ export default async function HomePage({
           <CategorySection locale={locale === "en" ? "en" : "tr"} />
         </Suspense>
 
-        <Suspense fallback={<FeaturedStudioSectionSkeleton />}>
-          <FeaturedStudioSection locale={locale === "en" ? "en" : "tr"} />
-        </Suspense>
-
         <StudioPlatformSection
           labels={{
             eyebrow: t("platformEyebrow"),
@@ -216,6 +212,10 @@ export default async function HomePage({
             statement: t("platformStatement"),
           }}
         />
+
+        <Suspense fallback={<FeaturedStudioSectionSkeleton />}>
+          <FeaturedStudioSection locale={locale === "en" ? "en" : "tr"} />
+        </Suspense>
 
         <section className="container py-16 sm:py-24">
           <div className="relative isolate grid items-center gap-8 overflow-hidden rounded-[2rem] bg-black p-7 pb-24 text-white sm:gap-10 sm:p-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12 lg:p-16">
