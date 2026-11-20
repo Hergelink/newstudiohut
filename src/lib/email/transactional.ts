@@ -29,7 +29,7 @@ export class ResendEmailSender implements TransactionalEmailSender {
         "Idempotency-Key": input.idempotencyKey,
       },
       body: JSON.stringify({
-        from: this.from,
+        from: `StudioHut <${this.from}>`,
         to: [input.to],
         subject: input.subject,
         text: input.text,

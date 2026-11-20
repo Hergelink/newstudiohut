@@ -55,6 +55,12 @@ describe("lead notifications", () => {
         headers: expect.objectContaining({
           "Idempotency-Key": "lead-notification/job-1",
         }),
+        body: JSON.stringify({
+          from: "StudioHut <leads@example.com>",
+          to: ["owner@example.com"],
+          subject: "Inquiry",
+          text: "Message",
+        }),
       }),
     );
   });

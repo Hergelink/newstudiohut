@@ -1,5 +1,47 @@
 # Studio review and admin email
 
+## Production sender: info@studiohut.co
+
+StudioHut already uses Resend for inquiries, review submissions and listing approvals.
+After `studiohut.co` is verified in the existing Resend account, set both
+`LEAD_NOTIFICATION_FROM_EMAIL` and `REVIEW_NOTIFICATION_FROM_EMAIL` to
+`info@studiohut.co` in Vercel Production, then redeploy. The shared transport
+adds the display name, resulting in `StudioHut <info@studiohut.co>`.
+Replies go to the sender address by default. The footer already links to
+`mailto:info@studiohut.co`.
+
+Sender verification requires the exact DKIM and sending/return-path records
+shown by Resend for this account. DNS for `studiohut.co` is managed in Vercel.
+Add only the requested sender records; preserve website records and any existing
+mailbox MX/SPF records. Do not enable Resend inbound email or replace root MX
+records just to enable outbound sending. Resend is the sending service here;
+a working inbox for `info@studiohut.co` must be configured separately with the
+mailbox provider if replies and footer enquiries are to be received.
+
+Signup confirmation and password-reset emails use Supabase Auth's SMTP settings,
+separately from the application's Resend API integration. After sender verification,
+configure the existing Supabase project's Authentication → Email → SMTP settings:
+
+| Setting | Value |
+| --- | --- |
+| Sender email | `info@studiohut.co` |
+| Sender name | `StudioHut` |
+| SMTP host | `smtp.resend.com` |
+| SMTP port | `465` |
+| SMTP user | `resend` |
+| SMTP password | A Resend API key authorized to send from this domain |
+
+Do not put SMTP credentials in a browser bundle, Git, documentation or chat.
+Disable provider click tracking for authentication emails so verification/reset
+links retain their intended URL. Verify an actual received notification and a
+signup/recovery message before marking this production cutover complete; unit
+tests or a successful deployment do not establish delivery. Do not drain queued
+notifications or send test messages without authorization for those recipients.
+
+References: [Resend domain verification](https://resend.com/docs/dashboard/domains/introduction),
+[Resend SMTP for Supabase](https://resend.com/docs/send-with-supabase-smtp),
+[Supabase SMTP configuration](https://supabase.com/docs/guides/auth/auth-smtp).
+
 Admins approve submissions at `/admin/reviews` (English: `/en/admin/reviews`).
 Open the studio to inspect its photos/details, then publish or reject with a
 reason. A server-checked review link is also shown in the business dashboard
@@ -70,7 +112,7 @@ prefixes and claim RPCs. Email rendering uses the shared typed queue processor
 and Resend transport. Owner messages say the listing is approved and link to its
 public localized URL. No new API key is required.
 
-The current `onboarding@resend.dev` sender only works for the Resend account's
+When configured, the `onboarding@resend.dev` test sender only works for the Resend account's
 email address. Other owners require a verified sender domain. A notice in the
 admin email panel explains this limit; configuring the code does not remove the
 provider restriction.
