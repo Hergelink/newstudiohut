@@ -42,6 +42,23 @@ References: [Resend domain verification](https://resend.com/docs/dashboard/domai
 [Resend SMTP for Supabase](https://resend.com/docs/send-with-supabase-smtp),
 [Supabase SMTP configuration](https://supabase.com/docs/guides/auth/auth-smtp).
 
+### Cutover verification — 2026-11-20
+
+- Added `studiohut.co` to the existing Resend account in Ireland (`eu-west-1`).
+  Resend reports the domain and all sending records **Verified**.
+- Added only these Vercel DNS records: `resend._domainkey` TXT (Resend's public
+  DKIM key), `rsend` CNAME → `rsend-euw1.forge.rmta.net`, `send` CNAME →
+  `send.forge.rmta.net`, and `_dmarc` TXT → `v=DMARC1; p=none;`.
+  Website records were preserved; receiving remains disabled in Resend.
+- Set both Vercel Production notification sender addresses to `info@studiohut.co`.
+  No production secrets were downloaded or changed.
+- Supabase custom SMTP was disabled. Prepared its form with the settings above;
+  the user must enter the Resend API key and save. Auth SMTP is **not verified
+  active**, and no test/auth email has been sent as part of this cutover yet.
+- Public DNS had no root MX records at inspection. The mailbox provider and
+  incoming-mail configuration still need confirmation before claiming that
+  `info@studiohut.co` can receive replies or footer enquiries.
+
 Admins approve submissions at `/admin/reviews` (English: `/en/admin/reviews`).
 Open the studio to inspect its photos/details, then publish or reject with a
 reason. A server-checked review link is also shown in the business dashboard
