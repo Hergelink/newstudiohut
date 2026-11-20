@@ -97,7 +97,6 @@ export async function SiteFooter() {
         </div>
 
         <div className="flex flex-col items-start justify-between gap-3 border-t border-black/10 py-6 text-xs text-black/55 sm:flex-row sm:items-center">
-          <p>{t("copyright", { year: new Date().getFullYear() })}</p>
           <a
             href="https://www.instagram.com/studiohut.co/"
             target="_blank"
@@ -109,6 +108,9 @@ export async function SiteFooter() {
             Instagram
             <ArrowUpRight className="size-3.5" aria-hidden="true" />
           </a>
+          <p className="sm:order-first">
+            {t("copyright", { year: new Date().getFullYear() })}
+          </p>
         </div>
       </div>
     </footer>
